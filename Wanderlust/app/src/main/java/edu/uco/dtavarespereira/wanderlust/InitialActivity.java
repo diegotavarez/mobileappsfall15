@@ -1,9 +1,13 @@
 package edu.uco.dtavarespereira.wanderlust;
 
 import android.app.Activity;
+import android.graphics.Outline;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewOutlineProvider;
 
 public class InitialActivity extends Activity {
 
@@ -11,6 +15,7 @@ public class InitialActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
+
     }
 
     @Override
