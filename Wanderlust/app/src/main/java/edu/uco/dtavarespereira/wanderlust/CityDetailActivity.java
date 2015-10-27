@@ -5,19 +5,48 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class CityDetailActivity extends Activity {
     TextView tvCityName;
+    Switch swFavorite;
+    String city;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_detail);
 
         tvCityName = (TextView) findViewById(R.id.tv_city_name);
+        swFavorite = (Switch) findViewById(R.id.sw_favorite);
 
         Intent intent = getIntent();
-        tvCityName.setText(intent.getStringExtra("CITY_NAME"));
+        city = intent.getStringExtra("CITY_NAME");
+        tvCityName.setText(city);
+
+        swFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    ArrayList<String> favorites = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
+                    favorites.add(city);
+                    InitialActivity.setStringArrayPref(getApplicationContext(),"FAVORITES", favorites);
+
+                    Toast.makeText(getApplicationContext(), city + " was marked as favorite.", Toast.LENGTH_SHORT).show();
+                }else{
+                    ArrayList<String> favorites = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
+                    favorites.remove(city);
+                    InitialActivity.setStringArrayPref(getApplicationContext(), "FAVORITES", favorites);
+
+                    Toast.makeText(getApplicationContext(), city + " was removed from favorites.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override

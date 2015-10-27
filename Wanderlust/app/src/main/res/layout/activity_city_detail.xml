@@ -20,7 +20,8 @@
             android:text="Mark as Favorite"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:id="@+id/switch1" />
+            android:id="@+id/sw_favorite"
+            android:checked="false" />
 
     </LinearLayout>
     <ImageView
