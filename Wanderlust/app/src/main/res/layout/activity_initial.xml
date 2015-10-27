@@ -59,6 +59,7 @@
             android:layout_marginLeft="20dp"
             android:ems="40"
             android:singleLine="true"
+            android:id="@+id/et_city"
             android:hint="Find a place to go"/>
     </LinearLayout>
 

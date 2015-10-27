@@ -20,6 +20,10 @@
             android:name=".FavoritesActivity"
             android:label="@string/title_activity_favorites" >
         </activity>
+        <activity
+            android:name=".CityDetailActivity"
+            android:label="@string/title_activity_city_detail" >
+        </activity>
     </application>
 
 </manifest>

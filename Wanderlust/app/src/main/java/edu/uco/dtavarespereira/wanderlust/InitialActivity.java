@@ -9,10 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewOutlineProvider;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class InitialActivity extends Activity {
     ImageButton btAdd;
+    EditText etCityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +23,19 @@ public class InitialActivity extends Activity {
         setContentView(R.layout.activity_initial);
 
         btAdd = (ImageButton) findViewById(R.id.bt_add);
+        etCityName = (EditText) findViewById(R.id.et_city);
 
         //this is just a test
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InitialActivity.this, FavoritesActivity.class);
-                startActivity(intent);
+                if (etCityName.getText().toString().trim().equals("")){
+                    Toast.makeText(getApplicationContext(), "Please type a city", Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent = new Intent(InitialActivity.this, CityDetailActivity.class);
+                    intent.putExtra("CITY_NAME", etCityName.getText().toString());
+                    startActivity(intent);
+                }
             }
         });
 
