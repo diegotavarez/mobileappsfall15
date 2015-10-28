@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class PlacesSearch {
 
-    private static Location loc = null;
+    private static Location loc = new Location("");
     public static Location getLocation(){
         return loc;
     }
@@ -21,26 +21,28 @@ public class PlacesSearch {
 
         JSONObject jObj = new JSONObject(data);
         JSONArray jArr = jObj.getJSONArray("results");
-        JSONArray jArr1 = jArr.getJSONArray(0);
+        JSONObject jArr1 = jArr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+        Double lat = jArr1.getDouble("lat");
+        Double lng = jArr1.getDouble("lng");
+
         ArrayList<String> resultsReturn = new ArrayList<>();
         String id, place_id, place_reference;
 
-        JSONObject Objloc = getObject("location", jArr1.getJSONObject(0));
+    //    JSONObject Objloc = jArr2.getJSONObject("location");
         loc = new Location("");
-        loc.setLatitude(getFloat("lat", Objloc));
-        loc.setLongitude(getFloat("lng", Objloc));
+        loc.setLatitude(lat);
+        loc.setLongitude(lng);
 
-        JSONObject ObjId = jArr.getJSONObject(1);
-        id = ObjId.getString("id");
-        resultsReturn.add(id);
+     //   id = jArr2.getString("id");
+     //   resultsReturn.add(id);
 
-        JSONObject ObjPlaceId = jArr.getJSONObject(1);
-        place_id = ObjPlaceId.getString("place_id");
-        resultsReturn.add(place_id);
+       // JSONObject ObjPlaceId = jArr.getJSONObject(1);
+       // place_id = jArr2.getString("place_id");
+       // resultsReturn.add("place_id");
 
-        JSONObject ObjPlace_Reference = jArr.getJSONObject(1);
-        place_reference = ObjId.getString("reference");
-        resultsReturn.add(place_reference);
+      //  JSONObject ObjPlace_Reference = jArr.getJSONObject(1);
+      //  place_reference = jArr2.getString("reference");
+      //  resultsReturn.add("place_reference");
 
 
         return resultsReturn;

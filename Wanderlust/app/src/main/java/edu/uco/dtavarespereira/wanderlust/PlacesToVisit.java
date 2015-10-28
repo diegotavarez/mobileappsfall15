@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -34,8 +35,8 @@ public class PlacesToVisit extends Activity {
     private final static String TAG = "GoogleSearchAsyncTask";
     ListView placesToGo;
     ArrayAdapter<CharSequence> adapter;
-   // Location location = null;
-    // String BASE_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
+   Location location = new Location("");
+    String BASE_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,17 +45,20 @@ public class PlacesToVisit extends Activity {
         placesToGo = (ListView) findViewById(R.id.placesToGo);
         adapter = ArrayAdapter.createFromResource(this, R.array.placesToVisitList, android.R.layout.simple_list_item_1);
 
+        placesToGo.setAdapter(adapter);
+
+
         Intent intent = getIntent();
-        //String city = intent.getStringExtra("cityName");
-        //Location location = new Location(city);
-        //location.setLatitude(intent.getDoubleExtra("locationLatitude", 0.0));
-       // location.setLongitude(intent.getDoubleExtra("locationLongitude",0.0));
+        String city = intent.getStringExtra("cityName");
+        Location location = new Location(city);
+        location.setLatitude(intent.getDoubleExtra("locationLatitude", 0.0));
+        location.setLongitude(intent.getDoubleExtra("locationLongitude", 0.0));
 
-        placesToGo.setOnClickListener(new View.OnClickListener() {
+        placesToGo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
+               new GoogleSearchASyncTask().execute(new String [] {"51.503186","-0.126446","museums"});
             }
         });
     }
@@ -81,7 +85,7 @@ public class PlacesToVisit extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*class GoogleSearchASyncTask extends AsyncTask<String, String, ArrayList> {
+    class GoogleSearchASyncTask extends AsyncTask<String, String, ArrayList> {
         @Override
         protected ArrayList doInBackground(String... params) {
             ArrayList<String> s = new ArrayList<>();
@@ -97,7 +101,7 @@ public class PlacesToVisit extends Activity {
                 try{
                     Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                             .appendQueryParameter("location", params[0] + "," + params[1])
-                            .appendQueryParameter("radius", "5000")
+                            .appendQueryParameter("radius", "500")
                             .appendQueryParameter("types", params[2])
                             .appendQueryParameter("key", "AIzaSyBRfUWJUz5x9TnFaIUbqjsrKC_q_mTBIQo")
                             .build();
@@ -130,6 +134,7 @@ public class PlacesToVisit extends Activity {
         @Override
         protected void onPostExecute(ArrayList result) {
             //TODO
+            Toast.makeText(getApplicationContext(), location.toString(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -146,5 +151,5 @@ public class PlacesToVisit extends Activity {
         } catch (IOException e) {
             return "";
         }
-    }*/
+    }
 }
