@@ -24,6 +24,10 @@
             android:name=".CityDetailActivity"
             android:label="@string/title_activity_city_detail" >
         </activity>
+        <activity
+            android:name=".PlacesToVisit"
+            android:label="@string/title_activity_places_to_visit" >
+        </activity>
     </application>
 
 </manifest>
