@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -135,7 +134,13 @@ public class CommercialPlaces extends Activity {
         @Override
         protected void onPostExecute(ArrayList result) {
             //TODO
-            Toast.makeText(getApplicationContext(), location.toString(), Toast.LENGTH_SHORT).show();
+
+            Intent intentMaps = new Intent(CommercialPlaces.this, MapsActivity.class);
+            intentMaps.putExtra("lat", location.getLatitude());
+            intentMaps.putExtra("lon", location.getLongitude());
+
+            startActivity(intentMaps);
+
         }
 
     }
