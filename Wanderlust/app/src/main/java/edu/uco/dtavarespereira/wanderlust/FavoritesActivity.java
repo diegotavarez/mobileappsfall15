@@ -17,8 +17,7 @@ public class FavoritesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
 
-        List<String> cities = new ArrayList<String>();
-        cities.add("Rio");
+        List<String> cities = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
 
         listCities = (ListView) findViewById(R.id.list_cities);
         FavoriteCitiesAdapter adapter = new FavoriteCitiesAdapter(getBaseContext(), cities);
