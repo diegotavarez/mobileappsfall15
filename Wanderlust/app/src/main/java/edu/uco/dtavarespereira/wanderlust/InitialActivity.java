@@ -30,16 +30,21 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class InitialActivity extends Activity {
-
     ImageButton btSearch;
     EditText etCityName;
     String cityName;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
+
+        ArrayList<String> favorites = getStringArrayPref(getApplicationContext(), "FAVORITES");
+        if (favorites.size() > 0)
+        {
+            Intent intentFav = new Intent(InitialActivity.this, FavoritesActivity.class);
+            startActivity(intentFav);
+        }
 
         btSearch = (ImageButton) findViewById(R.id.bt_search);
         etCityName = (EditText)findViewById(R.id.editText_city);
@@ -58,9 +63,14 @@ public class InitialActivity extends Activity {
 
                 if(error==0) {
                     new HttpGetTask().execute(cityName);
+
+                    Intent intent = new Intent(InitialActivity.this, CityDetailActivity.class);
+                    intent.putExtra("CITY_NAME", etCityName.getText().toString());
+                    startActivity(intent);
                 }
-                else
-                    Toast.makeText(getApplicationContext(),"ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(getApplicationContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
+                }
             }
 
                 /*if (etCityName.getText().toString().trim().equals("")) {
