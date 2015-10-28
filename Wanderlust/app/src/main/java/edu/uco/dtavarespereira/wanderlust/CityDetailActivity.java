@@ -29,14 +29,14 @@ public class CityDetailActivity extends Activity {
         setContentView(R.layout.activity_city_detail);
 
         location = new Location("");
-        location.setLatitude(51.503186);
-        location.setLongitude(-0.126446); //TODO ~ get the location lat and lng of the city and set in this variable
 
         tvCityName = (TextView) findViewById(R.id.tv_city_name);
         swFavorite = (Switch) findViewById(R.id.sw_favorite);
 
         final Intent intent = getIntent();
         city = intent.getStringExtra("CITY_NAME");
+        location.setLatitude(intent.getDoubleExtra("lat", 0));
+        location.setLongitude(intent.getDoubleExtra("lng", 0));
         tvCityName.setText(city);
 
         swFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -65,7 +65,7 @@ public class CityDetailActivity extends Activity {
             public void onClick(View v) {
                     Intent intent1 = new Intent(getApplication(), PlacesToVisit.class);
                     intent1.putExtra("cityName", city);
-                    intent1.putExtra("locationLatitude", location.getLatitude());
+                intent1.putExtra("locationLatitude", location.getLatitude());
                     intent1.putExtra("locationLongitude", location.getLongitude());
                     startActivity(intent1);
             }

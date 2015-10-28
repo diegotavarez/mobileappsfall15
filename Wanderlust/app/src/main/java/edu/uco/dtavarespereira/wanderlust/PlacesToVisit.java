@@ -50,7 +50,7 @@ public class PlacesToVisit extends Activity {
 
         Intent intent = getIntent();
         String city = intent.getStringExtra("cityName");
-        Location location = new Location(city);
+        final Location location = new Location(city);
         location.setLatitude(intent.getDoubleExtra("locationLatitude", 0.0));
         location.setLongitude(intent.getDoubleExtra("locationLongitude", 0.0));
 
@@ -58,7 +58,8 @@ public class PlacesToVisit extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
-               new GoogleSearchASyncTask().execute(new String [] {"51.503186","-0.126446","museums"});
+               new GoogleSearchASyncTask().execute(new String [] {String.valueOf(location.getLatitude()),
+                       String.valueOf(location.getLongitude()), placesToGo.getItemAtPosition(position).toString()});
             }
         });
     }

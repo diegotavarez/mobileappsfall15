@@ -201,6 +201,8 @@ public class InitialActivity extends Activity {
             Toast.makeText(getApplicationContext(),result.get(0), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(InitialActivity.this, CityDetailActivity.class);
             intent.putExtra("CITY_NAME", etCityName.getText().toString());
+            intent.putExtra("lat", Double.valueOf(result.get(0)));
+            intent.putExtra("lng", Double.valueOf(result.get(1)));
             startActivity(intent);
 
         }

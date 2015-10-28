@@ -11,8 +11,17 @@
     <string name="title_activity_places_to_visit">PlacesToVisit</string>
 
     <string-array name="placesToVisitList">
-        <item>Museums</item>
-        <item>Parks</item>
+
+        <item>amusement_park</item>
+        <item>bar</item>
+        <item>bowling_alley</item>
+        <item>library</item>
+        <item>movie_theater</item>
+        <item>museum</item>
+        <item>park</item>
+        <item>shopping_mall</item>
+        <item>zoo</item>
+
 
     </string-array>
 </resources>
