@@ -33,6 +33,7 @@ public class InitialActivity extends Activity {
 
     ImageButton btSearch;
     EditText etCityName;
+    String cityName;
 
 
     @Override
@@ -46,14 +47,30 @@ public class InitialActivity extends Activity {
         btSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etCityName.getText().toString().trim().equals("")) {
+
+                cityName = etCityName.getText().toString();
+                int error = 0;
+
+                for(int i=0; i<cityName.length();i++){
+                    if (!(cityName.charAt(i) >= 'A' && cityName.charAt(i)<= 'Z' || cityName.charAt(i)>='a' && cityName.charAt(i)<='z' || cityName.charAt(i)==' '))
+                        error++;
+                }
+
+                if(error==0) {
+                    new HttpGetTask().execute(cityName);
+                }
+                else
+                    Toast.makeText(getApplicationContext(),"ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
+            }
+
+                /*if (etCityName.getText().toString().trim().equals("")) {
                     Toast.makeText(getApplicationContext(), "Please type a city", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(InitialActivity.this, CityDetailActivity.class);
                     intent.putExtra("CITY_NAME", etCityName.getText().toString());
                     startActivity(intent);
                 }
-            }
+            }*/
         });
 
     }
@@ -181,6 +198,7 @@ public class InitialActivity extends Activity {
             //latitude = result.get(0);
             //longitude = result.get(1);
             //temperature = result.get(2);
+            Toast.makeText(getApplicationContext(),result.get(0), Toast.LENGTH_SHORT).show();
 
 
         }
