@@ -17,7 +17,7 @@
             android:id="@+id/bg" />
 
         <ImageButton
-            android:id="@+id/bt_add"
+            android:id="@+id/bt_search"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginTop="-35dp"
@@ -59,8 +59,8 @@
             android:layout_marginLeft="20dp"
             android:ems="40"
             android:singleLine="true"
-            android:id="@+id/et_city"
-            android:hint="Find a place to go"/>
+            android:hint="Find a place to go"
+            android:id="@+id/editText_city"/>
     </LinearLayout>
 
 </LinearLayout>
