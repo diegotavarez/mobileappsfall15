@@ -24,4 +24,21 @@
 
 
     </string-array>
+
+
+    <string-array name="commercialPlacesList">
+
+        <item>restaurant</item>
+        <item>pharmacy</item>
+        <item>parking</item>
+        <item>police</item>
+        <item>post_office</item>
+        <item>subway_station</item>
+        <item>taxi_stand</item>
+        <item>store</item>
+        <item>train_station</item>
+
+
+    </string-array>
+    <string name="title_activity_commercial_places">CommercialPlaces</string>
 </resources>

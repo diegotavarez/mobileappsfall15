@@ -31,6 +31,10 @@
             android:name=".PlacesToVisit"
             android:label="@string/title_activity_places_to_visit" >
         </activity>
+        <activity
+            android:name=".CommercialPlaces"
+            android:label="@string/title_activity_commercial_places" >
+        </activity>
     </application>
 
 </manifest>

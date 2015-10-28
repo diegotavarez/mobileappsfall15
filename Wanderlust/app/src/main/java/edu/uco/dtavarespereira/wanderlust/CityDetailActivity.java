@@ -21,6 +21,8 @@ public class CityDetailActivity extends Activity {
     Switch swFavorite;
     String city;
     Button placesToVisit;
+    Button btnCommercialPlaces;
+
     Location location;
 
     @Override
@@ -60,6 +62,8 @@ public class CityDetailActivity extends Activity {
 
         placesToVisit = (Button) findViewById(R.id.btnPlacesToVisit);
 
+        btnCommercialPlaces = (Button) findViewById(R.id.btnCommercial_places);
+
         placesToVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +72,19 @@ public class CityDetailActivity extends Activity {
                 intent1.putExtra("locationLatitude", location.getLatitude());
                     intent1.putExtra("locationLongitude", location.getLongitude());
                     startActivity(intent1);
+            }
+        });
+
+        btnCommercialPlaces.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentCommercialPlaces = new Intent(getApplication(), CommercialPlaces.class);
+                intentCommercialPlaces.putExtra("cityName", city);
+                intentCommercialPlaces.putExtra("locationLatitude", location.getLatitude());
+                intentCommercialPlaces.putExtra("locationLongitude", location.getLongitude());
+                startActivity(intentCommercialPlaces);
+
             }
         });
     }
