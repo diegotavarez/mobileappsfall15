@@ -1,0 +1,150 @@
+package edu.uco.dtavarespereira.wanderlust;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
+public class PlacesToVisit extends Activity {
+
+
+    private final static String TAG = "GoogleSearchAsyncTask";
+    ListView placesToGo;
+    ArrayAdapter<CharSequence> adapter;
+   // Location location = null;
+    // String BASE_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_places_to_visit);
+
+        placesToGo = (ListView) findViewById(R.id.placesToGo);
+        adapter = ArrayAdapter.createFromResource(this, R.array.placesToVisitList, android.R.layout.simple_list_item_1);
+
+        Intent intent = getIntent();
+        //String city = intent.getStringExtra("cityName");
+        //Location location = new Location(city);
+        //location.setLatitude(intent.getDoubleExtra("locationLatitude", 0.0));
+       // location.setLongitude(intent.getDoubleExtra("locationLongitude",0.0));
+
+        placesToGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_places_to_visit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /*class GoogleSearchASyncTask extends AsyncTask<String, String, ArrayList> {
+        @Override
+        protected ArrayList doInBackground(String... params) {
+            ArrayList<String> s = new ArrayList<>();
+            s.add(params[0]);
+            ArrayList<String> resultArray = null;
+            ConnectivityManager connMgr = (ConnectivityManager)
+                    getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected()) {
+
+                InputStream in = null;
+                HttpURLConnection httpUrlConnection = null;
+                try{
+                    Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                            .appendQueryParameter("location", params[0] + "," + params[1])
+                            .appendQueryParameter("radius", "5000")
+                            .appendQueryParameter("types", params[2])
+                            .appendQueryParameter("key", "AIzaSyBRfUWJUz5x9TnFaIUbqjsrKC_q_mTBIQo")
+                            .build();
+
+                    URL url = new URL(builtUri.toString());
+                    httpUrlConnection = (HttpURLConnection) url.openConnection();
+                    in = new BufferedInputStream(
+                            httpUrlConnection.getInputStream());
+                    String data = readStream(in);
+                    resultArray = PlacesSearch.getData(data);
+                    location = PlacesSearch.getLocation();
+                } catch (MalformedURLException exception){
+                    Log.e(TAG, "MalFormedURLException");
+                } catch (IOException exception){
+                    Log.e(TAG, "IOException");
+                } catch (JSONException e) {
+                    Log.e(TAG, e.getMessage(), e);
+                    e.printStackTrace();
+                } finally{
+                    if (null != httpUrlConnection){
+                        httpUrlConnection.disconnect();
+                    }
+                }
+            } else {
+                // display error
+            }
+            return resultArray;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList result) {
+            //TODO
+        }
+
+    }
+
+    private String readStream(InputStream is) {
+        try {
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();
+            int i = is.read();
+            while(i != -1) {
+                bo.write(i);
+                i = is.read();
+            }
+            return bo.toString();
+        } catch (IOException e) {
+            return "";
+        }
+    }*/
+}
