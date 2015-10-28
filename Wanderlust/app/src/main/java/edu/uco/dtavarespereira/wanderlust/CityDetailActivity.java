@@ -13,6 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class CityDetailActivity extends Activity {
+
     TextView tvCityName;
     Switch swFavorite;
     String city;

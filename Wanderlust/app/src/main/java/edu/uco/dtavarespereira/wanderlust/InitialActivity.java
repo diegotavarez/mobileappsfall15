@@ -199,7 +199,9 @@ public class InitialActivity extends Activity {
             //longitude = result.get(1);
             //temperature = result.get(2);
             Toast.makeText(getApplicationContext(),result.get(0), Toast.LENGTH_SHORT).show();
-
+            Intent intent = new Intent(InitialActivity.this, CityDetailActivity.class);
+            intent.putExtra("CITY_NAME", etCityName.getText().toString());
+            startActivity(intent);
 
         }
 
