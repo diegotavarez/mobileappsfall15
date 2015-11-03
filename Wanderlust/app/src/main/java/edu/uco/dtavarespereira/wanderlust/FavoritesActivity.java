@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -17,10 +18,12 @@ public class FavoritesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
 
+        View rootView = findViewById(android.R.id.content);
+
         List<String> cities = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
 
         listCities = (ListView) findViewById(R.id.list_cities);
-        FavoriteCitiesAdapter adapter = new FavoriteCitiesAdapter(getBaseContext(), cities);
+        FavoriteCitiesAdapter adapter = new FavoriteCitiesAdapter(getBaseContext(), cities, rootView);
         listCities.setAdapter(adapter);
     }
 
