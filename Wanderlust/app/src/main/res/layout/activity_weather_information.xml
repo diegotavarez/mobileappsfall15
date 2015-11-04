@@ -47,4 +47,5 @@
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/textViewWinSpeed" />
+
 </LinearLayout>
