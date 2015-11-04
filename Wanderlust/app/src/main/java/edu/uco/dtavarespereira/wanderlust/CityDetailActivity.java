@@ -40,6 +40,8 @@ public class CityDetailActivity extends Activity {
 
         final Intent intent = getIntent();
         city = intent.getStringExtra("CITY_NAME");
+
+        setTitle(city);
         location.setLatitude(intent.getDoubleExtra("lat", 0));
         location.setLongitude(intent.getDoubleExtra("lng", 0));
         tvCityName.setText(city);

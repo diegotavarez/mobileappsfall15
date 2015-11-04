@@ -52,7 +52,9 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
         ArrayList<String> favorites = getStringArrayPref(getApplicationContext(), "FAVORITES");
         if (favorites.size() > 0)
         {
+            InitialActivity.this.finish();
             Intent intentFav = new Intent(InitialActivity.this, FavoritesActivity.class);
+            intentFav.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intentFav);
         }
 
