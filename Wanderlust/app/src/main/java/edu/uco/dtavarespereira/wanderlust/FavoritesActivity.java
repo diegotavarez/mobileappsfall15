@@ -59,4 +59,5 @@ public class FavoritesActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

@@ -72,10 +72,6 @@ public class FavoriteCitiesAdapter extends BaseAdapter {
 
                 if(error==0) {
                     new HttpGetTask().execute(cityName);
-
-                    Intent intent = new Intent(parent.getContext(), CityDetailActivity.class);
-                    intent.putExtra("CITY_NAME", cityName);
-                    parent.getContext().startActivity(intent);
                 }
                 else {
                     Toast.makeText(parent.getContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
