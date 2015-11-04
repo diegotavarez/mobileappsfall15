@@ -9,16 +9,30 @@ import android.widget.TextView;
 
 public class WeatherInformationActivity extends Activity {
 
-    TextView test;
+    TextView city, description, temperature, humidity, tempMin, tempMax, windSpeed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_information);
 
-        test = (TextView)findViewById(R.id.test);
+        city = (TextView)findViewById(R.id.textViewCity);
+        description = (TextView)findViewById(R.id.textViewDescription);
+        temperature = (TextView)findViewById(R.id.textViewTemp);
+        humidity = (TextView)findViewById(R.id.textViewHumidity);
+        tempMin = (TextView)findViewById(R.id.textViewMin);
+        tempMax = (TextView)findViewById(R.id.textViewMax);
+        windSpeed = (TextView)findViewById(R.id.textViewWinSpeed);
+
         Intent intent = getIntent();
-        test.setText(intent.getStringExtra("temp"));
+        city.setText(intent.getStringExtra("city"));
+        description.setText(intent.getStringExtra("descrip"));
+        temperature.setText(intent.getStringExtra("temp"));
+        humidity.setText(intent.getStringExtra("humidity"));
+        tempMin.setText(intent.getStringExtra("tempMin"));
+        tempMax.setText(intent.getStringExtra("tempMax"));
+        windSpeed.setText(intent.getStringExtra("wSpeed"));
+
     }
 
     @Override

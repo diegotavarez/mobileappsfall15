@@ -106,6 +106,7 @@ public class CityDetailActivity extends Activity {
             public void onClick(View view) {
 
                 Intent intentWeatherInformation = new Intent(getApplication(), WeatherInformationActivity.class);
+                intentWeatherInformation.putExtra("city", city);
                 intentWeatherInformation.putExtra("temp", temperature);
                 intentWeatherInformation.putExtra("humidity", humidity);
                 intentWeatherInformation.putExtra("tempMin", tempMin);
