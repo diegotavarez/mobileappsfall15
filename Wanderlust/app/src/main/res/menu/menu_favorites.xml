@@ -8,6 +8,11 @@
         android:title="Search Place"
         android:actionViewClass="android.widget.SearchView"/>
 
+    <item android:id="@+id/action_current_position"
+        android:icon="@drawable/ic_action_current_position"
+        android:showAsAction="ifRoom"
+        android:title="Current Position"/>
+
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         wanderlust:showAsAction="never"/>
 </menu>
