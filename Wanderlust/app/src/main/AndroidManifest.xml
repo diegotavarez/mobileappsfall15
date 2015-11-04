@@ -30,6 +30,9 @@
         <activity
             android:name=".FavoritesActivity"
             android:label="@string/title_activity_favorites" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResultsActivity" />
         </activity>
         <activity
             android:name=".CityDetailActivity"
