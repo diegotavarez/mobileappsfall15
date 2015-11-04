@@ -4,17 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.util.Log;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,10 +34,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class InitialActivity extends Activity {
+public class InitialActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener
+{
     ImageButton btSearch;
     EditText etCityName;
     String cityName;
+
+    protected GoogleApiClient mGoogleApiClient;
+    protected Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +73,6 @@ public class InitialActivity extends Activity {
 
                 if(error==0) {
                     new HttpGetTask().execute(cityName);
-
-                    Intent intent = new Intent(InitialActivity.this, CityDetailActivity.class);
-                    intent.putExtra("CITY_NAME", etCityName.getText().toString());
-                    startActivity(intent);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
@@ -83,6 +89,17 @@ public class InitialActivity extends Activity {
             }*/
         });
 
+        // do it inside the button
+        buildGoogleApiClient();
+
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     public static void setStringArrayPref(Context context, String key, ArrayList<String> values) {
@@ -140,6 +157,24 @@ public class InitialActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (mLastLocation != null) {
+            // do something
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
 
     class HttpGetTask extends AsyncTask<String, Void, ArrayList<String>> {
 
