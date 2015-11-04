@@ -248,6 +248,12 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
             intent.putExtra("CITY_NAME", etCityName.getText().toString());
             intent.putExtra("lat", Double.valueOf(result.get(0)));
             intent.putExtra("lng", Double.valueOf(result.get(1)));
+            intent.putExtra("temperature", result.get(2));
+            intent.putExtra("humidity", result.get(3));
+            intent.putExtra("temp_min", result.get(4));
+            intent.putExtra("temp_max", result.get(5));
+            intent.putExtra("windSpeed", result.get(6));
+            intent.putExtra("description", result.get(7));
             startActivity(intent);
 
         }
