@@ -14,35 +14,45 @@ import java.util.ArrayList;
 public class PlacesSearch {
 
     private static Location loc = new Location("");
+    private static int resultLenght = 0;
     public static Location getLocation(){
         return loc;
     }
-    public static ArrayList<String> getData(String data) throws JSONException {
-
+    public static int getLenght(){
+        return resultLenght;
+    }
+    public static ArrayList<String> getData(String data, int pos) throws JSONException {
+        //System.out.println("search" + data);
         JSONObject jObj = new JSONObject(data);
         JSONArray jArr = jObj.getJSONArray("results");
-        JSONObject jArr1 = jArr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+        JSONObject jArr1 = jArr.getJSONObject(pos).getJSONObject("geometry").getJSONObject("location");
+        resultLenght = jArr.length();
         Double lat = jArr1.getDouble("lat");
         Double lng = jArr1.getDouble("lng");
 
         ArrayList<String> resultsReturn = new ArrayList<>();
         String id, place_id, place_reference;
 
-    //    JSONObject Objloc = jArr2.getJSONObject("location");
+        for(int i = 0; i < jArr.length(); i++){
+            JSONObject jArrTemp = jArr.getJSONObject(i);
+            String place_idS = jArrTemp.getString("place_id");
+            resultsReturn.add(place_idS);
+        }
+        //    JSONObject Objloc = jArr2.getJSONObject("location");
         loc = new Location("");
         loc.setLatitude(lat);
         loc.setLongitude(lng);
 
-     //   id = jArr2.getString("id");
-     //   resultsReturn.add(id);
+        //   id = jArr2.getString("id");
+        //   resultsReturn.add(id);
 
-       // JSONObject ObjPlaceId = jArr.getJSONObject(1);
-       // place_id = jArr2.getString("place_id");
-       // resultsReturn.add("place_id");
+        // JSONObject ObjPlaceId = jArr.getJSONObject(1);
+        // place_id = jArr2.getString("place_id");
+        // resultsReturn.add("place_id");
 
-      //  JSONObject ObjPlace_Reference = jArr.getJSONObject(1);
-      //  place_reference = jArr2.getString("reference");
-      //  resultsReturn.add("place_reference");
+        //  JSONObject ObjPlace_Reference = jArr.getJSONObject(1);
+        //  place_reference = jArr2.getString("reference");
+        //  resultsReturn.add("place_reference");
 
 
         return resultsReturn;

@@ -36,6 +36,8 @@ public class PlacesToVisit extends Activity {
     ArrayAdapter<CharSequence> adapter;
    Location location = new Location("");
     String BASE_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
+    String BASE_URL_DETAILS_SEARCH = "https://maps.googleapis.com/maps/api/place/details/json?";
+    ArrayList<ArrayList<String>> placesNames = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class PlacesToVisit extends Activity {
 
         Intent intent = getIntent();
         String city = intent.getStringExtra("cityName");
+        city.trim();
         final Location location = new Location(city);
         location.setLatitude(intent.getDoubleExtra("locationLatitude", 0.0));
         location.setLongitude(intent.getDoubleExtra("locationLongitude", 0.0));
@@ -56,9 +59,12 @@ public class PlacesToVisit extends Activity {
         placesToGo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
-               new GoogleSearchASyncTask().execute(new String [] {String.valueOf(location.getLatitude()),
-                       String.valueOf(location.getLongitude()), placesToGo.getItemAtPosition(position).toString()});
+                // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
+              /*  new GoogleSearchASyncTask().execute(new String [] {String.valueOf(location.getLatitude()),
+                        String.valueOf(location.getLongitude()), placesToGo.getItemAtPosition(position).toString()});*/
+                //TODO erase comment
+                Intent intentFiltered = new Intent(PlacesToVisit.this, FilteredPlacesToVisit.class);
+                startActivity(intentFiltered);
             }
         });
     }
@@ -101,9 +107,9 @@ public class PlacesToVisit extends Activity {
                 try{
                     Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                             .appendQueryParameter("location", params[0] + "," + params[1])
-                            .appendQueryParameter("radius", "500")
+                            .appendQueryParameter("radius", "5000")
                             .appendQueryParameter("types", params[2])
-                            .appendQueryParameter("key", "AIzaSyBRfUWJUz5x9TnFaIUbqjsrKC_q_mTBIQo")
+                            .appendQueryParameter("key", "AIzaSyA4Tp1h-ptnl6lqqcTRwujzE-qbEU9fd3A")
                             .build();
 
                     URL url = new URL(builtUri.toString());
@@ -111,8 +117,31 @@ public class PlacesToVisit extends Activity {
                     in = new BufferedInputStream(
                             httpUrlConnection.getInputStream());
                     String data = readStream(in);
-                    resultArray = PlacesSearch.getData(data);
-                    location = PlacesSearch.getLocation();
+                    resultArray = PlacesSearch.getData(data, 0);
+                    int k = PlacesSearch.getLenght();
+                    for(int i = 1; i < k; i++){
+                        resultArray = PlacesSearch.getData(data, i);
+                    } //TODO array needs to be array
+                    httpUrlConnection.disconnect();
+
+                    ArrayList<String> placesData;
+                    int i = 0;
+                    for(String places : resultArray) {
+                        builtUri = Uri.parse(BASE_URL_DETAILS_SEARCH).buildUpon()
+                                .appendQueryParameter("placeid", places)
+                                .appendQueryParameter("key", "AIzaSyB6b7FiH5aq907kpEril4Q_DSWsEDhfeTs")
+                                .build();
+                        URL url1 = new URL(builtUri.toString());
+                        httpUrlConnection = (HttpURLConnection) url1.openConnection();
+                        in = new BufferedInputStream(
+                                httpUrlConnection.getInputStream());
+                        String data1 = readStream(in);
+
+                        placesData = PlacesDetailsSearch.getData(data1);
+                        placesNames.add(i,placesData);
+                        i++;
+                        location = PlacesDetailsSearch.getLocation();
+                    }
                 } catch (MalformedURLException exception){
                     Log.e(TAG, "MalFormedURLException");
                 } catch (IOException exception){
@@ -125,6 +154,40 @@ public class PlacesToVisit extends Activity {
                         httpUrlConnection.disconnect();
                     }
                 }
+
+                // ArrayList<String> placesData = new ArrayList<>();
+                in = null;
+                httpUrlConnection = null;
+                int i = 0;
+               /* try{
+                    for(String places : resultArray) {
+                        Uri builtUri = Uri.parse(BASE_URL_DETAILS_SEARCH).buildUpon()
+                                .appendQueryParameter("placeid", places)
+                                .appendQueryParameter("key", "AIzaSyBS5r6-X3bjw9WlgQ4SN0BuTs_lwAqS4ds")
+                                .build();
+
+                        URL url = new URL(builtUri.toString());
+                        httpUrlConnection = (HttpURLConnection) url.openConnection();
+                        in = new BufferedInputStream(
+                                httpUrlConnection.getInputStream());
+                        String data = readStream(in);
+                        placesData = PlacesSearch.getData(data);
+                        placesNames.add(i,placesData);
+                        i++;
+                        location = PlacesSearch.getLocation();
+                    }
+                } catch (MalformedURLException exception){
+                    Log.e(TAG, "MalFormedURLException");
+                } catch (IOException exception){
+                    Log.e(TAG, "IOException");
+                } catch (JSONException e) {
+                    Log.e(TAG, e.getMessage(), e);
+                    e.printStackTrace();
+                } finally{
+                    if (null != httpUrlConnection){
+                        httpUrlConnection.disconnect();
+                    }
+                }*/
             } else {
                 // display error
             }
@@ -134,11 +197,15 @@ public class PlacesToVisit extends Activity {
         @Override
         protected void onPostExecute(ArrayList result) {
 
-            Intent intentMaps = new Intent(PlacesToVisit.this, MapsActivity.class);
-            intentMaps.putExtra("lat", location.getLatitude());
-            intentMaps.putExtra("lon", location.getLongitude());
+            Intent intentFiltered = new Intent(PlacesToVisit.this, FilteredPlacesToVisit.class);
+            intentFiltered.putExtra("size", placesNames.size());
+            for(int i = 0; i < placesNames.size(); i++){
+                intentFiltered.putExtra("data " + i, placesNames);
+            }
 
-            startActivity(intentMaps);        }
+            startActivity(intentFiltered);
+
+        }
 
     }
 
