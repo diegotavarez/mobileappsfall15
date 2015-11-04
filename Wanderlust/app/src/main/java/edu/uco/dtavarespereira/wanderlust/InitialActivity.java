@@ -160,9 +160,6 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
 
     @Override
     public void onConnected(Bundle bundle) {
-        Toast.makeText(InitialActivity.this,
-                "cheguei aqui",
-                Toast.LENGTH_SHORT).show();
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
@@ -251,7 +248,6 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
             //latitude = result.get(0);
             //longitude = result.get(1);
             //temperature = result.get(2);
-            Toast.makeText(getApplicationContext(),result.get(0), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(InitialActivity.this, CityDetailActivity.class);
             intent.putExtra("CITY_NAME", etCityName.getText().toString());
             intent.putExtra("lat", Double.valueOf(result.get(0)));

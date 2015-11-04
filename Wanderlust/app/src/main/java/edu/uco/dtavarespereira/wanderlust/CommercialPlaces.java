@@ -101,7 +101,7 @@ public class CommercialPlaces extends Activity {
                 try{
                     Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                             .appendQueryParameter("location", params[0] + "," + params[1])
-                            .appendQueryParameter("radius", "500")
+                            .appendQueryParameter("radius", "5000")
                             .appendQueryParameter("types", params[2])
                             .appendQueryParameter("key", "AIzaSyBRfUWJUz5x9TnFaIUbqjsrKC_q_mTBIQo")
                             .build();
