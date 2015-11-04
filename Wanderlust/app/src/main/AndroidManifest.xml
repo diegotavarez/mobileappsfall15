@@ -61,7 +61,6 @@
         <activity
             android:name=".SearchResultsActivity"
             android:label="@string/title_activity_search_results" >
-
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -70,10 +69,18 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
- <activity
+        <activity
             android:name=".WeatherInformationActivity"
             android:label="@string/title_activity_weather_information"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:theme="@style/Theme.AppCompat.Light" >
+        </activity>
+        <activity
+            android:name=".FilteredPlacesToVisit"
+            android:label="@string/title_activity_filtered_places_to_visit" >
+        </activity>
+        <activity
+            android:name=".PlaceInformation"
+            android:label="@string/title_activity_place_information" >
         </activity>
     </application>
 

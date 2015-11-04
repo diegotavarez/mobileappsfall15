@@ -101,7 +101,7 @@ public class CommercialPlaces extends Activity {
                 try{
                     Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                             .appendQueryParameter("location", params[0] + "," + params[1])
-                            .appendQueryParameter("radius", "5000")
+                            .appendQueryParameter("radius", "500")
                             .appendQueryParameter("types", params[2])
                             .appendQueryParameter("key", "AIzaSyBRfUWJUz5x9TnFaIUbqjsrKC_q_mTBIQo")
                             .build();
@@ -111,7 +111,7 @@ public class CommercialPlaces extends Activity {
                     in = new BufferedInputStream(
                             httpUrlConnection.getInputStream());
                     String data = readStream(in);
-                    resultArray = PlacesSearch.getData(data);
+                    resultArray = PlacesSearch.getData(data, 0);
                     location = PlacesSearch.getLocation();
                 } catch (MalformedURLException exception){
                     Log.e(TAG, "MalFormedURLException");
