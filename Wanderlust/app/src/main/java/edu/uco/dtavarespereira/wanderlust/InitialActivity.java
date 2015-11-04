@@ -66,15 +66,14 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
                 cityName = etCityName.getText().toString();
                 int error = 0;
 
-                for(int i=0; i<cityName.length();i++){
-                    if (!(cityName.charAt(i) >= 'A' && cityName.charAt(i)<= 'Z' || cityName.charAt(i)>='a' && cityName.charAt(i)<='z' || cityName.charAt(i)==' '))
+                for (int i = 0; i < cityName.length(); i++) {
+                    if (!(cityName.charAt(i) >= 'A' && cityName.charAt(i) <= 'Z' || cityName.charAt(i) >= 'a' && cityName.charAt(i) <= 'z' || cityName.charAt(i) == ' '))
                         error++;
                 }
 
-                if(error==0) {
+                if (error == 0) {
                     new HttpGetTask().execute(cityName);
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -88,10 +87,6 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
                 }
             }*/
         });
-
-        // do it inside the button
-        buildGoogleApiClient();
-
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -154,15 +149,28 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
             return true;
         }
 
+        if (id == R.id.action_current_position){
+            buildGoogleApiClient();
+            mGoogleApiClient.connect();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
+        Toast.makeText(InitialActivity.this,
+                "cheguei aqui",
+                Toast.LENGTH_SHORT).show();
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
-            // do something
+            Intent intent = new Intent(InitialActivity.this, CityDetailActivity.class);
+            intent.putExtra("CITY_NAME", "Your Location");
+            intent.putExtra("lat", Double.valueOf(mLastLocation.getLatitude()));
+            intent.putExtra("lng", Double.valueOf(mLastLocation.getLongitude()));
+            startActivity(intent);
         }
     }
 

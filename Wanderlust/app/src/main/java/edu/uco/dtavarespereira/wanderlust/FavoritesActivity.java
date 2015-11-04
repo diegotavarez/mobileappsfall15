@@ -10,9 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FavoritesActivity extends Activity {
@@ -52,6 +50,9 @@ public class FavoritesActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_search:
                 // search action
+                return true;
+            case R.id.action_current_position:
+              //  buildGoogleApiClient();
                 return true;
             case R.id.action_settings:
                 return true;
