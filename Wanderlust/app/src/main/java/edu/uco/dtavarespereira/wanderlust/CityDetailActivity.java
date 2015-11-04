@@ -22,8 +22,11 @@ public class CityDetailActivity extends Activity {
     String city;
     Button placesToVisit;
     Button btnCommercialPlaces;
+    Button btWeatherCondition;
 
     Location location;
+
+    String temperature, humidity, tempMin, tempMax, windSpeed, description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,12 @@ public class CityDetailActivity extends Activity {
         location.setLatitude(intent.getDoubleExtra("lat", 0));
         location.setLongitude(intent.getDoubleExtra("lng", 0));
         tvCityName.setText(city);
+        temperature = intent.getStringExtra("temperature");
+        humidity = intent.getStringExtra("humidity");
+        tempMin = intent.getStringExtra("temp_min");
+        tempMax = intent.getStringExtra("temp_max");
+        windSpeed = intent.getStringExtra("windSpeed");
+        description = intent.getStringExtra("description");
 
         swFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -64,6 +73,8 @@ public class CityDetailActivity extends Activity {
 
         btnCommercialPlaces = (Button) findViewById(R.id.btnCommercial_places);
 
+        btWeatherCondition = (Button)findViewById(R.id.btnWeatherConditions);
+
         placesToVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +95,23 @@ public class CityDetailActivity extends Activity {
                 intentCommercialPlaces.putExtra("locationLatitude", location.getLatitude());
                 intentCommercialPlaces.putExtra("locationLongitude", location.getLongitude());
                 startActivity(intentCommercialPlaces);
+
+            }
+        });
+
+        btWeatherCondition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intentWeatherInformation = new Intent(getApplication(), WeatherInformationActivity.class);
+                intentWeatherInformation.putExtra("temp", temperature);
+                intentWeatherInformation.putExtra("humidity", humidity);
+                intentWeatherInformation.putExtra("tempMin", tempMin);
+                intentWeatherInformation.putExtra("tempMax", tempMax);
+                intentWeatherInformation.putExtra("wSpeed", windSpeed);
+                intentWeatherInformation.putExtra("descrip", description);
+                startActivity(intentWeatherInformation);
+
 
             }
         });

@@ -70,6 +70,11 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+ <activity
+            android:name=".WeatherInformationActivity"
+            android:label="@string/title_activity_weather_information"
+            android:theme="@style/Theme.AppCompat.Light">
+        </activity>
     </application>
 
 </manifest>

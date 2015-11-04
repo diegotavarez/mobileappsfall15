@@ -30,12 +30,15 @@ public class JSonData {
 
             JSONObject tempObj = forecast.getJSONObject("main");
             result.add(tempObj.getString("temp"));//2
+            result.add(tempObj.getString("humidity"));//3
+            result.add(tempObj.getString("temp_min"));//4
+            result.add(tempObj.getString("temp_max"));//5
 
             JSONObject windObj = forecast.getJSONObject("wind");
-            result.add(windObj.getString("speed"));//3
+            result.add(windObj.getString("speed"));//6
 
             JSONArray descObj = forecast.getJSONArray("weather");
-            result.add(descObj.getJSONObject(0).getString("description"));//4
+            result.add(descObj.getJSONObject(0).getString("description"));//7
 
 
             return result;
