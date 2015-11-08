@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 public class FilteredPlacesToVisit extends Activity {
     ListView places;
+    ArrayList<ArrayList<String>> placesNames;
+    ArrayList<String> names;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +26,15 @@ public class FilteredPlacesToVisit extends Activity {
         setContentView(R.layout.activity_filtered_places_to_visit);
 
         places = (ListView) findViewById(R.id.places);
-      Intent intent = getIntent();
+      final Intent intent = getIntent();
         int j = intent.getIntExtra("size", 0);
-        ArrayList<ArrayList<String>> placesNames = new ArrayList<>();
+        placesNames = new ArrayList<>();
 
         for(int i = 0; i < j; i++){
             placesNames.add(i,intent.getStringArrayListExtra("data " + i));
         }
-        
-      ArrayList<String> names = new ArrayList<>();
+
+      names = new ArrayList<>();
         for(ArrayList places : placesNames){
             ArrayList<String> s = places;
             // for(String data : s){
@@ -48,18 +50,25 @@ public class FilteredPlacesToVisit extends Activity {
         places.setAdapter(adapter);
 
 
-     /* ArrayAdapter<CharSequence> adapter;
-        adapter = ArrayAdapter.createFromResource(this, R.array.barsPlacesList, android.R.layout.simple_list_item_1);
-        places.setAdapter(adapter);*/
-
-       /* places.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       places.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
                 Intent intentFiltered = new Intent(FilteredPlacesToVisit.this, PlaceInformation.class);
+
+                String name, formatted_address, formatted_phone_number, website;
+                ArrayList<String> s = placesNames.get(position);
+                name = s.get(0).toString();
+                formatted_address = s.get(1).toString();
+                   website = s.get(2).toString();
+                   formatted_phone_number = s.get(3).toString();
+                intentFiltered.putExtra("name",name);
+                intentFiltered.putExtra("address",formatted_address);
+                intentFiltered.putExtra("website",website);
+                intentFiltered.putExtra("phone",formatted_phone_number);
                 startActivity(intentFiltered);
             }
-        });*/
+        });
 
 
 
