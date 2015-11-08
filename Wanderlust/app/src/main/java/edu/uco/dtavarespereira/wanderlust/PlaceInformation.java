@@ -13,18 +13,21 @@ import android.widget.TextView;
 public class PlaceInformation extends Activity {
     Button button;
     TextView nameView, addressView, websiteView, phoneView;
+    String name, formatted_address, formatted_phone_number, website;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_information);
-        String name, formatted_address, formatted_phone_number, website;
-
+        final Double lat, lng;
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         formatted_address = intent.getStringExtra("address");
        website = intent.getStringExtra("website");
         formatted_phone_number = intent.getStringExtra("phone");
+        lat = intent.getDoubleExtra("lat", 0);
+        lng = intent.getDoubleExtra("lng", 0);
 
         nameView = (TextView) findViewById(R.id.nameView);
         addressView = (TextView) findViewById(R.id.address);
@@ -40,12 +43,12 @@ public class PlaceInformation extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             /*   Intent intentMaps = new Intent(PlaceInformation.this, MapsActivity.class);
-                intentMaps.putExtra("lat", 40.760533);
-                intentMaps.putExtra("lon", -73.9795857);
-
+                Intent intentMaps = new Intent(PlaceInformation.this, MapsActivity.class);
+                intentMaps.putExtra("lat", lat);
+                intentMaps.putExtra("lon", lng);
+                intentMaps.putExtra("name", name);
                 startActivity(intentMaps);
-                */ //TODO get lgn and lat to set map
+                 //TODO get lgn and lat to set map
             }
         });
     }

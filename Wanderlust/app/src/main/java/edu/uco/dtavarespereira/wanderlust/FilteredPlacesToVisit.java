@@ -2,6 +2,7 @@ package edu.uco.dtavarespereira.wanderlust;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +20,7 @@ public class FilteredPlacesToVisit extends Activity {
     ListView places;
     ArrayList<ArrayList<String>> placesNames;
     ArrayList<String> names;
+    ArrayList<Location> locationsArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,13 @@ public class FilteredPlacesToVisit extends Activity {
       final Intent intent = getIntent();
         int j = intent.getIntExtra("size", 0);
         placesNames = new ArrayList<>();
+        locationsArray = new ArrayList<>();
 
         for(int i = 0; i < j; i++){
             placesNames.add(i,intent.getStringArrayListExtra("data " + i));
+            locationsArray.add(i, new Location(""));
+            locationsArray.get(i).setLatitude(intent.getDoubleExtra("location lat " + i, 0));
+            locationsArray.get(i).setLongitude(intent.getDoubleExtra("location lng " + i, 0));
         }
 
       names = new ArrayList<>();
@@ -66,6 +72,8 @@ public class FilteredPlacesToVisit extends Activity {
                 intentFiltered.putExtra("address",formatted_address);
                 intentFiltered.putExtra("website",website);
                 intentFiltered.putExtra("phone",formatted_phone_number);
+                intentFiltered.putExtra("lat", locationsArray.get(position).getLatitude());
+                intentFiltered.putExtra("lng", locationsArray.get(position).getLongitude());
                 startActivity(intentFiltered);
             }
         });

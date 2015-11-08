@@ -35,6 +35,7 @@ public class PlacesToVisit extends Activity {
     private final static String TAG = "GoogleSearchAsyncTask";
     ListView placesToGo;
     ArrayAdapter<CharSequence> adapter;
+    ArrayList<Location> locationArray;
    Location location = new Location("");
     String BASE_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
     String BASE_URL_DETAILS_SEARCH = "https://maps.googleapis.com/maps/api/place/details/json?";
@@ -98,6 +99,7 @@ public class PlacesToVisit extends Activity {
             ArrayList<String> s = new ArrayList<>();
             s.add(params[0]);
             ArrayList<String> resultArray = null;
+            locationArray = new ArrayList<>();
             ConnectivityManager connMgr = (ConnectivityManager)
                     getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -144,7 +146,7 @@ public class PlacesToVisit extends Activity {
                             System.out.println("1 PLACESDATA IS " + placesData);
                             placesNames.add(i, placesData);
                             i++;
-                            location = PlacesDetailsSearch.getLocation();
+                            locationArray.add(PlacesDetailsSearch.getLocation());
                     }
                     resultArray.removeAll(resultArray);
                 } catch (MalformedURLException exception){
@@ -175,8 +177,11 @@ public class PlacesToVisit extends Activity {
             System.out.println("1 PLACESNAMES IS " + placesNames);
             for(int i = 0; i < placesNames.size(); i++){
                 intentFiltered.putExtra("data " + i, placesNames.get(i));
+                intentFiltered.putExtra("location lat " + i, locationArray.get(i).getLatitude());
+                intentFiltered.putExtra("location lng " + i, locationArray.get(i).getLongitude());
             }
             placesNames.removeAll(placesNames);
+            locationArray.removeAll(locationArray);
             startActivity(intentFiltered);
 
         }

@@ -16,6 +16,7 @@ public class MapsActivity extends FragmentActivity {
     private LatLng cityPosition;
 
     private double lat, lon;
+    private String namePlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,11 @@ public class MapsActivity extends FragmentActivity {
 
         lat = getIntent().getDoubleExtra("lat", 0);
         lon = getIntent().getDoubleExtra("lon", 0);
-
+        try {
+            namePlace = getIntent().getStringExtra("name");
+        } catch(Exception e){
+            namePlace = "";
+        }
         cityPosition = new LatLng(lat, lon);
 
         setContentView(R.layout.activity_maps);
@@ -78,6 +83,6 @@ public class MapsActivity extends FragmentActivity {
         mMap.getUiSettings().setZoomControlsEnabled(true); // (+) (-) zoom control bar
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
-        mMap.addMarker(new MarkerOptions().position(cityPosition));
+        mMap.addMarker(new MarkerOptions().position(cityPosition).title(namePlace));
     }
 }
