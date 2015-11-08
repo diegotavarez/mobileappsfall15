@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -60,11 +61,11 @@ public class PlacesToVisit extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
-              /*  new GoogleSearchASyncTask().execute(new String [] {String.valueOf(location.getLatitude()),
-                        String.valueOf(location.getLongitude()), placesToGo.getItemAtPosition(position).toString()});*/
+                new GoogleSearchASyncTask().execute(String.valueOf(location.getLatitude()),
+                        String.valueOf(location.getLongitude()), placesToGo.getItemAtPosition(position).toString());
                 //TODO erase comment
-                Intent intentFiltered = new Intent(PlacesToVisit.this, FilteredPlacesToVisit.class);
-                startActivity(intentFiltered);
+                /*Intent intentFiltered = new Intent(PlacesToVisit.this, FilteredPlacesToVisit.class);
+                startActivity(intentFiltered);*/
             }
         });
     }
@@ -124,24 +125,28 @@ public class PlacesToVisit extends Activity {
                     } //TODO array needs to be array
                     httpUrlConnection.disconnect();
 
-                    ArrayList<String> placesData;
+                    in = null;
+                    httpUrlConnection = null;
                     int i = 0;
                     for(String places : resultArray) {
-                        builtUri = Uri.parse(BASE_URL_DETAILS_SEARCH).buildUpon()
-                                .appendQueryParameter("placeid", places)
-                                .appendQueryParameter("key", "AIzaSyB6b7FiH5aq907kpEril4Q_DSWsEDhfeTs")
-                                .build();
-                        URL url1 = new URL(builtUri.toString());
-                        httpUrlConnection = (HttpURLConnection) url1.openConnection();
-                        in = new BufferedInputStream(
-                                httpUrlConnection.getInputStream());
-                        String data1 = readStream(in);
+                            builtUri = Uri.parse(BASE_URL_DETAILS_SEARCH).buildUpon()
+                                    .appendQueryParameter("placeid", places)
+                                    .appendQueryParameter("key", "AIzaSyB6b7FiH5aq907kpEril4Q_DSWsEDhfeTs")
+                                    .build();
+                            URL url1 = new URL(builtUri.toString());
+                            httpUrlConnection = (HttpURLConnection) url1.openConnection();
+                            in = new BufferedInputStream(
+                                    httpUrlConnection.getInputStream());
+                            String data1 = readStream(in);
 
-                        placesData = PlacesDetailsSearch.getData(data1);
-                        placesNames.add(i,placesData);
-                        i++;
-                        location = PlacesDetailsSearch.getLocation();
+
+                        ArrayList<String> placesData = PlacesDetailsSearch.getData(data1);
+                            System.out.println("1 PLACESDATA IS " + placesData);
+                            placesNames.add(i, placesData);
+                            i++;
+                            location = PlacesDetailsSearch.getLocation();
                     }
+                    resultArray.removeAll(resultArray);
                 } catch (MalformedURLException exception){
                     Log.e(TAG, "MalFormedURLException");
                 } catch (IOException exception){
@@ -155,39 +160,6 @@ public class PlacesToVisit extends Activity {
                     }
                 }
 
-                // ArrayList<String> placesData = new ArrayList<>();
-                in = null;
-                httpUrlConnection = null;
-                int i = 0;
-               /* try{
-                    for(String places : resultArray) {
-                        Uri builtUri = Uri.parse(BASE_URL_DETAILS_SEARCH).buildUpon()
-                                .appendQueryParameter("placeid", places)
-                                .appendQueryParameter("key", "AIzaSyBS5r6-X3bjw9WlgQ4SN0BuTs_lwAqS4ds")
-                                .build();
-
-                        URL url = new URL(builtUri.toString());
-                        httpUrlConnection = (HttpURLConnection) url.openConnection();
-                        in = new BufferedInputStream(
-                                httpUrlConnection.getInputStream());
-                        String data = readStream(in);
-                        placesData = PlacesSearch.getData(data);
-                        placesNames.add(i,placesData);
-                        i++;
-                        location = PlacesSearch.getLocation();
-                    }
-                } catch (MalformedURLException exception){
-                    Log.e(TAG, "MalFormedURLException");
-                } catch (IOException exception){
-                    Log.e(TAG, "IOException");
-                } catch (JSONException e) {
-                    Log.e(TAG, e.getMessage(), e);
-                    e.printStackTrace();
-                } finally{
-                    if (null != httpUrlConnection){
-                        httpUrlConnection.disconnect();
-                    }
-                }*/
             } else {
                 // display error
             }
@@ -196,13 +168,15 @@ public class PlacesToVisit extends Activity {
 
         @Override
         protected void onPostExecute(ArrayList result) {
+           // Toast.makeText(getApplicationContext(), placesNames.toString(), Toast.LENGTH_SHORT).show();
 
             Intent intentFiltered = new Intent(PlacesToVisit.this, FilteredPlacesToVisit.class);
             intentFiltered.putExtra("size", placesNames.size());
+            System.out.println("1 PLACESNAMES IS " + placesNames);
             for(int i = 0; i < placesNames.size(); i++){
-                intentFiltered.putExtra("data " + i, placesNames);
+                intentFiltered.putExtra("data " + i, placesNames.get(i));
             }
-
+            placesNames.removeAll(placesNames);
             startActivity(intentFiltered);
 
         }

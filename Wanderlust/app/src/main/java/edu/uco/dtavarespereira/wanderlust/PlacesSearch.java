@@ -21,6 +21,7 @@ public class PlacesSearch {
     public static int getLenght(){
         return resultLenght;
     }
+
     public static ArrayList<String> getData(String data, int pos) throws JSONException {
         //System.out.println("search" + data);
         JSONObject jObj = new JSONObject(data);
@@ -33,10 +34,19 @@ public class PlacesSearch {
         ArrayList<String> resultsReturn = new ArrayList<>();
         String id, place_id, place_reference;
 
-        for(int i = 0; i < jArr.length(); i++){
-            JSONObject jArrTemp = jArr.getJSONObject(i);
-            String place_idS = jArrTemp.getString("place_id");
-            resultsReturn.add(place_idS);
+        /* TODO break array result into parts - jArr.length()*/
+        int k = jArr.length();
+        if(k == 0)
+            resultsReturn.add("No result found!");
+        else if(k > 0) {
+            if(k > 20)
+                k = 20;
+
+            for (int i = 0; i < k; i++) {
+                JSONObject jArrTemp = jArr.getJSONObject(i);
+                String place_idS = jArrTemp.getString("place_id");
+                resultsReturn.add(place_idS);
+            }
         }
         //    JSONObject Objloc = jArr2.getJSONObject("location");
         loc = new Location("");

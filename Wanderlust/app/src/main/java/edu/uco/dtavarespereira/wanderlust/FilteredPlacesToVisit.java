@@ -24,20 +24,20 @@ public class FilteredPlacesToVisit extends Activity {
         setContentView(R.layout.activity_filtered_places_to_visit);
 
         places = (ListView) findViewById(R.id.places);
-       /* Intent intent = getIntent();
+      Intent intent = getIntent();
         int j = intent.getIntExtra("size", 0);
         ArrayList<ArrayList<String>> placesNames = new ArrayList<>();
 
         for(int i = 0; i < j; i++){
             placesNames.add(i,intent.getStringArrayListExtra("data " + i));
         }
-
-        ArrayList<String> names = new ArrayList<>();
+        
+      ArrayList<String> names = new ArrayList<>();
         for(ArrayList places : placesNames){
             ArrayList<String> s = places;
             // for(String data : s){
             // String formatted_address, formatted_phone_number, website;
-            names.add(s.get(0).toString());
+            names.add(s.get(0));
             //   formatted_address = places.get(1).toString();
             //  website = places.get(2).toString();
             // formatted_phone_number = places.get(3).toString();
@@ -45,19 +45,21 @@ public class FilteredPlacesToVisit extends Activity {
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
-        places.setAdapter(adapter);*/
-        ArrayAdapter<CharSequence> adapter;
-        adapter = ArrayAdapter.createFromResource(this, R.array.barsPlacesList, android.R.layout.simple_list_item_1);
         places.setAdapter(adapter);
 
-        places.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+     /* ArrayAdapter<CharSequence> adapter;
+        adapter = ArrayAdapter.createFromResource(this, R.array.barsPlacesList, android.R.layout.simple_list_item_1);
+        places.setAdapter(adapter);*/
+
+       /* places.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
                 Intent intentFiltered = new Intent(FilteredPlacesToVisit.this, PlaceInformation.class);
                 startActivity(intentFiltered);
             }
-        });
+        });*/
 
 
 
