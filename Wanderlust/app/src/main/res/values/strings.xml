@@ -22,6 +22,19 @@
         <item>shopping_mall</item>
         <item>zoo</item>
 
+    </string-array>
+
+    <string-array name="placesToVisitNoFilterList">
+
+        <item>Amusement Park</item>
+        <item>Bar</item>
+        <item>Bowling Alley</item>
+        <item>Library</item>
+        <item>Movie Theater</item>
+        <item>Museum</item>
+        <item>Park</item>
+        <item>Shopping Mall</item>
+        <item>Zoo</item>
 
     </string-array>
 
@@ -41,16 +54,6 @@
 
     </string-array>
 
-    <string-array name="barsPlacesList">
-
-        <item>21 Club </item>
-        <item>New York Marriott Marquis</item>
-        <item>Blue Note</item>
-        <item>Angels Share</item>
-        <item>Gotham Bar e Grill</item>
-        <item>Little Branch</item>
-
-    </string-array>
     <string name="title_activity_commercial_places">CommercialPlaces</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_search_results">SearchResults</string>

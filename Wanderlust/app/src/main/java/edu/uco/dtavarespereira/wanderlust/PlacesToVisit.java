@@ -34,7 +34,7 @@ public class PlacesToVisit extends Activity {
 
     private final static String TAG = "GoogleSearchAsyncTask";
     ListView placesToGo;
-    ArrayAdapter<CharSequence> adapter;
+    ArrayAdapter<CharSequence> adapter, adp;
     ArrayList<Location> locationArray;
    Location location = new Location("");
     String BASE_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
@@ -47,8 +47,8 @@ public class PlacesToVisit extends Activity {
 
         placesToGo = (ListView) findViewById(R.id.placesToGo);
         adapter = ArrayAdapter.createFromResource(this, R.array.placesToVisitList, android.R.layout.simple_list_item_1);
-
-        placesToGo.setAdapter(adapter);
+        adp = ArrayAdapter.createFromResource(this,R.array.placesToVisitNoFilterList, android.R.layout.simple_list_item_1);
+        placesToGo.setAdapter(adp);
 
 
         Intent intent = getIntent();
@@ -63,7 +63,7 @@ public class PlacesToVisit extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
                 new GoogleSearchASyncTask().execute(String.valueOf(location.getLatitude()),
-                        String.valueOf(location.getLongitude()), placesToGo.getItemAtPosition(position).toString());
+                        String.valueOf(location.getLongitude()), adapter.getItem(position).toString());
                 //TODO erase comment
                 /*Intent intentFiltered = new Intent(PlacesToVisit.this, FilteredPlacesToVisit.class);
                 startActivity(intentFiltered);*/
