@@ -3,14 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="edu.uco.dtavarespereira.wanderlust.WeatherInformationActivity">
+    tools:context="edu.uco.dtavarespereira.wanderlust.WeatherInformationActivity"
+    android:background="@drawable/city_bg">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/textViewCity" />
+        android:text="teste"
+        android:id="@+id/textViewCity"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="italic"
+        android:textSize="30dp"
+        android:textColor="@android:color/white"/>
 
     <TextView
         android:layout_width="wrap_content"
