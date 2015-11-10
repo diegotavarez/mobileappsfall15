@@ -29,7 +29,7 @@ public class WeatherInformationActivity extends Activity {
         Intent intent = getIntent();
         city.setText(intent.getStringExtra("city"));
         description.setText(intent.getStringExtra("descrip"));
-        temperature.setText(intent.getStringExtra("temp"));
+        temperature.setText(intent.getStringExtra("temp") + (char) 0x00B0);
         humidity.setText(intent.getStringExtra("humidity"));
         tempMin.setText(intent.getStringExtra("tempMin"));
         tempMax.setText(intent.getStringExtra("tempMax"));
