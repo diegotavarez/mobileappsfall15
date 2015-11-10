@@ -1,8 +1,12 @@
 package edu.uco.dtavarespereira.wanderlust;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -14,16 +18,23 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.ArrayList;
 
-public class CityDetailActivity extends FragmentActivity {
+public class CityDetailActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -35,15 +46,22 @@ public class CityDetailActivity extends FragmentActivity {
     Button btWeatherCondition;
 
     Location location;
+    Location mLastLocation;
+    LocationListener locationListener;
+    protected GoogleApiClient mGoogleApiClient;
+
 
     String temperature, humidity, tempMin, tempMax, windSpeed, description;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) throws  SecurityException{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_detail);
 
         location = new Location("");
+        mLastLocation = new Location("");
+        buildGoogleApiClient();
+        mGoogleApiClient.connect();
 
         tvCityName = (TextView) findViewById(R.id.tv_city_name);
         swFavorite = (Switch) findViewById(R.id.sw_favorite);
@@ -189,8 +207,10 @@ public class CityDetailActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        LatLng cityPosition;
-        cityPosition = new LatLng(location.getLatitude(),location.getLongitude());
+        LatLng cityPosition = new LatLng(location.getLatitude(),location.getLongitude());
+        LatLng currentPosition = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+
+        Toast.makeText(getApplicationContext(),"LAT: "+ mLastLocation.getLatitude(),Toast.LENGTH_SHORT).show();
 
         CameraPosition camera = new CameraPosition.Builder()
                 .target(cityPosition).zoom(10).build();
@@ -198,5 +218,66 @@ public class CityDetailActivity extends FragmentActivity {
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
         mMap.addMarker(new MarkerOptions().position(cityPosition));
+        mMap.addMarker(new MarkerOptions().position(currentPosition));
+    }
+
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }
+
+//class MyOverlay extends Overlay {
+//
+//    public MyOverlay() {
+//
+//    }
+//
+//    public void draw(Canvas canvas, MapView mapv, boolean shadow) {
+//        super.draw(canvas, mapv, shadow);
+//
+//        Paint mPaint = new Paint();
+//        mPaint.setDither(true);
+//        mPaint.setColor(Color.RED);
+//        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+//        mPaint.setStrokeJoin(Paint.Join.ROUND);
+//        mPaint.setStrokeCap(Paint.Cap.ROUND);
+//        mPaint.setStrokeWidth(2);
+//
+//        Barcode.GeoPoint gP1 = new Barcode.GeoPoint(19240000, -99120000);
+//        GeoPoint gP2 = new GeoPoint(37423157, -122085008);
+//
+//        Point p1 = new Point();
+//        Point p2 = new Point();
+//        Path path = new Path();
+//
+//        Projection projection = mapv.getProjection();
+//        projection.toPixels(gP1, p1);
+//        projection.toPixels(gP2, p2);
+//
+//        path.moveTo(p2.x, p2.y);
+//        path.lineTo(p1.x, p1.y);
+//
+//        canvas.drawPath(path, mPaint);
+//    }
+//}

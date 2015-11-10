@@ -22,7 +22,6 @@ import java.util.List;
 public class FavoritesActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     ListView listCities;
-
     protected GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
 
@@ -36,7 +35,6 @@ public class FavoritesActivity extends Activity implements GoogleApiClient.Conne
         FavoriteCitiesAdapter adapter = new FavoriteCitiesAdapter(getBaseContext(), cities, rootView);
         listCities.setAdapter(adapter);
     }
-
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
