@@ -1,10 +1,6 @@
 package edu.uco.dtavarespereira.wanderlust;
 
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -23,13 +19,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.ArrayList;
 
@@ -61,7 +54,6 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         location = new Location("");
         mLastLocation = new Location("");
         buildGoogleApiClient();
-        mGoogleApiClient.connect();
 
         tvCityName = (TextView) findViewById(R.id.tv_city_name);
         swFavorite = (Switch) findViewById(R.id.sw_favorite);
@@ -79,8 +71,6 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         tempMax = intent.getStringExtra("temp_max");
         windSpeed = intent.getStringExtra("windSpeed");
         description = intent.getStringExtra("description");
-
-        setUpMapIfNeeded();
 
         swFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -148,6 +138,13 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
 
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+
     }
 
     @Override
@@ -234,6 +231,8 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
     public void onConnected(Bundle bundle) {
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
+
+        setUpMapIfNeeded();
     }
 
     @Override
