@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class FilteredPlacesToVisit extends Activity {
     ListView places;
     ArrayList<ArrayList<String>> placesNames;
-    ArrayList<String> names;
+    ArrayList<String> names, ids;
     ArrayList<Location> locationsArray;
 
     @Override
@@ -32,6 +32,7 @@ public class FilteredPlacesToVisit extends Activity {
         int j = intent.getIntExtra("size", 0);
         placesNames = new ArrayList<>();
         locationsArray = new ArrayList<>();
+        ids = new ArrayList<>();
 
         for(int i = 0; i < j; i++){
             placesNames.add(i,intent.getStringArrayListExtra("data " + i));
@@ -39,6 +40,8 @@ public class FilteredPlacesToVisit extends Activity {
             locationsArray.get(i).setLatitude(intent.getDoubleExtra("location lat " + i, 0));
             locationsArray.get(i).setLongitude(intent.getDoubleExtra("location lng " + i, 0));
         }
+
+        ids = intent.getStringArrayListExtra("ids");
 
       names = new ArrayList<>();
         for(ArrayList places : placesNames){
@@ -72,6 +75,7 @@ public class FilteredPlacesToVisit extends Activity {
                 intentFiltered.putExtra("address",formatted_address);
                 intentFiltered.putExtra("website",website);
                 intentFiltered.putExtra("phone",formatted_phone_number);
+                intentFiltered.putExtra("position", position);
                 intentFiltered.putExtra("lat", locationsArray.get(position).getLatitude());
                 intentFiltered.putExtra("lng", locationsArray.get(position).getLongitude());
                 startActivity(intentFiltered);

@@ -1,57 +1,91 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="edu.uco.dtavarespereira.wanderlust.PlaceInformation"
     android:id="@+id/l">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="21 Club"
-        android:id="@+id/nameView"
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="130dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="@drawable/city_bg"
+        android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="21 W 52nd St,New York, NY 10019"
-        android:id="@+id/address"
-        android:layout_below="@+id/nameView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="126dp"
-        android:layout_marginTop="69dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See in map"
+            android:id="@+id/button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/phone"
+            android:textColor="@color/accent"
+            android:background="@android:color/transparent" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="21club.com"
-        android:id="@+id/website"
-        android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/address" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignEnd="@id/ll1"
+        android:layout_below="@+id/ll1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="(212) 582-7200"
-        android:id="@+id/phone"
-        android:layout_below="@+id/website"
-        android:layout_alignEnd="@+id/website" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="\n 21 Club \n"
+            android:id="@+id/nameView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingRight="30dp"
+            android:paddingLeft="20dp"
+            android:textColor="@color/background"
+            android:background="#37474F" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="See in map"
-        android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/phone"
-        android:layout_marginBottom="72dp" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="\n \n \n 21 W 52nd St, New York, NY 10019 \n"
+            android:id="@+id/address"
+            android:layout_below="@+id/nameView"
+            android:layout_alignParentEnd="true"
+            android:textAlignment="center"
+            android:textColor="@color/background" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="\n 21club.com"
+            android:id="@+id/website"
+            android:layout_centerVertical="true"
+            android:layout_alignEnd="@+id/address"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textColor="@color/background" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="\n (212) 582-7200"
+            android:id="@+id/phone"
+            android:layout_above="@+id/button"
+            android:layout_alignEnd="@+id/website"
+            android:textAlignment="center"
+            android:editable="false"
+            android:textColor="@color/background" />
+
+    </LinearLayout>
 
 </RelativeLayout>

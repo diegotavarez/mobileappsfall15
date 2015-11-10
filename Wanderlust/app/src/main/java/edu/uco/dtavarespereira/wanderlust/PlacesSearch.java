@@ -14,12 +14,16 @@ import java.util.ArrayList;
 public class PlacesSearch {
 
     private static Location loc = new Location("");
+    private static ArrayList<String> ids = new ArrayList<>();
     private static int resultLenght = 0;
     public static Location getLocation(){
         return loc;
     }
     public static int getLenght(){
         return resultLenght;
+    }
+    public static ArrayList getIds(){
+        return ids;
     }
 
     public static ArrayList<String> getData(String data, int pos) throws JSONException {
@@ -46,6 +50,8 @@ public class PlacesSearch {
                 JSONObject jArrTemp = jArr.getJSONObject(i);
                 String place_idS = jArrTemp.getString("place_id");
                 resultsReturn.add(place_idS);
+                String idS = jArrTemp.getString("id");
+                ids.add(idS);
             }
         }
         //    JSONObject Objloc = jArr2.getJSONObject("location");
