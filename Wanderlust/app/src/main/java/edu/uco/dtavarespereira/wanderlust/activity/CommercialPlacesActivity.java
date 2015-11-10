@@ -1,4 +1,4 @@
-package edu.uco.dtavarespereira.wanderlust;
+package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,7 +28,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class CommercialPlaces extends Activity {
+import edu.uco.dtavarespereira.wanderlust.PlacesSearch;
+import edu.uco.dtavarespereira.wanderlust.R;
+
+public class CommercialPlacesActivity extends Activity {
 
     private final static String TAG = "GoogleSearchAsyncTask";
     ListView lstCommercialPlaces;
@@ -135,7 +138,7 @@ public class CommercialPlaces extends Activity {
         protected void onPostExecute(ArrayList result) {
             //TODO
 
-            Intent intentMaps = new Intent(CommercialPlaces.this, MapsActivity.class);
+            Intent intentMaps = new Intent(CommercialPlacesActivity.this, MapsActivity.class);
             intentMaps.putExtra("lat", location.getLatitude());
             intentMaps.putExtra("lon", location.getLongitude());
 

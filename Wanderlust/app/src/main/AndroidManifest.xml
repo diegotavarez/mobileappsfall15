@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".InitialActivity"
+            android:name=".activity.InitialActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,22 +28,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FavoritesActivity"
+            android:name=".activity.FavoritesActivity"
             android:label="@string/app_name" >
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".SearchResultsActivity" />
         </activity>
         <activity
-            android:name=".CityDetailActivity"
+            android:name=".activity.CityDetailActivity"
             android:label="@string/title_activity_city_detail" >
         </activity>
         <activity
-            android:name=".PlacesToVisit"
+            android:name=".activity.PlacesToVisit"
             android:label="@string/title_activity_places_to_visit" >
         </activity>
         <activity
-            android:name=".CommercialPlaces"
+            android:name=".activity.CommercialPlacesActivity"
             android:label="@string/title_activity_commercial_places" >
         </activity>
 
@@ -55,11 +55,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".activity.MapsActivity"
             android:label="@string/title_activity_maps" >
         </activity>
         <activity
-            android:name=".SearchResultsActivity"
+            android:name=".activity.SearchResultsActivity"
             android:label="@string/title_activity_search_results" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -70,11 +70,11 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".WeatherInformationActivity"
+            android:name=".activity.WeatherInformationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
         <activity
-            android:name=".FilteredPlacesToVisit"
+            android:name=".activity.FilteredPlacesToVisit"
             android:label="@string/title_activity_filtered_places_to_visit" >
         </activity>
         <activity

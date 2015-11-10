@@ -1,4 +1,4 @@
-package edu.uco.dtavarespereira.wanderlust;
+package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -28,6 +27,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import edu.uco.dtavarespereira.wanderlust.PlacesDetailsSearch;
+import edu.uco.dtavarespereira.wanderlust.PlacesSearch;
+import edu.uco.dtavarespereira.wanderlust.R;
 
 public class PlacesToVisit extends Activity {
 

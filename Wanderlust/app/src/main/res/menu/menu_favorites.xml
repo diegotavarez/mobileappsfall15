@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:wanderlust="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="edu.uco.dtavarespereira.wanderlust.FavoritesActivity">
+    tools:context="edu.uco.dtavarespereira.wanderlust.activity.FavoritesActivity">
     <item android:id="@+id/action_search"
         android:icon="@drawable/ic_action_search"
         android:showAsAction="ifRoom"

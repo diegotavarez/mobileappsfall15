@@ -1,4 +1,4 @@
-package edu.uco.dtavarespereira.wanderlust;
+package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import edu.uco.dtavarespereira.wanderlust.R;
 
 public class WeatherInformationActivity extends Activity {
 

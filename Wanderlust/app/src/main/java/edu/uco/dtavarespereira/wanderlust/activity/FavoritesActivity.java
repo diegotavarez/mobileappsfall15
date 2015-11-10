@@ -1,4 +1,4 @@
-package edu.uco.dtavarespereira.wanderlust;
+package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -18,6 +18,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.List;
+
+import edu.uco.dtavarespereira.wanderlust.adapter.FavoriteCitiesAdapter;
+import edu.uco.dtavarespereira.wanderlust.R;
 
 public class FavoritesActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {

@@ -1,20 +1,20 @@
-package edu.uco.dtavarespereira.wanderlust;
+package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import edu.uco.dtavarespereira.wanderlust.PlaceInformation;
+import edu.uco.dtavarespereira.wanderlust.R;
 
 public class FilteredPlacesToVisit extends Activity {
     ListView places;

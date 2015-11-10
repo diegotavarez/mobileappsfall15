@@ -1,4 +1,4 @@
-package edu.uco.dtavarespereira.wanderlust;
+package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import edu.uco.dtavarespereira.wanderlust.R;
 
 public class MapsActivity extends FragmentActivity {
 

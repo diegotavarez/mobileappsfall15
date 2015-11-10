@@ -3,7 +3,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="@drawable/no_data_bg"
-    tools:context="edu.uco.dtavarespereira.wanderlust.FavoritesActivity">
+    tools:context="edu.uco.dtavarespereira.wanderlust.activity.FavoritesActivity">
 
 
 

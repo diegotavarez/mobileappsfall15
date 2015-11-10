@@ -1,4 +1,4 @@
-package edu.uco.dtavarespereira.wanderlust;
+package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.content.Intent;
 import android.location.Location;
@@ -25,6 +25,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+
+import edu.uco.dtavarespereira.wanderlust.R;
 
 public class CityDetailActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
@@ -112,7 +114,7 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
             @Override
             public void onClick(View v) {
 
-                Intent intentCommercialPlaces = new Intent(getApplication(), CommercialPlaces.class);
+                Intent intentCommercialPlaces = new Intent(getApplication(), CommercialPlacesActivity.class);
                 intentCommercialPlaces.putExtra("cityName", city);
                 intentCommercialPlaces.putExtra("locationLatitude", location.getLatitude());
                 intentCommercialPlaces.putExtra("locationLongitude", location.getLongitude());

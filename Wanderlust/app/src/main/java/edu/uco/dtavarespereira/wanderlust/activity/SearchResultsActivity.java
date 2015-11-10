@@ -1,14 +1,12 @@
-package edu.uco.dtavarespereira.wanderlust;
-
-import android.content.Context;
+package edu.uco.dtavarespereira.wanderlust.activity;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,64 +21,64 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
-public class FavoriteCitiesAdapter extends BaseAdapter {
-    private List<String> cities;
-    private Context context;
-    private View parent;
-    public String cityName;
+import edu.uco.dtavarespereira.wanderlust.JSonData;
+import edu.uco.dtavarespereira.wanderlust.R;
 
-    public FavoriteCitiesAdapter(Context context, List<String> cities, View parent){
-        this.context = context;
-        this.cities = cities;
-        this.parent = parent;
+public class SearchResultsActivity extends Activity {
+    private TextView txtQuery;
+    private String query;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_results);
+
+        // get the action bar
+        ActionBar actionBar = getActionBar();
+
+        // Enabling Back navigation on Action Bar icon
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        txtQuery = (TextView) findViewById(R.id.txtQuery);
+
+        handleIntent(getIntent());
     }
 
     @Override
-    public int getCount(){
-        return cities.size();
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
     }
 
-    public Object getItem(int position){
-        return cities.get(position);
-    }
+    /**
+     * Handling intent data
+     */
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            query = intent.getStringExtra(SearchManager.QUERY);
 
-    public long getItemId(int position){
-        return position;
-    }
+            /**
+             * Use this query to display search results like
+             * 1. Getting the data from SQLite and showing in listview
+             * 2. Making webrequest and displaying the data
+             * For now we just display the query only
+             */
+            txtQuery.setText("Search Query: " + query);
+            int error = 0;
 
-    public View getView(int position, View converView, final ViewGroup parent)
-    {
-        View view = converView;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.favorites_cities_item, parent, false);
-
-        final TextView tvCityName = (TextView) view.findViewById(R.id.tv_city_name_item);
-        tvCityName.setText(cities.get(position));
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cityName = tvCityName.getText().toString();
-                int error = 0;
-
-                for(int i=0; i<cityName.length();i++){
-                    if (!(cityName.charAt(i) >= 'A' && cityName.charAt(i)<= 'Z' || cityName.charAt(i)>='a' && cityName.charAt(i)<='z' || cityName.charAt(i)==' '))
-                        error++;
-                }
-
-                if(error==0) {
-                    new HttpGetTask().execute(cityName);
-                }
-                else {
-                    Toast.makeText(parent.getContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
-                }
+            for(int i=0; i<query.length();i++){
+                if (!(query.charAt(i) >= 'A' && query.charAt(i)<= 'Z' || query.charAt(i)>='a' && query.charAt(i)<='z' || query.charAt(i)==' '))
+                    error++;
             }
-        });
 
-        return view;
-
+            if(error==0) {
+                new HttpGetTask().execute(query);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     class HttpGetTask extends AsyncTask<String, Void, ArrayList<String>> {
@@ -136,7 +134,7 @@ public class FavoriteCitiesAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(ArrayList<String> result) {
             if (result == null || result.size() == 0) {
-                Toast.makeText(parent.getContext(),
+                Toast.makeText(SearchResultsActivity.this,
                         "Invalid weather data. Possibly wrong city",
                         Toast.LENGTH_SHORT).show();
                 return;
@@ -150,12 +148,12 @@ public class FavoriteCitiesAdapter extends BaseAdapter {
             //latitude = result.get(0);
             //longitude = result.get(1);
             //temperature = result.get(2);
-            Toast.makeText(parent.getContext(),result.get(0), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(parent.getContext(), CityDetailActivity.class);
-            intent.putExtra("CITY_NAME", cityName);
+            Toast.makeText(getApplicationContext(),result.get(0), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SearchResultsActivity.this, CityDetailActivity.class);
+            intent.putExtra("CITY_NAME", query);
             intent.putExtra("lat", Double.valueOf(result.get(0)));
             intent.putExtra("lng", Double.valueOf(result.get(1)));
-            parent.getContext().startActivity(intent);
+            startActivity(intent);
 
         }
 
@@ -183,5 +181,4 @@ public class FavoriteCitiesAdapter extends BaseAdapter {
             return data.toString();
         }
     }
-
 }
