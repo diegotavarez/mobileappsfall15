@@ -1,6 +1,7 @@
 package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -20,9 +21,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
@@ -216,8 +219,13 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         mMap.getUiSettings().setZoomControlsEnabled(true); // (+) (-) zoom control bar
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
-        mMap.addMarker(new MarkerOptions().position(cityPosition));
-        mMap.addMarker(new MarkerOptions().position(currentPosition));
+        mMap.addMarker(new MarkerOptions().position(cityPosition).title(city));
+        mMap.addMarker(new MarkerOptions().position(currentPosition).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title("Current Position"));
+
+        mMap.addPolyline(new PolylineOptions()
+                .add(new LatLng(currentPosition.latitude, currentPosition.longitude),
+                        new LatLng(cityPosition.latitude, cityPosition.longitude))
+                .width(5).color(Color.parseColor("#8800897B")).geodesic(true));
     }
 
 
@@ -246,6 +254,8 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
+
 }
 
 //class MyOverlay extends Overlay {
