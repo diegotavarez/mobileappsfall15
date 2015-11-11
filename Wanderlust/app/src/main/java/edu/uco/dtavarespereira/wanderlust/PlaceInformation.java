@@ -3,43 +3,36 @@ package edu.uco.dtavarespereira.wanderlust;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.places.PlacePhotoMetadata;
 import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
-import com.google.android.gms.location.places.PlacePhotoMetadataResult;
-import com.google.android.gms.location.places.Places;
-
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 import edu.uco.dtavarespereira.wanderlust.activity.MapsActivity;
+import edu.uco.dtavarespereira.wanderlust.activity.WebBrowser;
 
-public class PlaceInformation extends Activity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener{
+public class PlaceInformation extends Activity{
     Button button;
     TextView nameView, addressView, websiteView, phoneView;
     String name, formatted_address, formatted_phone_number, website;
     int position;
     ArrayList<String> ids;
 
-
-    String TAG = "edu.uco.dtavarespereira.wanderlust.PlaceInformation";
     ImageView img;
-
-    PlacePhotoMetadataBuffer photoMetadataBuffer;
     Bitmap image;
-    CharSequence attribution;
-    protected GoogleApiClient mGoogleApiClient;
+    String photos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +41,8 @@ public class PlaceInformation extends Activity implements GoogleApiClient.Connec
         final Double lat, lng;
 
 
-        //TODO changes were submitted here in these lines bellow - in case of crush: delete it
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
         ids = PlacesSearch.getIds();
         img = (ImageView) findViewById(R.id.imageView);
-        img.setImageBitmap(image);
 
 
         Intent intent = getIntent();
@@ -66,9 +50,10 @@ public class PlaceInformation extends Activity implements GoogleApiClient.Connec
         formatted_address = intent.getStringExtra("address");
        website = intent.getStringExtra("website");
         formatted_phone_number = intent.getStringExtra("phone");
-        position = intent.getIntExtra("position", 0); //TODO added line
+        position = intent.getIntExtra("position", 0);
         lat = intent.getDoubleExtra("lat", 0);
         lng = intent.getDoubleExtra("lng", 0);
+        photos = intent.getStringExtra("photos");
 
         nameView = (TextView) findViewById(R.id.nameView);
         addressView = (TextView) findViewById(R.id.address);
@@ -76,12 +61,26 @@ public class PlaceInformation extends Activity implements GoogleApiClient.Connec
         phoneView = (TextView) findViewById(R.id.phone);
 
         nameView.setText("\n " + name + "\n ");
-        addressView.setText("\n \n " + formatted_address + "\n ");
+        addressView.setText("\n " + formatted_address + "\n ");
         websiteView.setText("\n " + website);
-        phoneView.setText("\n \n " + formatted_phone_number);
+        phoneView.setText("\n " + formatted_phone_number);
 
+        phoneView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String numberToDial = "tel:"+ formatted_phone_number;
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(numberToDial)));
+            }
+        });
 
-
+        websiteView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(PlaceInformation.this, WebBrowser.class);
+                intent2.putExtra("url", website);
+                startActivity(intent2);
+            }
+        });
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,10 +90,40 @@ public class PlaceInformation extends Activity implements GoogleApiClient.Connec
                 intentMaps.putExtra("lon", lng);
                 intentMaps.putExtra("name", name);
                 startActivity(intentMaps);
-                 //TODO get lgn and lat to set map
             }
         });
+
+
+        //placePhotosAsync();
+
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                if(photos.equals("empty"));
+                else {
+                    try {
+                        InputStream in = new URL("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&" +
+                                "photoreference=" + photos +
+                                "&key=AIzaSyB6b7FiH5aq907kpEril4Q_DSWsEDhfeTs").openStream();
+                        image = BitmapFactory.decodeStream(in);
+                    } catch (Exception e) {
+                        // log error
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                if (image != null){
+                    img.setImageBitmap(image);
+                }
+            }
+
+        }.execute();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,58 +145,6 @@ public class PlaceInformation extends Activity implements GoogleApiClient.Connec
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-        onGetPicture();
-    }
-
-    @Override
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
-
-    public void onGetPicture(){
-        Places.GeoDataApi.getPlacePhotos(mGoogleApiClient, ids.get(position)).setResultCallback(new ResultCallback<PlacePhotoMetadataResult>() {
-            @Override
-            public void onResult(PlacePhotoMetadataResult placePhotoMetadataResult) {
-                if (placePhotoMetadataResult.getStatus().isSuccess()) {
-                    PlacePhotoMetadataBuffer photoMetadata = placePhotoMetadataResult.getPhotoMetadata();
-                    int photoCount = photoMetadata.getCount();
-                   // for (int i = 0; i<photoCount; i++) {
-                        PlacePhotoMetadata placePhotoMetadata = photoMetadata.get(0);
-                    // Get a full-size bitmap for the photo.
-                    image = placePhotoMetadata.getPhoto(mGoogleApiClient).await()
-                            .getBitmap();
-                    // Get the attribution text.
-                    CharSequence attribution = placePhotoMetadata.getAttributions();
-                  //  }
-                    photoMetadata.release();
-                } else {
-                    Log.e(TAG, "No photos returned");
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
     }
 
 }
