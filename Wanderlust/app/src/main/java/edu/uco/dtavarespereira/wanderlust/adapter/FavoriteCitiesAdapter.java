@@ -61,7 +61,9 @@ public class FavoriteCitiesAdapter extends BaseAdapter {
         view = inflater.inflate(R.layout.favorites_cities_item, parent, false);
 
         final TextView tvCityName = (TextView) view.findViewById(R.id.tv_city_name_item);
-        tvCityName.setText(cities.get(position));
+
+        String name = cities.get(position);
+        tvCityName.setText(capitalize(name));
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +156,6 @@ public class FavoriteCitiesAdapter extends BaseAdapter {
             //latitude = result.get(0);
             //longitude = result.get(1);
             //temperature = result.get(2);
-            Toast.makeText(parent.getContext(),result.get(0), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(parent.getContext(), CityDetailActivity.class);
             intent.putExtra("CITY_NAME", cityName);
             intent.putExtra("lat", Double.valueOf(result.get(0)));
@@ -188,4 +189,7 @@ public class FavoriteCitiesAdapter extends BaseAdapter {
         }
     }
 
+    private String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
+    }
 }

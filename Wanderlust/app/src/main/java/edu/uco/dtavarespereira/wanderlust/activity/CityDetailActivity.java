@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import edu.uco.dtavarespereira.wanderlust.R;
@@ -77,19 +78,33 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         windSpeed = intent.getStringExtra("windSpeed");
         description = intent.getStringExtra("description");
 
-        swFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ArrayList<String> favorites = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
+        if(favorites.contains(capitalize(city))) {
+            swFavorite.setChecked(true);
+        }
+            swFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     ArrayList<String> favorites = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
-                    favorites.add(city);
+
+                    if(!favorites.contains(capitalize(city))){
+                        favorites.add(capitalize(city));
+                    }
+
                     InitialActivity.setStringArrayPref(getApplicationContext(), "FAVORITES", favorites);
 
                     Toast.makeText(getApplicationContext(), city + " was marked as favorite.", Toast.LENGTH_SHORT).show();
                 } else {
                     ArrayList<String> favorites = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
-                    favorites.remove(city);
-                    InitialActivity.setStringArrayPref(getApplicationContext(), "FAVORITES", favorites);
+                    ArrayList<String> newList = new ArrayList<String>();
+
+                    for (int i = 0; i < favorites.size(); i++) {
+                        if (capitalize(favorites.get(i))  != capitalize(city)){
+                            newList.add(capitalize(city));
+                        }
+                    }
+                    InitialActivity.setStringArrayPref(getApplicationContext(), "FAVORITES", newList);
 
                     Toast.makeText(getApplicationContext(), city + " was removed from favorites.", Toast.LENGTH_SHORT).show();
                 }
@@ -212,8 +227,6 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         LatLng cityPosition = new LatLng(location.getLatitude(),location.getLongitude());
         LatLng currentPosition = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
-        Toast.makeText(getApplicationContext(),"LAT: "+ mLastLocation.getLatitude(),Toast.LENGTH_SHORT).show();
-
         CameraPosition camera = new CameraPosition.Builder()
                 .target(cityPosition).zoom(10).build();
         mMap.getUiSettings().setZoomControlsEnabled(true); // (+) (-) zoom control bar
@@ -273,6 +286,10 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
             intentInitial.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intentInitial);
         }
+    }
+
+    private String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
 }
 
