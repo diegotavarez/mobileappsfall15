@@ -1,7 +1,6 @@
 package edu.uco.dtavarespereira.wanderlust;
 
 import android.location.Location;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +18,10 @@ public class PlacesDetailsSearch {
     public static Location getLocation(){
         return loc;
     }
+    private static String photo;
+    public static String getPhoto(){
+        return photo;
+    }
 
     public static ArrayList<String> getData(String data) throws JSONException{
 
@@ -27,6 +30,14 @@ public class PlacesDetailsSearch {
         JSONObject jObj = new JSONObject(data);
         JSONObject jArr = jObj.getJSONObject("result");
         //JSONObject jArrTemp = jArr.getJSONObject(0);
+
+        try {
+            JSONArray jPhotos = jArr.getJSONArray("photos");
+            JSONObject firstPhoto = jPhotos.getJSONObject(0);
+            photo = firstPhoto.getString("photo_reference");
+        } catch(JSONException e){
+                photo = "empty";
+            }
 
         JSONObject jArr1 = jArr.getJSONObject("geometry").getJSONObject("location");
         Double lat = jArr1.getDouble("lat");
@@ -49,14 +60,14 @@ public class PlacesDetailsSearch {
             website = jArr.getString("website");
             resultsReturn.add(website);
         } catch(JSONException e){
-            resultsReturn.add("...");
+            resultsReturn.add("");
         }
 
         try{
             formatted_phone_number = jArr.getString("formatted_phone_number");
             resultsReturn.add(formatted_phone_number);
         } catch(JSONException e){
-            resultsReturn.add("...");
+            resultsReturn.add("");
         }
 
 

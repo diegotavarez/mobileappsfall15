@@ -42,7 +42,7 @@ public class PlacesToVisit extends Activity {
     String BASE_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
     String BASE_URL_DETAILS_SEARCH = "https://maps.googleapis.com/maps/api/place/details/json?";
     ArrayList<ArrayList<String>> placesNames = new ArrayList<>();
-
+    ArrayList<String> photos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +103,7 @@ public class PlacesToVisit extends Activity {
             s.add(params[0]);
             ArrayList<String> resultArray = null;
             locationArray = new ArrayList<>();
+            photos = new ArrayList<>();
             ConnectivityManager connMgr = (ConnectivityManager)
                     getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -148,8 +149,9 @@ public class PlacesToVisit extends Activity {
                         ArrayList<String> placesData = PlacesDetailsSearch.getData(data1);
                             System.out.println("1 PLACESDATA IS " + placesData);
                             placesNames.add(i, placesData);
-                            i++;
                             locationArray.add(PlacesDetailsSearch.getLocation());
+                            photos.add(PlacesDetailsSearch.getPhoto());
+                        i++;
                     }
                     resultArray.removeAll(resultArray);
                 } catch (MalformedURLException exception){
@@ -177,12 +179,13 @@ public class PlacesToVisit extends Activity {
 
             Intent intentFiltered = new Intent(PlacesToVisit.this, FilteredPlacesToVisit.class);
             intentFiltered.putExtra("size", placesNames.size());
-            System.out.println("1 PLACESNAMES IS " + placesNames);
+           // System.out.println("1 PLACESNAMES IS " + placesNames);
             for(int i = 0; i < placesNames.size(); i++){
                 intentFiltered.putExtra("data " + i, placesNames.get(i));
                 intentFiltered.putExtra("location lat " + i, locationArray.get(i).getLatitude());
                 intentFiltered.putExtra("location lng " + i, locationArray.get(i).getLongitude());
             }
+            intentFiltered.putExtra("photos", photos);
             placesNames.removeAll(placesNames);
             locationArray.removeAll(locationArray);
             startActivity(intentFiltered);

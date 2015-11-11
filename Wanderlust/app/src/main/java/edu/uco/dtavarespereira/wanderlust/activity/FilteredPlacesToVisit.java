@@ -21,6 +21,7 @@ public class FilteredPlacesToVisit extends Activity {
     ArrayList<ArrayList<String>> placesNames;
     ArrayList<String> names, ids;
     ArrayList<Location> locationsArray;
+    ArrayList<String> photos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class FilteredPlacesToVisit extends Activity {
         placesNames = new ArrayList<>();
         locationsArray = new ArrayList<>();
         ids = new ArrayList<>();
+        photos = new ArrayList<>();
 
         for(int i = 0; i < j; i++){
             placesNames.add(i,intent.getStringArrayListExtra("data " + i));
@@ -42,6 +44,7 @@ public class FilteredPlacesToVisit extends Activity {
         }
 
         ids = intent.getStringArrayListExtra("ids");
+        photos = intent.getStringArrayListExtra("photos");
 
       names = new ArrayList<>();
         for(ArrayList places : placesNames){
@@ -67,10 +70,10 @@ public class FilteredPlacesToVisit extends Activity {
 
                 String name, formatted_address, formatted_phone_number, website;
                 ArrayList<String> s = placesNames.get(position);
-                name = s.get(0).toString();
-                formatted_address = s.get(1).toString();
-                   website = s.get(2).toString();
-                   formatted_phone_number = s.get(3).toString();
+                name = s.get(0);
+                formatted_address = s.get(1);
+                   website = s.get(2);
+                   formatted_phone_number = s.get(3);
                 intentFiltered.putExtra("name",name);
                 intentFiltered.putExtra("address",formatted_address);
                 intentFiltered.putExtra("website",website);
@@ -78,6 +81,7 @@ public class FilteredPlacesToVisit extends Activity {
                 intentFiltered.putExtra("position", position);
                 intentFiltered.putExtra("lat", locationsArray.get(position).getLatitude());
                 intentFiltered.putExtra("lng", locationsArray.get(position).getLongitude());
+                intentFiltered.putExtra("photos", photos.get(position));
                 startActivity(intentFiltered);
             }
         });
