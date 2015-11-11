@@ -105,4 +105,10 @@ public class FavoritesActivity extends Activity implements GoogleApiClient.Conne
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        this.finish();
+    }
 }

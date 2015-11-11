@@ -256,39 +256,24 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
     }
 
 
+    @Override
+    public void onBackPressed()
+    {
+        CityDetailActivity.this.finish();
+
+        ArrayList<String> favorites = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
+        if (favorites.size() > 0) {
+            Intent intentFav = new Intent(CityDetailActivity.this, FavoritesActivity.class);
+            intentFav.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intentFav);
+        }
+        else
+        {
+            Intent intentInitial = new Intent(CityDetailActivity.this, InitialActivity.class);
+            intentInitial.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intentInitial);
+        }
+    }
 }
 
-//class MyOverlay extends Overlay {
-//
-//    public MyOverlay() {
-//
-//    }
-//
-//    public void draw(Canvas canvas, MapView mapv, boolean shadow) {
-//        super.draw(canvas, mapv, shadow);
-//
-//        Paint mPaint = new Paint();
-//        mPaint.setDither(true);
-//        mPaint.setColor(Color.RED);
-//        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-//        mPaint.setStrokeJoin(Paint.Join.ROUND);
-//        mPaint.setStrokeCap(Paint.Cap.ROUND);
-//        mPaint.setStrokeWidth(2);
-//
-//        Barcode.GeoPoint gP1 = new Barcode.GeoPoint(19240000, -99120000);
-//        GeoPoint gP2 = new GeoPoint(37423157, -122085008);
-//
-//        Point p1 = new Point();
-//        Point p2 = new Point();
-//        Path path = new Path();
-//
-//        Projection projection = mapv.getProjection();
-//        projection.toPixels(gP1, p1);
-//        projection.toPixels(gP2, p2);
-//
-//        path.moveTo(p2.x, p2.y);
-//        path.lineTo(p1.x, p1.y);
-//
-//        canvas.drawPath(path, mPaint);
-//    }
-//}
+
