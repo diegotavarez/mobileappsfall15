@@ -81,6 +81,10 @@
             android:name=".PlaceInformation"
             android:label="@string/title_activity_place_information" >
         </activity>
+        <activity
+            android:name=".activity.WebBrowser"
+            android:label="@string/title_activity_web_browser" >
+        </activity>
     </application>
 
 </manifest>
