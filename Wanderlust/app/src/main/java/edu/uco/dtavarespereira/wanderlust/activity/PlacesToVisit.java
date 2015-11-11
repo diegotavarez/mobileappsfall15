@@ -34,7 +34,6 @@ import edu.uco.dtavarespereira.wanderlust.R;
 
 public class PlacesToVisit extends Activity {
 
-
     private final static String TAG = "GoogleSearchAsyncTask";
     ListView placesToGo;
     ArrayAdapter<CharSequence> adapter, adp;
@@ -43,6 +42,7 @@ public class PlacesToVisit extends Activity {
     String BASE_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
     String BASE_URL_DETAILS_SEARCH = "https://maps.googleapis.com/maps/api/place/details/json?";
     ArrayList<ArrayList<String>> placesNames = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

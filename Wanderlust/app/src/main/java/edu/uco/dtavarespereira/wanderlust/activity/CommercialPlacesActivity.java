@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import edu.uco.dtavarespereira.wanderlust.PlacesDetailsSearch;
 import edu.uco.dtavarespereira.wanderlust.PlacesSearch;
 import edu.uco.dtavarespereira.wanderlust.R;
 
@@ -35,9 +36,12 @@ public class CommercialPlacesActivity extends Activity {
 
     private final static String TAG = "GoogleSearchAsyncTask";
     ListView lstCommercialPlaces;
-    ArrayAdapter<CharSequence> adapter;
+    ArrayAdapter<CharSequence> adapter, adp;
+    ArrayList<Location> locationArray;
     Location location = new Location("");
     String BASE_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
+    String BASE_URL_DETAILS_SEARCH = "https://maps.googleapis.com/maps/api/place/details/json?";
+    ArrayList<ArrayList<String>> placesNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +50,13 @@ public class CommercialPlacesActivity extends Activity {
 
         lstCommercialPlaces = (ListView) findViewById(R.id.lstCommercialPlaces);
         adapter = ArrayAdapter.createFromResource(this, R.array.commercialPlacesList, android.R.layout.simple_list_item_1);
-
-        lstCommercialPlaces.setAdapter(adapter);
+        adp = ArrayAdapter.createFromResource(this,R.array.commercialPlacesListNoFilterList, android.R.layout.simple_list_item_1);
+        lstCommercialPlaces.setAdapter(adp);
 
 
         Intent intent = getIntent();
         String city = intent.getStringExtra("cityName");
+        city.trim();
         final Location location = new Location(city);
         location.setLatitude(intent.getDoubleExtra("locationLatitude", 0.0));
         location.setLongitude(intent.getDoubleExtra("locationLongitude", 0.0));
@@ -61,7 +66,7 @@ public class CommercialPlacesActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
                 new GoogleSearchASyncTask().execute(new String[]{String.valueOf(location.getLatitude()),
-                        String.valueOf(location.getLongitude()), lstCommercialPlaces.getItemAtPosition(position).toString()});
+                        String.valueOf(location.getLongitude()), adapter.getItem(position).toString()});
             }
         });
     }
@@ -94,6 +99,7 @@ public class CommercialPlacesActivity extends Activity {
             ArrayList<String> s = new ArrayList<>();
             s.add(params[0]);
             ArrayList<String> resultArray = null;
+            locationArray = new ArrayList<>();
             ConnectivityManager connMgr = (ConnectivityManager)
                     getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -104,7 +110,7 @@ public class CommercialPlacesActivity extends Activity {
                 try{
                     Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                             .appendQueryParameter("location", params[0] + "," + params[1])
-                            .appendQueryParameter("radius", "500")
+                            .appendQueryParameter("radius", "5000")
                             .appendQueryParameter("types", params[2])
                             .appendQueryParameter("key", "AIzaSyBRfUWJUz5x9TnFaIUbqjsrKC_q_mTBIQo")
                             .build();
@@ -115,7 +121,35 @@ public class CommercialPlacesActivity extends Activity {
                             httpUrlConnection.getInputStream());
                     String data = readStream(in);
                     resultArray = PlacesSearch.getData(data, 0);
-                    location = PlacesSearch.getLocation();
+                    int k = PlacesSearch.getLenght();
+                    for(int i = 1; i < k; i++){
+                        resultArray = PlacesSearch.getData(data, i);
+                    } //TODO array needs to be array
+                    httpUrlConnection.disconnect();
+
+                    in = null;
+                    httpUrlConnection = null;
+                    int i = 0;
+                    for(String places : resultArray) {
+                        builtUri = Uri.parse(BASE_URL_DETAILS_SEARCH).buildUpon()
+                                .appendQueryParameter("placeid", places)
+                                .appendQueryParameter("key", "AIzaSyB6b7FiH5aq907kpEril4Q_DSWsEDhfeTs")
+                                .build();
+                        URL url1 = new URL(builtUri.toString());
+                        httpUrlConnection = (HttpURLConnection) url1.openConnection();
+                        in = new BufferedInputStream(
+                                httpUrlConnection.getInputStream());
+                        String data1 = readStream(in);
+
+
+                        ArrayList<String> placesData = PlacesDetailsSearch.getData(data1);
+                        System.out.println("1 PLACESDATA IS " + placesData);
+                        placesNames.add(i, placesData);
+                        i++;
+                        locationArray.add(PlacesDetailsSearch.getLocation());
+                    }
+                    resultArray.removeAll(resultArray);
+
                 } catch (MalformedURLException exception){
                     Log.e(TAG, "MalFormedURLException");
                 } catch (IOException exception){
@@ -136,13 +170,19 @@ public class CommercialPlacesActivity extends Activity {
 
         @Override
         protected void onPostExecute(ArrayList result) {
-            //TODO
+            // Toast.makeText(getApplicationContext(), placesNames.toString(), Toast.LENGTH_SHORT).show();
 
-            Intent intentMaps = new Intent(CommercialPlacesActivity.this, MapsActivity.class);
-            intentMaps.putExtra("lat", location.getLatitude());
-            intentMaps.putExtra("lon", location.getLongitude());
-
-            startActivity(intentMaps);
+            Intent intentFiltered = new Intent(CommercialPlacesActivity.this, FilteredPlacesToVisit.class);
+            intentFiltered.putExtra("size", placesNames.size());
+            System.out.println("1 PLACESNAMES IS " + placesNames);
+            for(int i = 0; i < placesNames.size(); i++){
+                intentFiltered.putExtra("data " + i, placesNames.get(i));
+                intentFiltered.putExtra("location lat " + i, locationArray.get(i).getLatitude());
+                intentFiltered.putExtra("location lng " + i, locationArray.get(i).getLongitude());
+            }
+            placesNames.removeAll(placesNames);
+            locationArray.removeAll(locationArray);
+            startActivity(intentFiltered);
 
         }
 
@@ -161,5 +201,4 @@ public class CommercialPlacesActivity extends Activity {
             return "";
         }
     }
-
 }
