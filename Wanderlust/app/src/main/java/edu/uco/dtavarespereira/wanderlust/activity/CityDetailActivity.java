@@ -50,7 +50,7 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
     protected GoogleApiClient mGoogleApiClient;
 
 
-    String temperature, humidity, tempMin, tempMax, windSpeed, description;
+    String temperature, humidity, tempMin, tempMax, windSpeed, description, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) throws  SecurityException{
@@ -77,6 +77,7 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         tempMax = intent.getStringExtra("temp_max");
         windSpeed = intent.getStringExtra("windSpeed");
         description = intent.getStringExtra("description");
+        id = intent.getStringExtra("id");
 
         ArrayList<String> favorites = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
         if(favorites.contains(capitalize(city))) {
@@ -153,6 +154,7 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
                 intentWeatherInformation.putExtra("tempMax", tempMax);
                 intentWeatherInformation.putExtra("wSpeed", windSpeed);
                 intentWeatherInformation.putExtra("descrip", description);
+                intentWeatherInformation.putExtra("id", id);
                 startActivity(intentWeatherInformation);
 
 

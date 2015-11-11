@@ -38,7 +38,8 @@ public class JSonData {
             result.add(windObj.getString("speed"));//6
 
             JSONArray descObj = forecast.getJSONArray("weather");
-            result.add(descObj.getJSONObject(0).getString("description"));//7
+	    result.add(descObj.getJSONObject(0).getString("id"));//7
+            result.add(descObj.getJSONObject(0).getString("description"));//8
 
 
             return result;
