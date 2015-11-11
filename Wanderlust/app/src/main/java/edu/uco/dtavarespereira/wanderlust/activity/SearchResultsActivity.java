@@ -55,6 +55,7 @@ public class SearchResultsActivity extends Activity {
      * Handling intent data
      */
     private void handleIntent(Intent intent) {
+
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
 
@@ -74,6 +75,10 @@ public class SearchResultsActivity extends Activity {
 
             if(error==0) {
                 new HttpGetTask().execute(query);
+
+                Intent intentDetails = new Intent(SearchResultsActivity.this, CityDetailActivity.class);
+                intentDetails.putExtra("CITY_NAME", query);
+                startActivity(intentDetails);
             }
             else {
                 Toast.makeText(getApplicationContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
@@ -148,7 +153,6 @@ public class SearchResultsActivity extends Activity {
             //latitude = result.get(0);
             //longitude = result.get(1);
             //temperature = result.get(2);
-            Toast.makeText(getApplicationContext(),result.get(0), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SearchResultsActivity.this, CityDetailActivity.class);
             intent.putExtra("CITY_NAME", query);
             intent.putExtra("lat", Double.valueOf(result.get(0)));
