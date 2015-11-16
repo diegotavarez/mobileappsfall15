@@ -262,7 +262,7 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
             intent.putExtra("temp_min", result.get(4));
             intent.putExtra("temp_max", result.get(5));
             intent.putExtra("windSpeed", result.get(6));
-	    intent.putExtra("id", result.get(7));
+	        intent.putExtra("id", result.get(7));
             intent.putExtra("description", result.get(8));
             startActivity(intent);
 

@@ -33,21 +33,51 @@
         android:elevation="16dp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:inputType="textCapWords"
-            android:text="New Text"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp"
-            android:id="@+id/tv_city_name" />
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
+                android:text="New Text"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:id="@+id/tv_city_name" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="25dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:scaleType="fitXY"
+                android:id="@+id/weather_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30F"
+                    android:textSize="20sp"
+                    android:textColor="#FFFFFF"
+                    android:id="@+id/tv_temperature" />
+                </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
             <Button
                 android:layout_width="101dp"

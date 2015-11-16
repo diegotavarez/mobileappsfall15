@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,12 +38,13 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
-    TextView tvCityName;
+    TextView tvCityName, tvTemperature;
     Switch swFavorite;
     String city;
     Button placesToVisit;
     Button btnCommercialPlaces;
     Button btWeatherCondition;
+    ImageView weatherIcon;
 
     Location location;
     Location mLastLocation;
@@ -62,6 +64,7 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         buildGoogleApiClient();
 
         tvCityName = (TextView) findViewById(R.id.tv_city_name);
+        tvTemperature = (TextView) findViewById(R.id.tv_temperature);
         swFavorite = (Switch) findViewById(R.id.sw_favorite);
 
         final Intent intent = getIntent();
@@ -78,6 +81,10 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         windSpeed = intent.getStringExtra("windSpeed");
         description = intent.getStringExtra("description");
         id = intent.getStringExtra("id");
+
+        tvTemperature.setText(temperature.substring(0,temperature.indexOf(".")) + "˚ C");
+        weatherIcon = (ImageView) findViewById(R.id.weather_icon);
+        WeatherInformationActivity.defineImage(Integer.parseInt(id), weatherIcon);
 
         ArrayList<String> favorites = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
         if(favorites.contains(capitalize(city))) {

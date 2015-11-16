@@ -14,7 +14,7 @@ import edu.uco.dtavarespereira.wanderlust.R;
 public class WeatherInformationActivity extends Activity {
 
     TextView city, description, temperature, humidity, tempMin, tempMax, windSpeed;
-    ImageView imageDescription;
+    private static ImageView imageDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class WeatherInformationActivity extends Activity {
         tempMax.setText(intent.getStringExtra("tempMax"));
         windSpeed.setText(intent.getStringExtra("wSpeed"));
 
-        defineImage(Integer.parseInt(intent.getStringExtra("id")));
+        defineImage(Integer.parseInt(intent.getStringExtra("id")), imageDescription);
     }
 
     @Override
@@ -64,26 +64,28 @@ public class WeatherInformationActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    void defineImage(int id) {
+    public static void defineImage(int id, ImageView imageView) {
 
         if (id >= 200 && id <= 232) {
-            imageDescription.setImageResource(R.mipmap.thunderstorm);
+            imageView.setImageResource(R.mipmap.thunderstorm);
         } else if (id >= 300 && id <= 321) {
-            imageDescription.setImageResource(R.mipmap.shower_rain);
+            imageView.setImageResource(R.mipmap.shower_rain);
         } else if (id >= 500 && id <= 531) {
-            imageDescription.setImageResource(R.mipmap.rain);
+            imageView.setImageResource(R.mipmap.rain);
         } else if (id >= 600 && id <= 622) {
-            imageDescription.setImageResource(R.mipmap.snow);
+            imageView.setImageResource(R.mipmap.snow);
         } else if (id >= 701 && id <= 781) {
-            imageDescription.setImageResource(R.mipmap.mist);
+            imageView.setImageResource(R.mipmap.mist);
         } else if (id == 800) {
-            imageDescription.setImageResource(R.mipmap.clear_sky);
+            imageView.setImageResource(R.mipmap.clear_sky);
         } else if (id == 801) {
-            imageDescription.setImageResource(R.mipmap.few_clouds);
+            imageView.setImageResource(R.mipmap.few_clouds);
         } else if (id == 802) {
-            imageDescription.setImageResource(R.mipmap.scattered_clouds);
+            imageView.setImageResource(R.mipmap.scattered_clouds);
         } else if (id == 803) {
-            imageDescription.setImageResource(R.mipmap.broken_clouds);
+            imageView.setImageResource(R.mipmap.broken_clouds);
+        }else{
+            imageView.setImageResource(R.mipmap.scattered_clouds);
         }
 
     }
