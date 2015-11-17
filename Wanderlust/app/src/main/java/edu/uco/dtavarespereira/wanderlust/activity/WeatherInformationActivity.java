@@ -34,10 +34,10 @@ public class WeatherInformationActivity extends Activity {
         city.setText(intent.getStringExtra("city"));
         description.setText(intent.getStringExtra("descrip"));
         temperature.setText(intent.getStringExtra("temp") + (char) 0x00B0);
-        humidity.setText(intent.getStringExtra("humidity"));
+        humidity.setText(intent.getStringExtra("humidity") + "%");
         tempMin.setText(intent.getStringExtra("tempMin"));
         tempMax.setText(intent.getStringExtra("tempMax"));
-        windSpeed.setText(intent.getStringExtra("wSpeed"));
+        windSpeed.setText(intent.getStringExtra("wSpeed") + "mph");
 
         defineImage(Integer.parseInt(intent.getStringExtra("id")), imageDescription);
     }
