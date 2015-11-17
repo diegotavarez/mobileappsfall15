@@ -76,9 +76,9 @@ public class SearchResultsActivity extends Activity {
             if(error==0) {
                 new HttpGetTask().execute(query);
 
-                Intent intentDetails = new Intent(SearchResultsActivity.this, CityDetailActivity.class);
-                intentDetails.putExtra("CITY_NAME", query);
-                startActivity(intentDetails);
+//                Intent intentDetails = new Intent(SearchResultsActivity.this, CityDetailActivity.class);
+//                intentDetails.putExtra("CITY_NAME", query);
+//                startActivity(intentDetails);
             }
             else {
                 Toast.makeText(getApplicationContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
