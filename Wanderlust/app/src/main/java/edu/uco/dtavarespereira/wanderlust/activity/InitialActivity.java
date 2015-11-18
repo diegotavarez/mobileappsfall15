@@ -36,6 +36,7 @@ import java.util.ArrayList;
 
 import edu.uco.dtavarespereira.wanderlust.JSonData;
 import edu.uco.dtavarespereira.wanderlust.R;
+import edu.uco.dtavarespereira.wanderlust.util.FieldValidation;
 
 public class InitialActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener
@@ -67,22 +68,22 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
         btSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (checkValidation()) {
+                    cityName = etCityName.getText().toString();
+                    int error = 0;
 
-                cityName = etCityName.getText().toString();
-                int error = 0;
+                    for (int i = 0; i < cityName.length(); i++) {
+                        if (!(cityName.charAt(i) >= 'A' && cityName.charAt(i) <= 'Z' || cityName.charAt(i) >= 'a' && cityName.charAt(i) <= 'z' || cityName.charAt(i) == ' '))
+                            error++;
+                    }
 
-                for (int i = 0; i < cityName.length(); i++) {
-                    if (!(cityName.charAt(i) >= 'A' && cityName.charAt(i) <= 'Z' || cityName.charAt(i) >= 'a' && cityName.charAt(i) <= 'z' || cityName.charAt(i) == ' '))
-                        error++;
-                }
-
-                if (error == 0) {
-                    new HttpGetTask().execute(cityName);
-                } else {
-                    Toast.makeText(getApplicationContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
+                    if (error == 0) {
+                        new HttpGetTask().execute(cityName);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
-
                 /*if (etCityName.getText().toString().trim().equals("")) {
                     Toast.makeText(getApplicationContext(), "Please type a city", Toast.LENGTH_SHORT).show();
                 } else {
@@ -92,6 +93,16 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
                 }
             }*/
         });
+    }
+
+    private boolean checkValidation() {
+        boolean ret = true;
+        final FieldValidation validation = new FieldValidation(InitialActivity.this);
+        if (!validation.hasText(etCityName)) {
+            ret = false;
+        }
+
+        return ret;
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -291,6 +302,8 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
             }
             return data.toString();
         }
+
+
     }
 
 }
