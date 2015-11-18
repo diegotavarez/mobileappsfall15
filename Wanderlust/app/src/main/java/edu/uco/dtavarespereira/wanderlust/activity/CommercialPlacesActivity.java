@@ -56,6 +56,7 @@ public class CommercialPlacesActivity extends Activity {
 
         Intent intent = getIntent();
         String city = intent.getStringExtra("cityName");
+        setTitle(city);
         city.trim();
         final Location location = new Location(city);
         location.setLatitude(intent.getDoubleExtra("locationLatitude", 0.0));
