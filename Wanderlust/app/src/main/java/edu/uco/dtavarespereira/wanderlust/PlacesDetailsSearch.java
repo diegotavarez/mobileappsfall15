@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Dani on 11/3/15.
@@ -48,7 +50,7 @@ public class PlacesDetailsSearch {
         // jArr2 = jArr.getJSONObject("opening_hours").getJSONObject("weekday_text"); //TODO show what time it works
 
 
-        String formatted_address, formatted_phone_number, website, name;
+        String formatted_address, formatted_phone_number, website, name, rating;
 
         name = jArr.getString("name");
         resultsReturn.add(name);
@@ -70,6 +72,12 @@ public class PlacesDetailsSearch {
             resultsReturn.add("");
         }
 
+        try {
+            rating = String.valueOf(jArr.getDouble("rating"));
+            resultsReturn.add(rating);
+        } catch(JSONException e){
+                resultsReturn.add("0");
+            }
 
         loc = new Location("");
         loc.setLatitude(lat);

@@ -27,9 +27,9 @@
         android:id="@+id/ll2"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignEnd="@id/ll1"
-        android:layout_below="@+id/ll1">
+        android:layout_height="130dp"
+        android:layout_below="@+id/ll1"
+        android:layout_alignParentEnd="true">
 
         <TextView
             android:layout_width="fill_parent"
@@ -44,71 +44,87 @@
             android:textColor="@color/background"
             android:background="#37474F" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="See in map"
-            android:id="@+id/button"
-            android:layout_alignParentBottom="true"
-            android:layout_alignEnd="@+id/phone"
-            android:textColor="@color/accent"
-            android:background="@android:color/transparent" />
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="See in map"
+                android:id="@+id/button"
+                android:layout_alignParentBottom="true"
+                android:layout_alignEnd="@+id/phone"
+                android:textColor="@color/accent"
+                android:background="@android:color/transparent" />
+
+            <RatingBar
+                android:layout_width="266dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:paddingStart="30dp"
+                android:layout_weight="0.27" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignEnd="@id/ll2"
+        android:layout_below="@+id/ll2">
+
+        <RelativeLayout
+            android:layout_width="44dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical">
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="314dp"
             android:layout_height="match_parent">
 
-            <RelativeLayout
-                android:layout_width="44dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="\n \n 21 W 52nd St, New York, NY 10019 \n"
+                android:id="@+id/address"
+                android:layout_below="@+id/nameView"
+                android:layout_alignParentEnd="true"
+                android:textAlignment="center"
+                android:textColor="@color/background" />
 
-            </RelativeLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="\n 21club.com"
+                android:id="@+id/website"
+                android:layout_centerVertical="true"
+                android:layout_alignEnd="@+id/address"
+                android:clickable="true"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/background" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="314dp"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="\n \n 21 W 52nd St, New York, NY 10019 \n"
-                    android:id="@+id/address"
-                    android:layout_below="@+id/nameView"
-                    android:layout_alignParentEnd="true"
-                    android:textAlignment="center"
-                    android:textColor="@color/background" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="\n 21club.com"
-                    android:id="@+id/website"
-                    android:layout_centerVertical="true"
-                    android:layout_alignEnd="@+id/address"
-                    android:clickable="true"
-                    android:layout_gravity="center_horizontal"
-                    android:textAlignment="center"
-                    android:textColor="@color/background" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="\n (212) 582-7200"
-                    android:id="@+id/phone"
-                    android:layout_above="@+id/button"
-                    android:layout_alignEnd="@+id/website"
-                    android:textAlignment="center"
-                    android:clickable="true"
-                    android:editable="false"
-                    android:textColor="@color/background" />
-
-            </LinearLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="\n (212) 582-7200"
+                android:id="@+id/phone"
+                android:layout_above="@+id/button"
+                android:layout_alignEnd="@+id/website"
+                android:textAlignment="center"
+                android:clickable="true"
+                android:editable="false"
+                android:textColor="@color/background" />
 
         </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ import edu.uco.dtavarespereira.wanderlust.R;
 
 public class FilteredPlacesToVisit extends Activity {
     ListView places;
+    Spinner spinner;
     ArrayList<ArrayList<String>> placesNames;
     ArrayList<String> names, ids;
     ArrayList<Location> locationsArray;
@@ -29,6 +31,7 @@ public class FilteredPlacesToVisit extends Activity {
         setContentView(R.layout.activity_filtered_places_to_visit);
 
         places = (ListView) findViewById(R.id.places);
+        spinner = (Spinner) findViewById(R.id.spinner);
       final Intent intent = getIntent();
         int j = intent.getIntExtra("size", 0);
         placesNames = new ArrayList<>();
@@ -61,23 +64,27 @@ public class FilteredPlacesToVisit extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
         places.setAdapter(adapter);
 
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.orderBy, android.R.layout.simple_list_item_1);
+        spinner.setAdapter(adapter2);
 
-       places.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        places.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
                 Intent intentFiltered = new Intent(FilteredPlacesToVisit.this, PlaceInformation.class);
 
-                String name, formatted_address, formatted_phone_number, website;
+                String name, formatted_address, formatted_phone_number, website, rating;
                 ArrayList<String> s = placesNames.get(position);
                 name = s.get(0);
                 formatted_address = s.get(1);
                    website = s.get(2);
                    formatted_phone_number = s.get(3);
+                rating = s.get(4);
                 intentFiltered.putExtra("name",name);
                 intentFiltered.putExtra("address",formatted_address);
                 intentFiltered.putExtra("website",website);
                 intentFiltered.putExtra("phone",formatted_phone_number);
+                intentFiltered.putExtra("rating", rating);
                 intentFiltered.putExtra("position", position);
                 intentFiltered.putExtra("lat", locationsArray.get(position).getLatitude());
                 intentFiltered.putExtra("lng", locationsArray.get(position).getLongitude());

@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Dani on 10/27/15.
@@ -16,6 +18,8 @@ public class PlacesSearch {
     private static Location loc = new Location("");
     private static ArrayList<String> ids = new ArrayList<>();
     private static int resultLenght = 0;
+    protected static ArrayList<String> resultsToOrder;
+    protected static boolean bigEnoughToOrder = false;
     public static Location getLocation(){
         return loc;
     }
@@ -36,15 +40,21 @@ public class PlacesSearch {
         Double lng = jArr1.getDouble("lng");
 
         ArrayList<String> resultsReturn = new ArrayList<>();
+        resultsToOrder = new ArrayList<>();
         String id, place_id, place_reference;
 
         /* TODO break array result into parts - jArr.length()*/
         int k = jArr.length();
-        if(k == 0)
+        if(k == 0){
             resultsReturn.add("No result found!");
+            bigEnoughToOrder = false;
+        }
         else if(k > 0) {
-            if(k > 20)
+            if(k > 20){
                 k = 20;
+                bigEnoughToOrder = true;
+            }
+            else {bigEnoughToOrder = false;}
 
             for (int i = 0; i < k; i++) {
                 JSONObject jArrTemp = jArr.getJSONObject(i);
@@ -54,6 +64,15 @@ public class PlacesSearch {
                 ids.add(idS);
             }
         }
+
+       /* if(bigEnoughToOrder){
+            resultsToOrder = resultsReturn;
+            for (int i = k; i < jArr.length(); i++) {
+                JSONObject jArrTemp = jArr.getJSONObject(i);
+                String place_idS = jArrTemp.getString("place_id");
+                resultsToOrder.add(place_idS);
+            }
+        }*/
         //    JSONObject Objloc = jArr2.getJSONObject("location");
         loc = new Location("");
         loc.setLatitude(lat);
@@ -73,13 +92,6 @@ public class PlacesSearch {
 
         return resultsReturn;
     }
-    private static JSONObject getObject(String tagName, JSONObject jObj)  throws JSONException {
-        JSONObject subObj = jObj.getJSONObject(tagName);
-        return subObj;
-    }
 
-    private static float  getFloat(String tagName, JSONObject jObj) throws JSONException {
-        return (float) jObj.getDouble(tagName);
-    }
 
 }

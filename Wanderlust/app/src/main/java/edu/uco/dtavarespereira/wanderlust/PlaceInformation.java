@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
@@ -26,7 +27,9 @@ import edu.uco.dtavarespereira.wanderlust.activity.WebBrowser;
 public class PlaceInformation extends Activity{
     Button button;
     TextView nameView, addressView, websiteView, phoneView;
+    RatingBar ratingBar;
     String name, formatted_address, formatted_phone_number, website;
+    double rating;
     int position;
     ArrayList<String> ids;
 
@@ -43,7 +46,7 @@ public class PlaceInformation extends Activity{
 
         ids = PlacesSearch.getIds();
         img = (ImageView) findViewById(R.id.imageView);
-
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
@@ -54,6 +57,8 @@ public class PlaceInformation extends Activity{
         lat = intent.getDoubleExtra("lat", 0);
         lng = intent.getDoubleExtra("lng", 0);
         photos = intent.getStringExtra("photos");
+        rating = Double.valueOf((intent.getStringExtra("rating")));
+        ratingBar.setRating((float)rating);
 
         nameView = (TextView) findViewById(R.id.nameView);
         addressView = (TextView) findViewById(R.id.address);
@@ -61,6 +66,10 @@ public class PlaceInformation extends Activity{
         phoneView = (TextView) findViewById(R.id.phone);
 
         nameView.setText("\n " + name + "\n ");
+        if(name.length() > 28){
+            nameView.setTextSize(18);
+        }
+        else nameView.setTextSize(24);
         addressView.setText("\n " + formatted_address + "\n ");
         websiteView.setText("\n " + website);
         phoneView.setText("\n " + formatted_phone_number);
