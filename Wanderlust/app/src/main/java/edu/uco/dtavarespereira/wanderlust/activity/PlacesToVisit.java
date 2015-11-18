@@ -52,7 +52,7 @@ public class PlacesToVisit extends Activity {
         adapter = ArrayAdapter.createFromResource(this, R.array.placesToVisitList, android.R.layout.simple_list_item_1);
         adp = ArrayAdapter.createFromResource(this,R.array.placesToVisitNoFilterList, android.R.layout.simple_list_item_1);
         placesToGo.setAdapter(adp);
-
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         String city = intent.getStringExtra("cityName");

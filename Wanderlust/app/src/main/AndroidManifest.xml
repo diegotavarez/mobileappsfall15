@@ -41,10 +41,18 @@
         <activity
             android:name=".activity.PlacesToVisit"
             android:label="@string/title_activity_places_to_visit" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.CityDetailActivity" />
         </activity>
         <activity
             android:name=".activity.CommercialPlacesActivity"
             android:label="@string/title_activity_commercial_places" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.CityDetailActivity" />
         </activity>
 
         <meta-data
@@ -71,7 +79,11 @@
         </activity>
         <activity
             android:name=".activity.WeatherInformationActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            android:label="@string/title_activity_weather_information" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.CityDetailActivity" />
         </activity>
         <activity
             android:name=".activity.FilteredPlacesToVisit"

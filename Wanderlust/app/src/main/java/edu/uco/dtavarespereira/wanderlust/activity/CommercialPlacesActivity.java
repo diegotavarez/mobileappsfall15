@@ -53,6 +53,7 @@ public class CommercialPlacesActivity extends Activity {
         adp = ArrayAdapter.createFromResource(this,R.array.commercialPlacesListNoFilterList, android.R.layout.simple_list_item_1);
         lstCommercialPlaces.setAdapter(adp);
 
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         String city = intent.getStringExtra("cityName");

@@ -20,6 +20,7 @@ public class WeatherInformationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_information);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         city = (TextView)findViewById(R.id.textViewCity);
         description = (TextView)findViewById(R.id.textViewDescription);
