@@ -85,4 +85,7 @@
     <string name="title_activity_filtered_places_to_visit">FilteredPlacesToVisit</string>
     <string name="title_activity_place_information">PlaceInformation</string>
     <string name="title_activity_web_browser">WebBrowser</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

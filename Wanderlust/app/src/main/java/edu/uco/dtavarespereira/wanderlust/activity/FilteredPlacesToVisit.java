@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -19,7 +20,7 @@ import edu.uco.dtavarespereira.wanderlust.R;
 
 public class FilteredPlacesToVisit extends Activity {
     ListView places;
-    Spinner spinner;
+    Button order;
     ArrayList<ArrayList<String>> placesNames;
     ArrayList<String> names, ids;
     ArrayList<Location> locationsArray;
@@ -31,7 +32,7 @@ public class FilteredPlacesToVisit extends Activity {
         setContentView(R.layout.activity_filtered_places_to_visit);
 
         places = (ListView) findViewById(R.id.places);
-        spinner = (Spinner) findViewById(R.id.spinner);
+        order = (Button) findViewById(R.id.order);
       final Intent intent = getIntent();
         int j = intent.getIntExtra("size", 0);
         placesNames = new ArrayList<>();
@@ -64,8 +65,14 @@ public class FilteredPlacesToVisit extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
         places.setAdapter(adapter);
 
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.orderBy, android.R.layout.simple_list_item_1);
-        spinner.setAdapter(adapter2);
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Ordering dialogFragment = new Ordering();
+                dialogFragment.setRetainInstance(true);
+                dialogFragment.show(getFragmentManager(), "tag");
+            }
+        });
 
         places.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
