@@ -11,20 +11,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import java.util.ArrayList;
 
 import edu.uco.dtavarespereira.wanderlust.PlaceInformation;
+import edu.uco.dtavarespereira.wanderlust.PlacesDetailsSearch;
 import edu.uco.dtavarespereira.wanderlust.R;
 
-public class FilteredPlacesToVisit extends Activity {
+public class FilteredPlacesToVisit extends Activity implements Ordering.OnCompleteListener{
     ListView places;
     Button order;
     ArrayList<ArrayList<String>> placesNames;
     ArrayList<String> names, ids;
     ArrayList<Location> locationsArray;
     ArrayList<String> photos;
+    String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,10 @@ public class FilteredPlacesToVisit extends Activity {
         locationsArray = new ArrayList<>();
         ids = new ArrayList<>();
         photos = new ArrayList<>();
+        category = intent.getStringExtra("category");
 
+
+        setTitle(category);
         for(int i = 0; i < j; i++){
             placesNames.add(i,intent.getStringArrayListExtra("data " + i));
             locationsArray.add(i, new Location(""));
@@ -51,7 +55,7 @@ public class FilteredPlacesToVisit extends Activity {
         photos = intent.getStringArrayListExtra("photos");
 
       names = new ArrayList<>();
-        for(ArrayList places : placesNames){
+     /*   for(ArrayList places : placesNames){
             ArrayList<String> s = places;
             // for(String data : s){
             // String formatted_address, formatted_phone_number, website;
@@ -60,6 +64,10 @@ public class FilteredPlacesToVisit extends Activity {
             //  website = places.get(2).toString();
             // formatted_phone_number = places.get(3).toString();
             // }
+        } */
+
+        for(Place places : PlacesDetailsSearch.placeArray){
+            names.add(places.getName());
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
@@ -71,6 +79,7 @@ public class FilteredPlacesToVisit extends Activity {
                 Ordering dialogFragment = new Ordering();
                 dialogFragment.setRetainInstance(true);
                 dialogFragment.show(getFragmentManager(), "tag");
+
             }
         });
 
@@ -125,4 +134,13 @@ public class FilteredPlacesToVisit extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void onComplete(String time) {
+        // After the dialog fragment completes, it calls this callback.
+        // use the string here
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
 }

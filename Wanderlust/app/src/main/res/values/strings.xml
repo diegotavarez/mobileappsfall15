@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Wanderlust</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="orderBy"> - ORDER BY - </string>
     <string name="commercial_places">Commercial Places</string>
     <string name="places_to_visit">Places to Visit</string>
     <string name="weather_conditions">Weather Conditions</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_favorites">FavoritesActivity</string>
     <string name="title_activity_city_detail">CityDetailActivity</string>
-    <string name="title_activity_places_to_visit">PlacesToVisit</string>
+    <string name="title_activity_places_to_visit">Places To Visit</string>
 
     <string-array name="placesToVisitList">
 
@@ -70,21 +70,20 @@
 
     <string-array name="orderBy">
 
-        <item>order by</item>
+        <item>Higher Rating</item>
+        <item>Lower Rating </item>
         <item>Name</item>
-        <item>Price - asc. </item>
-        <item>Price - desc.</item>
-        <item>Rating</item>
 
     </string-array>
+
 
     <string name="title_activity_commercial_places">CommercialPlaces</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_search_results">SearchResults</string>
 <string name="title_activity_weather_information">WeatherInformationActivity</string>
-    <string name="title_activity_filtered_places_to_visit">FilteredPlacesToVisit</string>
-    <string name="title_activity_place_information">PlaceInformation</string>
-    <string name="title_activity_web_browser">WebBrowser</string>
+    <string name="title_activity_filtered_places_to_visit">Places To Visit</string>
+    <string name="title_activity_place_information">Place Information</string>
+    <string name="title_activity_web_browser">Web Browser</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

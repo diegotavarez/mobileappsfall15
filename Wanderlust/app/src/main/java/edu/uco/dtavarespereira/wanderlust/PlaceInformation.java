@@ -43,13 +43,13 @@ public class PlaceInformation extends Activity{
         setContentView(R.layout.activity_place_information);
         final Double lat, lng;
 
-
         ids = PlacesSearch.getIds();
         img = (ImageView) findViewById(R.id.imageView);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
+        setTitle(name);
         formatted_address = intent.getStringExtra("address");
        website = intent.getStringExtra("website");
         formatted_phone_number = intent.getStringExtra("phone");
