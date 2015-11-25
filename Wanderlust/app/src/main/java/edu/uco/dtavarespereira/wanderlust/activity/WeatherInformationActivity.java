@@ -44,7 +44,7 @@ public class WeatherInformationActivity extends Activity {
         tempMin = (TextView) findViewById(R.id.textViewMin);
         tempMax = (TextView) findViewById(R.id.textViewMax);
         windSpeed = (TextView) findViewById(R.id.textViewWinSpeed);
-        imageDescription = (ImageView) findViewById(R.id.imageDescription);
+        imageDescription = (ImageView) findViewById(R.id.weather_icon);
         infoList = new ArrayList<String>();
         weekList = new ArrayList<String>();
         list = (ListView) findViewById(R.id.listView);
@@ -58,9 +58,11 @@ public class WeatherInformationActivity extends Activity {
         setTitle(name_coord[0]);//intent.getStringExtra("city")
 
         weather_details = infoList.get(1).split("/");
+        defineImage(Integer.parseInt(weather_details[0]), imageDescription);
 
         for (int i = 1; i < 8; i++)
         {
+            weather_details = infoList.get(i).split("/");
             String maxTemperature = weather_details[3];
             String minTemperature = weather_details[4];
             long timestamp = Long.parseLong(weather_details[7]);
