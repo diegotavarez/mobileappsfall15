@@ -76,7 +76,9 @@ public class JSonData {
                 double high = temperatureObject.getDouble("max"); // max temperature
                 double low = temperatureObject.getDouble("min"); // min temperature
 
-                result.add(id + "/" + description + "/" + temp + "/" + high + "/" + low + "/" + humidity + "/" + windSpeed);
+                long timestamp = dayForecast.getLong("dt");
+
+                result.add(id + "/" + description + "/" + temp + "/" + high + "/" + low + "/" + humidity + "/" + windSpeed + "/" + timestamp);
             }
 
 

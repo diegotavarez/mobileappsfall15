@@ -4,6 +4,13 @@ package edu.uco.dtavarespereira.wanderlust.entity;
  * Created by diegotavarez on 11/24/15.
  */
 public class Forecast {
+    public Forecast(String maximumTemperature, String minimumTemperature, String dayOfTheWeek, int id) {
+        this.maximumTemperature = maximumTemperature;
+        this.minimumTemperature = minimumTemperature;
+        this.dayOfTheWeek = dayOfTheWeek;
+        this.id = id;
+    }
+
     String maximumTemperature;
     String minimumTemperature;
     String dayOfTheWeek;

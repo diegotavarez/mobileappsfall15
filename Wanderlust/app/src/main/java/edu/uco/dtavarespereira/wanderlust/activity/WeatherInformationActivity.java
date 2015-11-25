@@ -5,20 +5,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import edu.uco.dtavarespereira.wanderlust.R;
+import edu.uco.dtavarespereira.wanderlust.adapter.WeeklyForecastAdapter;
+import edu.uco.dtavarespereira.wanderlust.entity.Forecast;
 
 public class WeatherInformationActivity extends Activity {
 
-    TextView city, description, temperature, humidity, tempMin, tempMax, windSpeed;
+    TextView description, temperature, humidity, tempMin, tempMax, windSpeed;
     private static ImageView imageDescription;
     static ArrayList<String> infoList, weekList;
     String[] name_coord, weather_details;
@@ -29,8 +36,8 @@ public class WeatherInformationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_information);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        View rootView = findViewById(android.R.id.content);
 
-        city = (TextView) findViewById(R.id.textViewCity);
         description = (TextView) findViewById(R.id.textViewDescription);
         temperature = (TextView) findViewById(R.id.textViewTemp);
         humidity = (TextView) findViewById(R.id.textViewHumidity);
@@ -41,25 +48,34 @@ public class WeatherInformationActivity extends Activity {
         infoList = new ArrayList<String>();
         weekList = new ArrayList<String>();
         list = (ListView) findViewById(R.id.listView);
-
+        List<Forecast> listForecast = new ArrayList<Forecast>();
 
         Intent intent = getIntent();
         infoList = intent.getStringArrayListExtra("infoList");
 
         name_coord = infoList.get(0).split("/");
 
-        city.setText(name_coord[0]);//intent.getStringExtra("city")
+        setTitle(name_coord[0]);//intent.getStringExtra("city")
 
         weather_details = infoList.get(1).split("/");
 
-        description.setText(weather_details[1]);//intent.getStringExtra("descrip")
-        temperature.setText(weather_details[2] + (char) 0x00B0);//intent.getStringExtra("temp")
-        humidity.setText(weather_details[5] + "%");//intent.getStringExtra("humidity")
-        tempMin.setText(weather_details[4]);//intent.getStringExtra("tempMin")
-        tempMax.setText(weather_details[3]);//intent.getStringExtra("tempMax")
-        windSpeed.setText(weather_details[6] + "mph");//intent.getStringExtra("wSpeed")
+        for (int i = 1; i < 8; i++)
+        {
+            String maxTemperature = weather_details[3];
+            String minTemperature = weather_details[4];
+            long timestamp = Long.parseLong(weather_details[7]);
+            int id = Integer.parseInt(weather_details[0]);
 
-        defineImage(Integer.parseInt(weather_details[0]), imageDescription);//intent.getStringExtra("id")
+            Date date  = new Date(timestamp);
+            DateFormat format = new SimpleDateFormat("EE");
+            String dayOfTheWeek = format.format(date);
+
+            Forecast forecast = new Forecast(maxTemperature,minTemperature,dayOfTheWeek,id);
+            listForecast.add(forecast);
+        }
+
+        WeeklyForecastAdapter adapter = new WeeklyForecastAdapter(getBaseContext(), listForecast, rootView);
+        list.setAdapter(adapter);
     }
 
     @Override
