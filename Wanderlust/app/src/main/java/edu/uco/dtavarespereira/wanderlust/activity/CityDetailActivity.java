@@ -45,6 +45,7 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
     Button btnCommercialPlaces;
     Button btWeatherCondition;
     ImageView weatherIcon;
+    ArrayList<String> result;
 
     Location location;
     Location mLastLocation;
@@ -53,6 +54,7 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
 
 
     String temperature, humidity, tempMin, tempMax, windSpeed, description, id;
+    String[] name_lat_lon, weatherDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) throws  SecurityException{
@@ -67,20 +69,30 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         tvTemperature = (TextView) findViewById(R.id.tv_temperature);
         swFavorite = (Switch) findViewById(R.id.sw_favorite);
 
+        result = new ArrayList<String>();
         final Intent intent = getIntent();
-        city = intent.getStringExtra("CITY_NAME");
+        result = intent.getStringArrayListExtra("listDays");
+
+        name_lat_lon = result.get(0).split("/");
+
+        city = name_lat_lon[0];//intent.getStringExtra("CITY_NAME");
+        //Toast.makeText(getApplication(),result.get(0), Toast.LENGTH_SHORT).show();
+
 
         setTitle(city);
-        location.setLatitude(intent.getDoubleExtra("lat", 0));
-        location.setLongitude(intent.getDoubleExtra("lng", 0));
+        location.setLatitude(Double.parseDouble(name_lat_lon[1]));//lat   intent.getDoubleExtra("-97.478104", 0)
+        location.setLongitude(Double.parseDouble(name_lat_lon[2]));//lng    intent.getDoubleExtra("35.652828", 0)
         tvCityName.setText(city);
-        temperature = intent.getStringExtra("temperature");
-        humidity = intent.getStringExtra("humidity");
-        tempMin = intent.getStringExtra("temp_min");
-        tempMax = intent.getStringExtra("temp_max");
-        windSpeed = intent.getStringExtra("windSpeed");
-        description = intent.getStringExtra("description");
-        id = intent.getStringExtra("id");
+
+        weatherDetails = result.get(1).split("/");
+
+        temperature = weatherDetails[2];//intent.getStringExtra("temperature");
+        humidity = weatherDetails[5];//intent.getStringExtra("humidity");
+        tempMin = weatherDetails[4];//intent.getStringExtra("temp_min");
+        tempMax = weatherDetails[3];//intent.getStringExtra("temp_max");
+        windSpeed = weatherDetails[6];//intent.getStringExtra("windSpeed");
+        description = weatherDetails[1];//intent.getStringExtra("description");
+        id = weatherDetails[0];//intent.getStringExtra("id");
 
         tvTemperature.setText(temperature.substring(0,temperature.indexOf(".")) + "˚ C");
         weatherIcon = (ImageView) findViewById(R.id.weather_icon);
@@ -154,14 +166,15 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
             public void onClick(View view) {
 
                 Intent intentWeatherInformation = new Intent(getApplication(), WeatherInformationActivity.class);
-                intentWeatherInformation.putExtra("city", city);
+                /*intentWeatherInformation.putExtra("city", city);
                 intentWeatherInformation.putExtra("temp", temperature);
                 intentWeatherInformation.putExtra("humidity", humidity);
                 intentWeatherInformation.putExtra("tempMin", tempMin);
                 intentWeatherInformation.putExtra("tempMax", tempMax);
                 intentWeatherInformation.putExtra("wSpeed", windSpeed);
                 intentWeatherInformation.putExtra("descrip", description);
-                intentWeatherInformation.putExtra("id", id);
+                intentWeatherInformation.putExtra("id", id);*/
+                intentWeatherInformation.putStringArrayListExtra("infoList", result);
                 startActivity(intentWeatherInformation);
 
 

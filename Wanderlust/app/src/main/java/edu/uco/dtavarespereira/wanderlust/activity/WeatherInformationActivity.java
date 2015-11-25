@@ -2,13 +2,17 @@ package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import edu.uco.dtavarespereira.wanderlust.R;
 
@@ -16,6 +20,9 @@ public class WeatherInformationActivity extends Activity {
 
     TextView city, description, temperature, humidity, tempMin, tempMax, windSpeed;
     private static ImageView imageDescription;
+    static ArrayList<String> infoList, weekList;
+    String[] name_coord, weather_details;
+    static ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,43 +30,36 @@ public class WeatherInformationActivity extends Activity {
         setContentView(R.layout.activity_weather_information);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        city = (TextView)findViewById(R.id.textViewCity);
-        description = (TextView)findViewById(R.id.textViewDescription);
-        temperature = (TextView)findViewById(R.id.textViewTemp);
-        humidity = (TextView)findViewById(R.id.textViewHumidity);
-        tempMin = (TextView)findViewById(R.id.textViewMin);
-        tempMax = (TextView)findViewById(R.id.textViewMax);
-        windSpeed = (TextView)findViewById(R.id.textViewWinSpeed);
-	imageDescription = (ImageView) findViewById(R.id.imageDescription);
+        city = (TextView) findViewById(R.id.textViewCity);
+        description = (TextView) findViewById(R.id.textViewDescription);
+        temperature = (TextView) findViewById(R.id.textViewTemp);
+        humidity = (TextView) findViewById(R.id.textViewHumidity);
+        tempMin = (TextView) findViewById(R.id.textViewMin);
+        tempMax = (TextView) findViewById(R.id.textViewMax);
+        windSpeed = (TextView) findViewById(R.id.textViewWinSpeed);
+        imageDescription = (ImageView) findViewById(R.id.imageDescription);
+        infoList = new ArrayList<String>();
+        weekList = new ArrayList<String>();
+        list = (ListView) findViewById(R.id.listView);
+
 
         Intent intent = getIntent();
-        String cityName = intent.getStringExtra("city");
-        setTitle(cityName);
-        city.setText(cityName);
-        description.setText(intent.getStringExtra("descrip"));
-        temperature.setText(intent.getStringExtra("temp") + (char) 0x00B0);
-        humidity.setText(intent.getStringExtra("humidity") + "%");
-        tempMin.setText(intent.getStringExtra("tempMin"));
-        tempMax.setText(intent.getStringExtra("tempMax"));
-        windSpeed.setText(intent.getStringExtra("wSpeed") + "mph");
+        infoList = intent.getStringArrayListExtra("infoList");
 
-        defineImage(Integer.parseInt(intent.getStringExtra("id")), imageDescription);
+        name_coord = infoList.get(0).split("/");
 
-        ImageView monday = (ImageView) findViewById(R.id.monday);
-        ImageView tuesday = (ImageView) findViewById(R.id.tuesday);
-        ImageView wednesday = (ImageView) findViewById(R.id.wednesday);
-        ImageView thursday = (ImageView) findViewById(R.id.thursday);
-        ImageView friday = (ImageView) findViewById(R.id.friday);
-        ImageView saturday = (ImageView) findViewById(R.id.saturday);
-        ImageView sunday = (ImageView) findViewById(R.id.sunday);
+        city.setText(name_coord[0]);//intent.getStringExtra("city")
 
-        monday.setImageResource(R.mipmap.mist);
-        tuesday.setImageResource(R.mipmap.broken_clouds);
-        wednesday.setImageResource(R.mipmap.scattered_clouds);
-        thursday.setImageResource(R.mipmap.broken_clouds);
-        friday.setImageResource(R.mipmap.mist);
-        saturday.setImageResource(R.mipmap.mist);
-        sunday.setImageResource(R.mipmap.rain);
+        weather_details = infoList.get(1).split("/");
+
+        description.setText(weather_details[1]);//intent.getStringExtra("descrip")
+        temperature.setText(weather_details[2] + (char) 0x00B0);//intent.getStringExtra("temp")
+        humidity.setText(weather_details[5] + "%");//intent.getStringExtra("humidity")
+        tempMin.setText(weather_details[4]);//intent.getStringExtra("tempMin")
+        tempMax.setText(weather_details[3]);//intent.getStringExtra("tempMax")
+        windSpeed.setText(weather_details[6] + "mph");//intent.getStringExtra("wSpeed")
+
+        defineImage(Integer.parseInt(weather_details[0]), imageDescription);//intent.getStringExtra("id")
     }
 
     @Override
@@ -104,7 +104,7 @@ public class WeatherInformationActivity extends Activity {
             imageView.setImageResource(R.mipmap.scattered_clouds);
         } else if (id == 803) {
             imageView.setImageResource(R.mipmap.broken_clouds);
-        }else{
+        } else {
             imageView.setImageResource(R.mipmap.scattered_clouds);
         }
 

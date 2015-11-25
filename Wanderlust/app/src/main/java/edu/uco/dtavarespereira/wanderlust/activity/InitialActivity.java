@@ -200,7 +200,7 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
     class HttpGetTask extends AsyncTask<String, Void, ArrayList<String>> {
 
         private static final String TAG = "HttpGetTask";
-        final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?";
+        final String BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
 
         @Override
         protected ArrayList<String> doInBackground(String... params) {
@@ -211,9 +211,10 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
 
             try {
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                        .appendQueryParameter("q",params[0] + ",us") // city
+                        .appendQueryParameter("q", params[0] + ",us") // city
                         .appendQueryParameter("mode", "json") // json format as result
                         .appendQueryParameter("units", "metric") // metric unit
+                        .appendQueryParameter("cnt", "7")
                         .appendQueryParameter("APPID", "d5ec4c21045bdf4fbe86c6fd452fd299")
                         .build();
 
@@ -264,8 +265,10 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
             //latitude = result.get(0);
             //longitude = result.get(1);
             //temperature = result.get(2);
+
+
             Intent intent = new Intent(InitialActivity.this, CityDetailActivity.class);
-            intent.putExtra("CITY_NAME", etCityName.getText().toString());
+            /*intent.putExtra("CITY_NAME", etCityName.getText().toString());
             intent.putExtra("lat", Double.valueOf(result.get(0)));
             intent.putExtra("lng", Double.valueOf(result.get(1)));
             intent.putExtra("temperature", result.get(2));
@@ -275,6 +278,11 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
             intent.putExtra("windSpeed", result.get(6));
 	        intent.putExtra("id", result.get(7));
             intent.putExtra("description", result.get(8));
+            startActivity(intent);*/
+
+            //String city = result.remove(0);
+
+            intent.putStringArrayListExtra("listDays", result);
             startActivity(intent);
 
         }

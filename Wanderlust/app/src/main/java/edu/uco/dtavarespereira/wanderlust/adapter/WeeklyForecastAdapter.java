@@ -1,16 +1,20 @@
-package edu.uco.dtavarespereira.wanderlust.activity;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.SearchManager;
+package edu.uco.dtavarespereira.wanderlust.adapter;
+
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -21,75 +25,66 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.uco.dtavarespereira.wanderlust.JSonData;
 import edu.uco.dtavarespereira.wanderlust.R;
+import edu.uco.dtavarespereira.wanderlust.activity.CityDetailActivity;
+import edu.uco.dtavarespereira.wanderlust.entity.Forecast;
 
-public class SearchResultsActivity extends Activity {
-    private TextView txtQuery;
-    private String query;
+public class WeeklyForecastAdapter extends BaseAdapter {
+    private List<Forecast> weeklyForecast;
+    private Context context;
+    private View parent;
+    public String cityName;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_results);
-
-        // get the action bar
-        ActionBar actionBar = getActionBar();
-
-        // Enabling Back navigation on Action Bar icon
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        txtQuery = (TextView) findViewById(R.id.txtQuery);
-
-        handleIntent(getIntent());
+    public WeeklyForecastAdapter(Context context, List<Forecast> weeklyForecast, View parent){
+        this.context = context;
+        this.weeklyForecast = weeklyForecast;
+        this.parent = parent;
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        setIntent(intent);
-        handleIntent(intent);
+    public int getCount(){
+        return weeklyForecast.size();
     }
 
-    /**
-     * Handling intent data
-     */
-    private void handleIntent(Intent intent) {
+    public Object getItem(int position){
+        return weeklyForecast.get(position);
+    }
 
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            query = intent.getStringExtra(SearchManager.QUERY);
+    public long getItemId(int position){
+        return position;
+    }
 
-            /**
-             * Use this query to display search results like
-             * 1. Getting the data from SQLite and showing in listview
-             * 2. Making webrequest and displaying the data
-             * For now we just display the query only
-             */
-            txtQuery.setText("Search Query: " + query);
-            int error = 0;
+    public View getView(int position, View converView, final ViewGroup parent)
+    {
+        Forecast forecast = weeklyForecast.get(position);
 
-            for(int i=0; i<query.length();i++){
-                if (!(query.charAt(i) >= 'A' && query.charAt(i)<= 'Z' || query.charAt(i)>='a' && query.charAt(i)<='z' || query.charAt(i)==' '))
-                    error++;
-            }
+        View view = converView;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.weekly_forecast_item, parent, false);
 
-            if(error==0) {
-                new HttpGetTask().execute(query);
+        final TextView tvDayOfTheWeek = (TextView) view.findViewById(R.id.tv_day);
+        tvDayOfTheWeek.setText(forecast.getDayOfTheWeek());
 
-//                Intent intentDetails = new Intent(SearchResultsActivity.this, CityDetailActivity.class);
-//                intentDetails.putExtra("CITY_NAME", query);
-//                startActivity(intentDetails);
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "ERROR: Add a valid city name!", Toast.LENGTH_SHORT).show();
-            }
-        }
+        final TextView tvMinimum = (TextView) view.findViewById(R.id.tv_minimum);
+        tvMinimum.setText(forecast.getMinimumTemperature());
+
+        final TextView tvMaximum = (TextView) view.findViewById(R.id.tv_maximum);
+        tvMaximum.setText(forecast.getMaximumTemperature());
+
+        final ImageView imWeather = (ImageView) view.findViewById(R.id.weather_icon);
+        defineImage(forecast.getId(), imWeather);
+
+        return view;
+
     }
 
     class HttpGetTask extends AsyncTask<String, Void, ArrayList<String>> {
 
         private static final String TAG = "HttpGetTask";
-        final String BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
+        final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?";
 
         @Override
         protected ArrayList<String> doInBackground(String... params) {
@@ -100,10 +95,9 @@ public class SearchResultsActivity extends Activity {
 
             try {
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                        .appendQueryParameter("q", params[0] + ",us") // city
+                        .appendQueryParameter("q",params[0] + ",us") // city
                         .appendQueryParameter("mode", "json") // json format as result
                         .appendQueryParameter("units", "metric") // metric unit
-                        .appendQueryParameter("cnt", "7")
                         .appendQueryParameter("APPID", "d5ec4c21045bdf4fbe86c6fd452fd299")
                         .build();
 
@@ -140,7 +134,7 @@ public class SearchResultsActivity extends Activity {
         @Override
         protected void onPostExecute(ArrayList<String> result) {
             if (result == null || result.size() == 0) {
-                Toast.makeText(SearchResultsActivity.this,
+                Toast.makeText(parent.getContext(),
                         "Invalid weather data. Possibly wrong city",
                         Toast.LENGTH_SHORT).show();
                 return;
@@ -154,10 +148,8 @@ public class SearchResultsActivity extends Activity {
             //latitude = result.get(0);
             //longitude = result.get(1);
             //temperature = result.get(2);
-
-
-            Intent intent = new Intent(SearchResultsActivity.this, CityDetailActivity.class);
-            /*intent.putExtra("CITY_NAME", etCityName.getText().toString());
+            Intent intent = new Intent(parent.getContext(), CityDetailActivity.class);
+            intent.putExtra("CITY_NAME", cityName);
             intent.putExtra("lat", Double.valueOf(result.get(0)));
             intent.putExtra("lng", Double.valueOf(result.get(1)));
             intent.putExtra("temperature", result.get(2));
@@ -165,14 +157,9 @@ public class SearchResultsActivity extends Activity {
             intent.putExtra("temp_min", result.get(4));
             intent.putExtra("temp_max", result.get(5));
             intent.putExtra("windSpeed", result.get(6));
-	        intent.putExtra("id", result.get(7));
+            intent.putExtra("id", result.get(7));
             intent.putExtra("description", result.get(8));
-            startActivity(intent);*/
-
-            //String city = result.remove(0);
-
-            intent.putStringArrayListExtra("listDays", result);
-            startActivity(intent);
+            parent.getContext().startActivity(intent);
 
         }
 
@@ -199,7 +186,35 @@ public class SearchResultsActivity extends Activity {
             }
             return data.toString();
         }
+    }
 
+    private String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
+    }
+
+    public static void defineImage(int id, ImageView imageView) {
+
+        if (id >= 200 && id <= 232) {
+            imageView.setImageResource(R.mipmap.thunderstorm);
+        } else if (id >= 300 && id <= 321) {
+            imageView.setImageResource(R.mipmap.shower_rain);
+        } else if (id >= 500 && id <= 531) {
+            imageView.setImageResource(R.mipmap.rain);
+        } else if (id >= 600 && id <= 622) {
+            imageView.setImageResource(R.mipmap.snow);
+        } else if (id >= 701 && id <= 781) {
+            imageView.setImageResource(R.mipmap.mist);
+        } else if (id == 800) {
+            imageView.setImageResource(R.mipmap.clear_sky);
+        } else if (id == 801) {
+            imageView.setImageResource(R.mipmap.few_clouds);
+        } else if (id == 802) {
+            imageView.setImageResource(R.mipmap.scattered_clouds);
+        } else if (id == 803) {
+            imageView.setImageResource(R.mipmap.broken_clouds);
+        }else{
+            imageView.setImageResource(R.mipmap.scattered_clouds);
+        }
 
     }
 }
