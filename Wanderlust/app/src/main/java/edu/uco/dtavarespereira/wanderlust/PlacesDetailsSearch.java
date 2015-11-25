@@ -7,11 +7,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
-import edu.uco.dtavarespereira.wanderlust.activity.Place;
+import edu.uco.dtavarespereira.wanderlust.entity.Place;
 
 /**
  * Created by Dani on 11/3/15.

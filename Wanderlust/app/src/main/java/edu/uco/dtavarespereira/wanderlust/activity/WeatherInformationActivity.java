@@ -2,6 +2,7 @@ package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +33,9 @@ public class WeatherInformationActivity extends Activity {
 	imageDescription = (ImageView) findViewById(R.id.imageDescription);
 
         Intent intent = getIntent();
-        city.setText(intent.getStringExtra("city"));
+        String cityName = intent.getStringExtra("city");
+        setTitle(cityName);
+        city.setText(cityName);
         description.setText(intent.getStringExtra("descrip"));
         temperature.setText(intent.getStringExtra("temp") + (char) 0x00B0);
         humidity.setText(intent.getStringExtra("humidity") + "%");
@@ -41,6 +44,22 @@ public class WeatherInformationActivity extends Activity {
         windSpeed.setText(intent.getStringExtra("wSpeed") + "mph");
 
         defineImage(Integer.parseInt(intent.getStringExtra("id")), imageDescription);
+
+        ImageView monday = (ImageView) findViewById(R.id.monday);
+        ImageView tuesday = (ImageView) findViewById(R.id.tuesday);
+        ImageView wednesday = (ImageView) findViewById(R.id.wednesday);
+        ImageView thursday = (ImageView) findViewById(R.id.thursday);
+        ImageView friday = (ImageView) findViewById(R.id.friday);
+        ImageView saturday = (ImageView) findViewById(R.id.saturday);
+        ImageView sunday = (ImageView) findViewById(R.id.sunday);
+
+        monday.setImageResource(R.mipmap.mist);
+        tuesday.setImageResource(R.mipmap.broken_clouds);
+        wednesday.setImageResource(R.mipmap.scattered_clouds);
+        thursday.setImageResource(R.mipmap.broken_clouds);
+        friday.setImageResource(R.mipmap.mist);
+        saturday.setImageResource(R.mipmap.mist);
+        sunday.setImageResource(R.mipmap.rain);
     }
 
     @Override

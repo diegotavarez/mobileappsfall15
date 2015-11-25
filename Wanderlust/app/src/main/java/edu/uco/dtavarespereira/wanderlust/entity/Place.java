@@ -1,4 +1,4 @@
-package edu.uco.dtavarespereira.wanderlust.activity;
+package edu.uco.dtavarespereira.wanderlust.entity;
 
 import android.location.Location;
 

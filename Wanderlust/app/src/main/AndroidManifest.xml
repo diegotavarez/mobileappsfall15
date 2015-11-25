@@ -90,7 +90,7 @@
             android:label="@string/title_activity_filtered_places_to_visit" >
         </activity>
         <activity
-            android:name=".PlaceInformation"
+            android:name=".activity.PlaceInformationActivity"
             android:label="@string/title_activity_place_information" >
         </activity>
         <activity

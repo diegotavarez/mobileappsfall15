@@ -14,9 +14,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import edu.uco.dtavarespereira.wanderlust.PlaceInformation;
 import edu.uco.dtavarespereira.wanderlust.PlacesDetailsSearch;
 import edu.uco.dtavarespereira.wanderlust.R;
+import edu.uco.dtavarespereira.wanderlust.entity.Place;
 
 public class FilteredPlacesToVisit extends Activity implements Ordering.OnCompleteListener{
     ListView places;
@@ -87,7 +87,7 @@ public class FilteredPlacesToVisit extends Activity implements Ordering.OnComple
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
-                Intent intentFiltered = new Intent(FilteredPlacesToVisit.this, PlaceInformation.class);
+                Intent intentFiltered = new Intent(FilteredPlacesToVisit.this, PlaceInformationActivity.class);
 
                 String name, formatted_address, formatted_phone_number, website, rating;
                 ArrayList<String> s = placesNames.get(position);

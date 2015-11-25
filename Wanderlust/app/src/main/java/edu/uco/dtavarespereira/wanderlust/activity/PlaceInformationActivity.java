@@ -1,4 +1,4 @@
-package edu.uco.dtavarespereira.wanderlust;
+package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,16 +14,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
-import edu.uco.dtavarespereira.wanderlust.activity.MapsActivity;
-import edu.uco.dtavarespereira.wanderlust.activity.WebBrowser;
+import edu.uco.dtavarespereira.wanderlust.PlacesSearch;
+import edu.uco.dtavarespereira.wanderlust.R;
 
-public class PlaceInformation extends Activity{
+public class PlaceInformationActivity extends Activity{
     Button button;
     TextView nameView, addressView, websiteView, phoneView;
     RatingBar ratingBar;
@@ -85,7 +83,7 @@ public class PlaceInformation extends Activity{
         websiteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2 = new Intent(PlaceInformation.this, WebBrowser.class);
+                Intent intent2 = new Intent(PlaceInformationActivity.this, WebBrowser.class);
                 intent2.putExtra("url", website);
                 startActivity(intent2);
             }
@@ -94,7 +92,7 @@ public class PlaceInformation extends Activity{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentMaps = new Intent(PlaceInformation.this, MapsActivity.class);
+                Intent intentMaps = new Intent(PlaceInformationActivity.this, MapsActivity.class);
                 intentMaps.putExtra("lat", lat);
                 intentMaps.putExtra("lon", lng);
                 intentMaps.putExtra("name", name);
