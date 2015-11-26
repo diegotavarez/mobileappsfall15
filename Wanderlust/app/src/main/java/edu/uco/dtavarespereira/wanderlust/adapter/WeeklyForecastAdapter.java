@@ -98,6 +98,7 @@ public class WeeklyForecastAdapter extends BaseAdapter {
                         .appendQueryParameter("q",params[0] + ",us") // city
                         .appendQueryParameter("mode", "json") // json format as result
                         .appendQueryParameter("units", "metric") // metric unit
+                        .appendQueryParameter("cnt", "7")
                         .appendQueryParameter("APPID", "d5ec4c21045bdf4fbe86c6fd452fd299")
                         .build();
 
@@ -149,7 +150,7 @@ public class WeeklyForecastAdapter extends BaseAdapter {
             //longitude = result.get(1);
             //temperature = result.get(2);
             Intent intent = new Intent(parent.getContext(), CityDetailActivity.class);
-            intent.putExtra("CITY_NAME", cityName);
+            /*intent.putExtra("CITY_NAME", cityName);
             intent.putExtra("lat", Double.valueOf(result.get(0)));
             intent.putExtra("lng", Double.valueOf(result.get(1)));
             intent.putExtra("temperature", result.get(2));
@@ -158,7 +159,8 @@ public class WeeklyForecastAdapter extends BaseAdapter {
             intent.putExtra("temp_max", result.get(5));
             intent.putExtra("windSpeed", result.get(6));
             intent.putExtra("id", result.get(7));
-            intent.putExtra("description", result.get(8));
+            intent.putExtra("description", result.get(8));*/
+            intent.putStringArrayListExtra("listDays", result);
             parent.getContext().startActivity(intent);
 
         }

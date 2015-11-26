@@ -52,16 +52,22 @@ public class WeatherInformationActivity extends Activity {
 
         Intent intent = getIntent();
         infoList = intent.getStringArrayListExtra("infoList");
-
         name_coord = infoList.get(0).split("/");
 
         setTitle(name_coord[0]);//intent.getStringExtra("city")
 
         weather_details = infoList.get(1).split("/");
+        description.setText(weather_details[1]);
+        temperature.setText(weather_details[2] + "\u00b0" + "C");
+        tempMin.setText(weather_details[4] + "\u00b0" + "C");
+        tempMax.setText(weather_details[3] + "\u00b0" + "C");
+        humidity.setText(weather_details[5] + "%");
+        windSpeed.setText(weather_details[6] + "mph");
         defineImage(Integer.parseInt(weather_details[0]), imageDescription);
 
-        for (int i = 1; i < 8; i++)
+        for (int i = 1; i < 7; i++)
         {
+            Toast.makeText(getApplication(),infoList.get(i), Toast.LENGTH_SHORT).show();
             weather_details = infoList.get(i).split("/");
             String maxTemperature = weather_details[3];
             String minTemperature = weather_details[4];
