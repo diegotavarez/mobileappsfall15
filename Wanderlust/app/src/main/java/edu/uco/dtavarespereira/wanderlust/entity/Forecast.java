@@ -16,6 +16,7 @@ public class Forecast {
     String dayOfTheWeek;
     int id;
 
+
     public int getId() {
         return id;
     }

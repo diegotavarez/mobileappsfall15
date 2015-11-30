@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import edu.uco.dtavarespereira.wanderlust.R;
 import edu.uco.dtavarespereira.wanderlust.adapter.WeeklyForecastAdapter;
@@ -65,19 +66,19 @@ public class WeatherInformationActivity extends Activity {
         windSpeed.setText(weather_details[6] + " mph");
         defineImage(Integer.parseInt(weather_details[0]), imageDescription);
 
-        for (int i = 1; i < 7; i++)
+        for (int i = 2; i < infoList.size(); i++)
         {
             weather_details = infoList.get(i).split("/");
             String maxTemperature = weather_details[3].substring(0, weather_details[3].indexOf("."));
             String minTemperature = weather_details[4].substring(0, weather_details[4].indexOf("."));
-            long timestamp = Long.parseLong(weather_details[7]);
+            //long timestamp = 1448874000;//Long.parseLong(weather_details[7]);
             int id = Integer.parseInt(weather_details[0]);
-            Toast.makeText(getApplicationContext(), Long.toString(timestamp), Toast.LENGTH_SHORT).show();
 
-            Date date  = new Date(timestamp);
-            DateFormat format = new SimpleDateFormat("EEE");
-            String dayOfTheWeek = format.format(date);
-
+            TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+            //Date date  = new Date(timestamp);
+            DateFormat format = new SimpleDateFormat("EE");
+            String dayOfTheWeek = format.format(Long.parseLong(weather_details[7]) * 1000);
+            Toast.makeText(getApplicationContext(), dayOfTheWeek, Toast.LENGTH_SHORT).show();
 
             Forecast forecast = new Forecast(maxTemperature,minTemperature,dayOfTheWeek,id);
             listForecast.add(forecast);
