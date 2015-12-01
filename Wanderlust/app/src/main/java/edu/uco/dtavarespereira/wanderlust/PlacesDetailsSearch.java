@@ -64,10 +64,8 @@ public class PlacesDetailsSearch {
 
         Place placeObject = new Place();
         ArrayList<String> resultsReturn = new ArrayList<>();
-        // System.out.println(data);
         JSONObject jObj = new JSONObject(data);
         JSONObject jArr = jObj.getJSONObject("result");
-        //JSONObject jArrTemp = jArr.getJSONObject(0);
 
         try {
             JSONArray jPhotos = jArr.getJSONArray("photos");
@@ -80,10 +78,6 @@ public class PlacesDetailsSearch {
         JSONObject jArr1 = jArr.getJSONObject("geometry").getJSONObject("location");
         Double lat = jArr1.getDouble("lat");
         Double lng = jArr1.getDouble("lng");
-
-//        JSONObject jArr2 = jArr.getJSONObject("opening_hours");
-        // boolean open_now = jArr2.getBoolean("open_now"); //TODO show if place is open or closed
-        // jArr2 = jArr.getJSONObject("opening_hours").getJSONObject("weekday_text"); //TODO show what time it works
 
 
         String formatted_address, formatted_phone_number, website, name, rating;

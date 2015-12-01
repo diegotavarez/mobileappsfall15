@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -150,7 +151,6 @@ public class PlacesToVisit extends Activity {
                                     httpUrlConnection.getInputStream());
                             String data1 = readStream(in);
                         ArrayList<String> placesData = PlacesDetailsSearch.getData(data1);
-                            System.out.println("1 PLACESDATA IS " + placesData);
                             placesNames.add(i, placesData);
                             locationArray.add(PlacesDetailsSearch.getLocation());
                             photos.add(PlacesDetailsSearch.getPhoto());
@@ -172,28 +172,31 @@ public class PlacesToVisit extends Activity {
 
             } else {
                 // display error
+                Toast.makeText(getApplicationContext(), "No internet Connection",
+                        Toast.LENGTH_LONG).show();
             }
             return resultArray;
         }
 
         @Override
         protected void onPostExecute(ArrayList result) {
-           // Toast.makeText(getApplicationContext(), placesNames.toString(), Toast.LENGTH_SHORT).show();
 
-            Intent intentFiltered = new Intent(PlacesToVisit.this, FilteredPlacesToVisit.class);
-            intentFiltered.putExtra("size", placesNames.size());
-           // System.out.println("1 PLACESNAMES IS " + placesNames);
-            for(int i = 0; i < placesNames.size(); i++){
-                intentFiltered.putExtra("data " + i, placesNames.get(i));
-                intentFiltered.putExtra("location lat " + i, locationArray.get(i).getLatitude());
-                intentFiltered.putExtra("location lng " + i, locationArray.get(i).getLongitude());
+            if(!result.isEmpty()) {
+                Intent intentFiltered = new Intent(PlacesToVisit.this, FilteredPlacesToVisit.class);
+                intentFiltered.putExtra("size", placesNames.size());
+                for (int i = 0; i < placesNames.size(); i++) {
+                    intentFiltered.putExtra("data " + i, placesNames.get(i));
+                    intentFiltered.putExtra("location lat " + i, locationArray.get(i).getLatitude());
+                    intentFiltered.putExtra("location lng " + i, locationArray.get(i).getLongitude());
+                }
+                intentFiltered.putExtra("photos", photos);
+                intentFiltered.putExtra("category", category);
+                placesNames.removeAll(placesNames);
+                locationArray.removeAll(locationArray);
+                startActivity(intentFiltered);
+            } else {
+                Toast.makeText(getApplicationContext(), "Sorry! Google API is limited. Please try again later.", Toast.LENGTH_SHORT).show();
             }
-            intentFiltered.putExtra("photos", photos);
-            intentFiltered.putExtra("category", category);
-            placesNames.removeAll(placesNames);
-            locationArray.removeAll(locationArray);
-            startActivity(intentFiltered);
-
         }
 
     }

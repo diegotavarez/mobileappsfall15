@@ -31,7 +31,6 @@ public class PlacesSearch {
     }
 
     public static ArrayList<String> getData(String data, int pos) throws JSONException {
-        //System.out.println("search" + data);
         JSONObject jObj = new JSONObject(data);
         JSONArray jArr = jObj.getJSONArray("results");
         JSONObject jArr1 = jArr.getJSONObject(pos).getJSONObject("geometry").getJSONObject("location");
@@ -41,9 +40,7 @@ public class PlacesSearch {
 
         ArrayList<String> resultsReturn = new ArrayList<>();
         resultsToOrder = new ArrayList<>();
-        String id, place_id, place_reference;
 
-        /* TODO break array result into parts - jArr.length()*/
         int k = jArr.length();
         if(k == 0){
             resultsReturn.add("No result found!");
@@ -65,30 +62,9 @@ public class PlacesSearch {
             }
         }
 
-       /* if(bigEnoughToOrder){
-            resultsToOrder = resultsReturn;
-            for (int i = k; i < jArr.length(); i++) {
-                JSONObject jArrTemp = jArr.getJSONObject(i);
-                String place_idS = jArrTemp.getString("place_id");
-                resultsToOrder.add(place_idS);
-            }
-        }*/
-        //    JSONObject Objloc = jArr2.getJSONObject("location");
         loc = new Location("");
         loc.setLatitude(lat);
         loc.setLongitude(lng);
-
-        //   id = jArr2.getString("id");
-        //   resultsReturn.add(id);
-
-        // JSONObject ObjPlaceId = jArr.getJSONObject(1);
-        // place_id = jArr2.getString("place_id");
-        // resultsReturn.add("place_id");
-
-        //  JSONObject ObjPlace_Reference = jArr.getJSONObject(1);
-        //  place_reference = jArr2.getString("reference");
-        //  resultsReturn.add("place_reference");
-
 
         return resultsReturn;
     }
