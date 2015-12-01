@@ -120,7 +120,7 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
                     ArrayList<String> newList = new ArrayList<String>();
 
                     for (int i = 0; i < favorites.size(); i++) {
-                        if (capitalize(favorites.get(i))  != capitalize(city)){
+                        if (!capitalize(favorites.get(i)).equals(capitalize(city))){
                             newList.add(capitalize(city));
                         }
                     }
