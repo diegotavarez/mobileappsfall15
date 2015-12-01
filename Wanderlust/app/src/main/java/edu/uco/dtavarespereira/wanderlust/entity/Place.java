@@ -7,18 +7,45 @@ import android.location.Location;
  */
 public class Place {
 
-    private String  id;
+    public Place(){
+        super();
+    }
+
+    public Place(final Integer DBID, String googleId, String name, String address, String phoneNumber, String website, String rating, Location location, String category) {
+        this.DBID = DBID;
+        this.googleID = googleId;
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.website = website;
+        this.rating = rating;
+        this.location = location;
+        this.category = category;
+    }
+
+    private Integer DBID;
+    private String googleID;
     private String name;
     private String address;
     private String phoneNumber;
     private String website;
+    private String rating;
+    private Location location;
+    private String category;
 
-    public String getId() {
-        return id;
+    public Integer getDBID() {
+        return DBID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDBID(Integer DBID) {
+        this.DBID = DBID;
+    }
+    public String getGoogleID() {
+        return googleID;
+    }
+
+    public void setGoogleID(String id) {
+        this.googleID = id;
     }
 
     public String getName() {
@@ -69,6 +96,11 @@ public class Place {
         this.location = location;
     }
 
-    private String rating;
-    private Location location;
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }
