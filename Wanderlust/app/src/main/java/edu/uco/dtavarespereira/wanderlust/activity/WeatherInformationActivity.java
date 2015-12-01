@@ -3,6 +3,7 @@ package edu.uco.dtavarespereira.wanderlust.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,23 +65,22 @@ public class WeatherInformationActivity extends Activity {
         tempMax.setText(weather_details[3].substring(0, weather_details[3].indexOf(".")) + "\u00b0" + "C");
         humidity.setText(weather_details[5] + " %");
         windSpeed.setText(weather_details[6] + " mph");
-        defineImage(Integer.parseInt(weather_details[0]), imageDescription);
+        defineImage(weather_details[0], imageDescription);
 
-        for (int i = 2; i < infoList.size(); i++)
-        {
+        for (int i = 2; i < infoList.size(); i++) {
             weather_details = infoList.get(i).split("/");
             String maxTemperature = weather_details[3].substring(0, weather_details[3].indexOf("."));
             String minTemperature = weather_details[4].substring(0, weather_details[4].indexOf("."));
             //long timestamp = 1448874000;//Long.parseLong(weather_details[7]);
-            int id = Integer.parseInt(weather_details[0]);
+            String icon = weather_details[0];
 
             TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
             //Date date  = new Date(timestamp);
             DateFormat format = new SimpleDateFormat("EE");
             String dayOfTheWeek = format.format(Long.parseLong(weather_details[7]) * 1000);
-            Toast.makeText(getApplicationContext(), dayOfTheWeek, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), icon + i, Toast.LENGTH_SHORT).show();
 
-            Forecast forecast = new Forecast(maxTemperature,minTemperature,dayOfTheWeek,id);
+            Forecast forecast = new Forecast(maxTemperature, minTemperature, dayOfTheWeek, icon);
             listForecast.add(forecast);
         }
 
@@ -110,28 +110,32 @@ public class WeatherInformationActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static void defineImage(int id, ImageView imageView) {
+    public static void defineImage(String icon, ImageView imageView) {
 
-        if (id >= 200 && id <= 232) {
-            imageView.setImageResource(R.mipmap.thunderstorm);
-        } else if (id >= 300 && id <= 321) {
-            imageView.setImageResource(R.mipmap.shower_rain);
-        } else if (id >= 500 && id <= 531) {
-            imageView.setImageResource(R.mipmap.rain);
-        } else if (id >= 600 && id <= 622) {
-            imageView.setImageResource(R.mipmap.snow);
-        } else if (id >= 701 && id <= 781) {
-            imageView.setImageResource(R.mipmap.mist);
-        } else if (id == 800) {
-            imageView.setImageResource(R.mipmap.clear_sky);
-        } else if (id == 801) {
+        if(icon.equals("01d")){
+            imageView.setImageResource(R.mipmap.clear_sky_night);
+        }else if(icon.equals("01n")){
+            imageView.setImageResource(R.mipmap.clear_sky_night);
+        }else if(icon.equals("02d")) {
             imageView.setImageResource(R.mipmap.few_clouds);
-        } else if (id == 802) {
+        }else if (icon.equals("02n")) {
+            imageView.setImageResource(R.mipmap.few_clouds_night);
+        }else if (icon.equals("03d") || icon.equals("03n")){
             imageView.setImageResource(R.mipmap.scattered_clouds);
-        } else if (id == 803) {
+        }else if(icon.equals("04d") || icon.equals("04n")){
             imageView.setImageResource(R.mipmap.broken_clouds);
-        } else {
-            imageView.setImageResource(R.mipmap.scattered_clouds);
+        }else if(icon.equals("09d") || icon.equals("09n")){
+            imageView.setImageResource(R.mipmap.shower_rain);
+        }else if(icon.equals("10d")){
+            imageView.setImageResource(R.mipmap.rain);
+        } else if (icon.equals("10n")){
+            imageView.setImageResource(R.mipmap.rain_night);
+        } else if(icon.equals("11d") || icon.equals("11n")){
+            imageView.setImageResource(R.mipmap.thunderstorm);
+        }else if(icon.equals("13d") || icon.equals("13n")){
+            imageView.setImageResource(R.mipmap.snow);
+        }else if(icon.equals("50d") || icon.equals("50n")){
+            imageView.setImageResource(R.mipmap.mist);
         }
 
     }

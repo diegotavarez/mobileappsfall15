@@ -67,7 +67,7 @@ public class JSonData {
                 double windSpeed = dayForecast.getDouble("speed");
 
                 JSONObject weatherObject = dayForecast.getJSONArray("weather").getJSONObject(0);
-                String id = weatherObject.getString("id");
+                String icon = weatherObject.getString("icon");
                 String description = weatherObject.getString("description");
 
                 // Temperatures are in a child object called "temp".
@@ -78,7 +78,7 @@ public class JSonData {
 
                 long timestamp = dayForecast.getLong("dt");
 
-                result.add(id + "/" + description + "/" + temp + "/" + high + "/" + low + "/" + humidity + "/" + windSpeed + "/" + timestamp);
+                result.add(icon + "/" + description + "/" + temp + "/" + high + "/" + low + "/" + humidity + "/" + windSpeed + "/" + timestamp);
             }
 
 

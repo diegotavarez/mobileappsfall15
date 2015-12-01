@@ -4,25 +4,25 @@ package edu.uco.dtavarespereira.wanderlust.entity;
  * Created by diegotavarez on 11/24/15.
  */
 public class Forecast {
-    public Forecast(String maximumTemperature, String minimumTemperature, String dayOfTheWeek, int id) {
+    public Forecast(String maximumTemperature, String minimumTemperature, String dayOfTheWeek, String icon) {
         this.maximumTemperature = maximumTemperature;
         this.minimumTemperature = minimumTemperature;
         this.dayOfTheWeek = dayOfTheWeek;
-        this.id = id;
+        this.icon = icon;
     }
 
     String maximumTemperature;
     String minimumTemperature;
     String dayOfTheWeek;
-    int id;
+    String icon;
 
 
-    public int getId() {
-        return id;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getDayOfTheWeek() {

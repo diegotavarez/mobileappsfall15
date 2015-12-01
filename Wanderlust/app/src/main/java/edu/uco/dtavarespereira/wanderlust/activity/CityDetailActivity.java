@@ -53,7 +53,7 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
     protected GoogleApiClient mGoogleApiClient;
 
 
-    String temperature, humidity, tempMin, tempMax, windSpeed, description, id;
+    String temperature, humidity, tempMin, tempMax, windSpeed, description, icon;
     String[] name_lat_lon, weatherDetails;
 
     @Override
@@ -92,11 +92,11 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         tempMax = weatherDetails[3];//intent.getStringExtra("temp_max");
         windSpeed = weatherDetails[6];//intent.getStringExtra("windSpeed");
         description = weatherDetails[1];//intent.getStringExtra("description");
-        id = weatherDetails[0];//intent.getStringExtra("id");
+        icon = weatherDetails[0];//intent.getStringExtra("id");
 
         tvTemperature.setText(temperature.substring(0,temperature.indexOf(".")) + "˚ C");
         weatherIcon = (ImageView) findViewById(R.id.weather_icon);
-        WeatherInformationActivity.defineImage(Integer.parseInt(id), weatherIcon);
+        WeatherInformationActivity.defineImage(icon, weatherIcon);
 
         ArrayList<String> favorites = InitialActivity.getStringArrayPref(getApplicationContext(), "FAVORITES");
         if(favorites.contains(capitalize(city))) {

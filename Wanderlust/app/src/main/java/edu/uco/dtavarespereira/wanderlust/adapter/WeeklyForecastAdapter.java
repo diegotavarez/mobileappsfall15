@@ -30,6 +30,7 @@ import java.util.List;
 import edu.uco.dtavarespereira.wanderlust.JSonData;
 import edu.uco.dtavarespereira.wanderlust.R;
 import edu.uco.dtavarespereira.wanderlust.activity.CityDetailActivity;
+import edu.uco.dtavarespereira.wanderlust.activity.WeatherInformationActivity;
 import edu.uco.dtavarespereira.wanderlust.entity.Forecast;
 
 public class WeeklyForecastAdapter extends BaseAdapter {
@@ -75,7 +76,7 @@ public class WeeklyForecastAdapter extends BaseAdapter {
         tvMaximum.setText(forecast.getMaximumTemperature());
 
         final ImageView imWeather = (ImageView) view.findViewById(R.id.weather_icon);
-        defineImage(forecast.getId(), imWeather);
+        WeatherInformationActivity.defineImage(forecast.getIcon(), imWeather);
 
         return view;
 
@@ -192,31 +193,5 @@ public class WeeklyForecastAdapter extends BaseAdapter {
 
     private String capitalize(final String line) {
         return Character.toUpperCase(line.charAt(0)) + line.substring(1);
-    }
-
-    public static void defineImage(int id, ImageView imageView) {
-
-        if (id >= 200 && id <= 232) {
-            imageView.setImageResource(R.mipmap.thunderstorm);
-        } else if (id >= 300 && id <= 321) {
-            imageView.setImageResource(R.mipmap.shower_rain);
-        } else if (id >= 500 && id <= 531) {
-            imageView.setImageResource(R.mipmap.rain);
-        } else if (id >= 600 && id <= 622) {
-            imageView.setImageResource(R.mipmap.snow);
-        } else if (id >= 701 && id <= 781) {
-            imageView.setImageResource(R.mipmap.mist);
-        } else if (id == 800) {
-            imageView.setImageResource(R.mipmap.clear_sky);
-        } else if (id == 801) {
-            imageView.setImageResource(R.mipmap.few_clouds);
-        } else if (id == 802) {
-            imageView.setImageResource(R.mipmap.scattered_clouds);
-        } else if (id == 803) {
-            imageView.setImageResource(R.mipmap.broken_clouds);
-        }else{
-            imageView.setImageResource(R.mipmap.scattered_clouds);
-        }
-
     }
 }
