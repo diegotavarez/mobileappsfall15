@@ -47,7 +47,10 @@ public class PlaceInformationActivity extends Activity{
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
-        setTitle(name);
+
+        String category = intent.getStringExtra("category");
+        setTitle(category);
+
         formatted_address = intent.getStringExtra("address");
        website = intent.getStringExtra("website");
         formatted_phone_number = intent.getStringExtra("phone");

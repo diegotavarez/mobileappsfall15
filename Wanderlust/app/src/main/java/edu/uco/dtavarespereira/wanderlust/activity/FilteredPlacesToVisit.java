@@ -105,6 +105,7 @@ public class FilteredPlacesToVisit extends Activity implements Ordering.OnComple
                 intentFiltered.putExtra("lat", locationsArray.get(position).getLatitude());
                 intentFiltered.putExtra("lng", locationsArray.get(position).getLongitude());
                 intentFiltered.putExtra("photos", photos.get(position));
+                intentFiltered.putExtra("category", category);
                 startActivity(intentFiltered);
             }
         });
