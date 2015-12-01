@@ -146,6 +146,7 @@ public class CommercialPlacesActivity extends Activity {
 
 
                         ArrayList<String> placesData = PlacesDetailsSearch.getData(data1);
+                        System.out.println("PLACE DATA IS" + placesData);
                         placesNames.add(i, placesData);
                         i++;
                         locationArray.add(PlacesDetailsSearch.getLocation());
@@ -176,7 +177,7 @@ public class CommercialPlacesActivity extends Activity {
         protected void onPostExecute(ArrayList result) {
             // Toast.makeText(getApplicationContext(), placesNames.toString(), Toast.LENGTH_SHORT).show();
 
-            if(!result.isEmpty()) {
+            if(!placesNames.isEmpty()) {
                 Intent intentFiltered = new Intent(CommercialPlacesActivity.this, FilteredPlacesToVisit.class);
                 intentFiltered.putExtra("size", placesNames.size());
                 for (int i = 0; i < placesNames.size(); i++) {

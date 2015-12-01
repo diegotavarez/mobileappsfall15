@@ -181,7 +181,7 @@ public class PlacesToVisit extends Activity {
         @Override
         protected void onPostExecute(ArrayList result) {
 
-            if(!result.isEmpty()) {
+            if(!placesNames.isEmpty()) {
                 Intent intentFiltered = new Intent(PlacesToVisit.this, FilteredPlacesToVisit.class);
                 intentFiltered.putExtra("size", placesNames.size());
                 for (int i = 0; i < placesNames.size(); i++) {
