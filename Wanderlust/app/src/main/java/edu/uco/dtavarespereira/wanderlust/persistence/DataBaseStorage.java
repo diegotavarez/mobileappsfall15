@@ -255,10 +255,7 @@ public class DataBaseStorage implements StorageSystem {
             final String category = mCursor.getString(mCursor
                     .getColumnIndex(PLACE_CATEGORY));
 
-            place =
-                    new Place(id, googleId, name, address, number,
-                            website, rating,
-                            null, category);
+            place = new Place(id, googleId, name, address, number, website, rating, null, category);
             place.setDBID(id);
             mCursor.close();
         }
@@ -268,7 +265,7 @@ public class DataBaseStorage implements StorageSystem {
 
     @Override
     public final List<Place> getPlaces() {
-        final List<Place> expenses = new ArrayList<Place>();
+        final List<Place> places = new ArrayList<Place>();
 
         try {
             final String query = "SELECT * FROM " + PLACES_TABLE_NAME;
@@ -277,7 +274,7 @@ public class DataBaseStorage implements StorageSystem {
             if (mCursor != null) {
                 mCursor.moveToFirst();
                 while (!mCursor.isAfterLast()) {
-                    expenses.add(getPlace(mCursor.getInt(mCursor
+                    places.add(getPlace(mCursor.getInt(mCursor
                             .getColumnIndex(PLACE_ID))));
                     mCursor.moveToNext();
                 }
@@ -289,8 +286,8 @@ public class DataBaseStorage implements StorageSystem {
         } catch (final Exception e) {
             e.printStackTrace();
         }
-        Collections.reverse(expenses);
-        return expenses;
+        Collections.reverse(places);
+        return places;
 
     }
 
