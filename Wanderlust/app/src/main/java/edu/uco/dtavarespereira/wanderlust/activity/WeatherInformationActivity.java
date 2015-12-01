@@ -65,12 +65,15 @@ public class WeatherInformationActivity extends Activity {
         tempMax.setText(weather_details[3].substring(0, weather_details[3].indexOf(".")) + "\u00b0" + "C");
         humidity.setText(weather_details[5] + " %");
         windSpeed.setText(weather_details[6] + " mph");
+
+        //Toast.makeText(getApplicationContext(),weather_details[0] , Toast.LENGTH_SHORT).show();
+
         defineImage(weather_details[0], imageDescription);
 
         for (int i = 2; i < infoList.size(); i++) {
             weather_details = infoList.get(i).split("/");
-            String maxTemperature = weather_details[3].substring(0, weather_details[3].indexOf("."));
-            String minTemperature = weather_details[4].substring(0, weather_details[4].indexOf("."));
+            String maxTemperature = weather_details[3].substring(0, weather_details[3].indexOf(".")) + "\u00b0";
+            String minTemperature = weather_details[4].substring(0, weather_details[4].indexOf(".")) + "\u00b0";
             //long timestamp = 1448874000;//Long.parseLong(weather_details[7]);
             String icon = weather_details[0];
 
@@ -113,7 +116,7 @@ public class WeatherInformationActivity extends Activity {
     public static void defineImage(String icon, ImageView imageView) {
 
         if(icon.equals("01d")){
-            imageView.setImageResource(R.mipmap.clear_sky_night);
+            imageView.setImageResource(R.mipmap.clear_sky);
         }else if(icon.equals("01n")){
             imageView.setImageResource(R.mipmap.clear_sky_night);
         }else if(icon.equals("02d")) {
