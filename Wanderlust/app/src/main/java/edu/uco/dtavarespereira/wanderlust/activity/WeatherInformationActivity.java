@@ -47,10 +47,10 @@ public class WeatherInformationActivity extends Activity {
         tempMax = (TextView) findViewById(R.id.textViewMax);
         windSpeed = (TextView) findViewById(R.id.textViewWinSpeed);
         imageDescription = (ImageView) findViewById(R.id.weather_icon);
-        infoList = new ArrayList<String>();
-        weekList = new ArrayList<String>();
+        infoList = new ArrayList<>();
+        weekList = new ArrayList<>();
         list = (ListView) findViewById(R.id.listView);
-        List<Forecast> listForecast = new ArrayList<Forecast>();
+        List<Forecast> listForecast = new ArrayList<>();
 
         Intent intent = getIntent();
         infoList = intent.getStringArrayListExtra("infoList");
