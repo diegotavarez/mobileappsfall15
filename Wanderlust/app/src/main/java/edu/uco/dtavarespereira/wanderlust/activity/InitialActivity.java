@@ -121,6 +121,14 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        location_button_clicked = false;
+    }
+
+
     private boolean checkValidation() {
         boolean ret = true;
         final FieldValidation validation = new FieldValidation(InitialActivity.this);
@@ -320,6 +328,21 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
             startActivity(intent);*/
 
             //String city = result.remove(0);
+            /*
+            if(location_button_clicked == true)
+            {
+                ArrayList<String> result2 = new ArrayList<>();
+
+                String[] name_lat_lon = result.get(0).split("/");
+
+                result2.add(name_lat_lon[0] + "/" + mLastLocation.getLatitude() + "/" + mLastLocation.getLongitude());
+                result2.add(result.get(1));
+                intent.putStringArrayListExtra("listDays", result2);
+
+
+            }
+            else
+            */
             intent.putStringArrayListExtra("listDays", result);
 
             startActivity(intent);

@@ -133,7 +133,7 @@ public class PlacesToVisit extends Activity {
                             .appendQueryParameter("location", params[0] + "," + params[1])
                             .appendQueryParameter("radius", "5000")
                             .appendQueryParameter("types", params[2])
-                            .appendQueryParameter("key", "AIzaSyBRfUWJUz5x9TnFaIUbqjsrKC_q_mTBIQo")
+                            .appendQueryParameter("key", "AIzaSyA4Tp1h-ptnl6lqqcTRwujzE-qbEU9fd3A")
                             .build();
 
                     URL url = new URL(builtUri.toString());

@@ -2,6 +2,7 @@ package edu.uco.dtavarespereira.wanderlust.activity;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,11 @@ public class PlacesNamesDialogFragment extends DialogFragment {
         String name = mArgs.getString("name");
         String information = mArgs.getString("information");
 
-        String[] name_lat_lon = information.split("/");
+        String[] name_lat_lon = information.split("!");
 
         txtName.setText(name);
+        Log.d("epabeuabo", information);
+
         if(name_lat_lon.length == 3) {
             txtAdress.setText(name_lat_lon[0]);
             txtPhone.setText(name_lat_lon[1]);

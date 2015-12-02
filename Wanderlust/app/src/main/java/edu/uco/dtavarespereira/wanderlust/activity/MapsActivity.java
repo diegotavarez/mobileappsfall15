@@ -134,7 +134,7 @@ public class MapsActivity extends FragmentActivity {
                 formatted_phone_number = s.get(3);
 
                 mMap.addMarker(new MarkerOptions().position(locationsLatLng.get(i)).title(name).snippet(formatted_address +
-                        "/" + formatted_phone_number + "/" + website));
+                        "!" + formatted_phone_number + "!" + website));
 
                 //     args.putString("name", name);
                 //   args.putString("address", formatted_address);
