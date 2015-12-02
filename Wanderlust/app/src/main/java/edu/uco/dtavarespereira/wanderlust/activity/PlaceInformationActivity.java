@@ -26,8 +26,6 @@ import edu.uco.dtavarespereira.wanderlust.PlacesSearch;
 import edu.uco.dtavarespereira.wanderlust.R;
 
 import edu.uco.dtavarespereira.wanderlust.entity.Place;
-import edu.uco.dtavarespereira.wanderlust.persistence.DataBaseStorage;
-
 
 
 public class PlaceInformationActivity extends Activity{
@@ -44,23 +42,11 @@ public class PlaceInformationActivity extends Activity{
     String photos;
     Switch swFavorite;
 
-    private static DataBaseStorage dbHelper;
-
-    public static DataBaseStorage getDBHelper() {
-        return dbHelper;
-    }
-
-    public static void setDBHelper(final DataBaseStorage newDBHelper) {
-        PlaceInformationActivity.dbHelper = newDBHelper;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_information);
         final Double lat, lng;
-        setDBHelper(new DataBaseStorage(getApplicationContext()));
-
 
         ids = PlacesSearch.getIds();
         img = (ImageView) findViewById(R.id.imageView);
@@ -89,7 +75,7 @@ public class PlaceInformationActivity extends Activity{
                 if (isChecked) {
                     Location location = new Location("");
                     Place place = new Place(null, "", name, formatted_address, formatted_phone_number, website, String.valueOf(rating),location, category);
-                    PlaceInformationActivity.getDBHelper().addPlace(place);
+                    InitialActivity.getDBHelper().addPlace(place);
                 } else {
 
                 }

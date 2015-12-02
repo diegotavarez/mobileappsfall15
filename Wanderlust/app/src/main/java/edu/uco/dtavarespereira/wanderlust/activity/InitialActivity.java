@@ -173,9 +173,8 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_favorites) {
-            Intent favoritesIntent = new Intent(InitialActivity.this, FavoritePlacesActivity.class);
-            startActivity(favoritesIntent);
+        if (id == R.id.action_settings) {
+            return true;
         }
 
         if (id == R.id.action_current_position){

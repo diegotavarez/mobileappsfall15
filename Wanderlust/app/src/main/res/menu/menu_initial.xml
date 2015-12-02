@@ -6,7 +6,6 @@
         android:showAsAction="ifRoom"
         android:title="Current Position"/>
 
-    <item android:id="@+id/action_favorites" android:title="Favorite Places"
-        android:icon="@drawable/ic_action_places"
-        android:orderInCategory="100" android:showAsAction="ifRoom" />
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" android:showAsAction="never" />
 </menu>
