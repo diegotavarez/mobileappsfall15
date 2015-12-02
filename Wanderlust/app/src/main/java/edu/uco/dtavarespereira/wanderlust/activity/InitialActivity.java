@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -33,6 +35,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import edu.uco.dtavarespereira.wanderlust.JSonData;
 import edu.uco.dtavarespereira.wanderlust.R;
@@ -45,6 +49,8 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
     ImageButton btSearch;
     EditText etCityName;
     String cityName;
+
+    boolean location_button_clicked = false;
 
     protected GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
@@ -181,6 +187,7 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
         if (id == R.id.action_current_position){
             buildGoogleApiClient();
             mGoogleApiClient.connect();
+            location_button_clicked = true;
             return true;
         }
 
@@ -192,11 +199,22 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
-            Intent intent = new Intent(InitialActivity.this, CityDetailActivity.class);
-            intent.putExtra("CITY_NAME", "Your Location");
-            intent.putExtra("lat", Double.valueOf(mLastLocation.getLatitude()));
-            intent.putExtra("lng", Double.valueOf(mLastLocation.getLongitude()));
-            startActivity(intent);
+
+            String cityName = null;
+            Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
+            List<Address> addresses;
+            try {
+                addresses = gcd.getFromLocation(mLastLocation.getLatitude(),
+                        mLastLocation.getLongitude(), 1);
+                if (addresses.size() > 0)
+                    System.out.println(addresses.get(0).getLocality());
+                cityName = addresses.get(0).getLocality();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            new HttpGetTask().execute(cityName);
         }
     }
 
@@ -294,8 +312,21 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
             startActivity(intent);*/
 
             //String city = result.remove(0);
+            if(location_button_clicked == true)
+            {
+                ArrayList<String> result2 = new ArrayList<>();
 
+                String[] name_lat_lon = result.get(0).split("/");
+
+                result2.add(name_lat_lon[0] + "/" + mLastLocation.getLatitude() + "/" + mLastLocation.getLongitude());
+                result2.add(result.get(1));
+                intent.putStringArrayListExtra("listDays", result2);
+
+
+            }
+            else
             intent.putStringArrayListExtra("listDays", result);
+
             startActivity(intent);
 
         }
