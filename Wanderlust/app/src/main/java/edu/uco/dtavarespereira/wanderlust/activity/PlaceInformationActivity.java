@@ -92,7 +92,7 @@ public class PlaceInformationActivity extends Activity{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     Location location = new Location("");
-                    Place place = new Place(0, "", name, formatted_address, formatted_phone_number, website, "",location, category);
+                    Place place = new Place(null, "", name, formatted_address, formatted_phone_number, website, "",location, category);
                     PlaceInformationActivity.getDBHelper().addPlace(place);
                 } else {
 
