@@ -41,6 +41,7 @@ public class Ordering extends DialogFragment {
                 } else if (position == 2) {
                     PlacesDetailsSearch.orderByName();
                 }
+                FilteredPlacesToVisit.ordered = true;
                 click = true;
                 onClick();
 

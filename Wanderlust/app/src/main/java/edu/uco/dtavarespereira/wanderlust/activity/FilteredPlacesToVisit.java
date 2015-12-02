@@ -26,6 +26,7 @@ public class FilteredPlacesToVisit extends Activity implements Ordering.OnComple
     ArrayList<Location> locationsArray;
     ArrayList<String> photos;
     String category;
+    static boolean ordered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class FilteredPlacesToVisit extends Activity implements Ordering.OnComple
             names.add(places.getName());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
         places.setAdapter(adapter);
 
         order.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +90,7 @@ public class FilteredPlacesToVisit extends Activity implements Ordering.OnComple
                 // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
                 Intent intentFiltered = new Intent(FilteredPlacesToVisit.this, PlaceInformationActivity.class);
 
+                if(!ordered){
                 String name, formatted_address, formatted_phone_number, website, rating;
                 ArrayList<String> s = placesNames.get(position);
                 name = s.get(0);
@@ -106,6 +108,23 @@ public class FilteredPlacesToVisit extends Activity implements Ordering.OnComple
                 intentFiltered.putExtra("lng", locationsArray.get(position).getLongitude());
                 intentFiltered.putExtra("photos", photos.get(position));
                 intentFiltered.putExtra("category", category);
+                } else {
+                    int pos = 0;
+                    for(int i = 0; i < PlacesDetailsSearch.placeArray.size(); i++){
+                        if(PlacesDetailsSearch.placeArray.get(i).getName().equals(places.getAdapter().getItem(position)))
+                            pos = i;
+                    }
+                    intentFiltered.putExtra("name",PlacesDetailsSearch.placeArray.get(pos).getName());
+                    intentFiltered.putExtra("address",PlacesDetailsSearch.placeArray.get(pos).getAddress());
+                    intentFiltered.putExtra("website",PlacesDetailsSearch.placeArray.get(pos).getWebsite());
+                    intentFiltered.putExtra("phone",PlacesDetailsSearch.placeArray.get(pos).getPhoneNumber());
+                    intentFiltered.putExtra("rating", PlacesDetailsSearch.placeArray.get(pos).getRating());
+                    intentFiltered.putExtra("position", pos);
+                    intentFiltered.putExtra("lat",PlacesDetailsSearch.placeArray.get(pos).getLocation().getLatitude());
+                    intentFiltered.putExtra("lng", PlacesDetailsSearch.placeArray.get(pos).getLocation().getLongitude());
+                    intentFiltered.putExtra("photos", PlacesDetailsSearch.placeArray.get(pos).getPhoto());
+                    intentFiltered.putExtra("category", category);
+                }
                 startActivity(intentFiltered);
             }
         });

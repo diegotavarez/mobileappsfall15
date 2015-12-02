@@ -74,6 +74,8 @@ public class PlacesDetailsSearch {
         } catch(JSONException e){
                 photo = "empty";
             }
+        placeObject.setPhoto(photo);
+
 
         JSONObject jArr1 = jArr.getJSONObject("geometry").getJSONObject("location");
         Double lat = jArr1.getDouble("lat");

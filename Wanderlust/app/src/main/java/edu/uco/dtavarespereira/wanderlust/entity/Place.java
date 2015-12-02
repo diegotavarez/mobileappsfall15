@@ -32,6 +32,7 @@ public class Place {
     private String rating;
     private Location location;
     private String category;
+    private String photo;
 
     public Integer getDBID() {
         return DBID;
@@ -103,4 +104,13 @@ public class Place {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
 }

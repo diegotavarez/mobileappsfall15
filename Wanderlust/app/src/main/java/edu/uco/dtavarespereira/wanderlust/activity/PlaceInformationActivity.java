@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import edu.uco.dtavarespereira.wanderlust.PlacesSearch;
 import edu.uco.dtavarespereira.wanderlust.R;
+import edu.uco.dtavarespereira.wanderlust.persistence.DataBaseStorage;
 
 public class PlaceInformationActivity extends Activity{
     Button button;
