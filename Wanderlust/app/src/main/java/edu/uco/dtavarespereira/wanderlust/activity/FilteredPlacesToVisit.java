@@ -27,12 +27,14 @@ public class FilteredPlacesToVisit extends Activity implements Ordering.OnComple
     ArrayList<String> photos;
     String category;
     static boolean ordered = false;
+    Button btnShowPlacesOnMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtered_places_to_visit);
 
+        btnShowPlacesOnMap = (Button) findViewById(R.id.btnShowPlacesOnMap);
         places = (ListView) findViewById(R.id.places);
         order = (Button) findViewById(R.id.order);
       final Intent intent = getIntent();
@@ -90,46 +92,60 @@ public class FilteredPlacesToVisit extends Activity implements Ordering.OnComple
                 // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
                 Intent intentFiltered = new Intent(FilteredPlacesToVisit.this, PlaceInformationActivity.class);
 
-                if(!ordered){
-                String name, formatted_address, formatted_phone_number, website, rating;
-                ArrayList<String> s = placesNames.get(position);
-                name = s.get(0);
-                formatted_address = s.get(1);
-                   website = s.get(2);
-                   formatted_phone_number = s.get(3);
-                rating = s.get(4);
-                intentFiltered.putExtra("name",name);
-                intentFiltered.putExtra("address",formatted_address);
-                intentFiltered.putExtra("website",website);
-                intentFiltered.putExtra("phone",formatted_phone_number);
-                intentFiltered.putExtra("rating", rating);
-                intentFiltered.putExtra("position", position);
-                intentFiltered.putExtra("lat", locationsArray.get(position).getLatitude());
-                intentFiltered.putExtra("lng", locationsArray.get(position).getLongitude());
-                intentFiltered.putExtra("photos", photos.get(position));
-                intentFiltered.putExtra("category", category);
+                if (!ordered) {
+                    String name, formatted_address, formatted_phone_number, website, rating;
+                    ArrayList<String> s = placesNames.get(position);
+                    name = s.get(0);
+                    formatted_address = s.get(1);
+                    website = s.get(2);
+                    formatted_phone_number = s.get(3);
+                    rating = s.get(4);
+                    intentFiltered.putExtra("name", name);
+                    intentFiltered.putExtra("address", formatted_address);
+                    intentFiltered.putExtra("website", website);
+                    intentFiltered.putExtra("phone", formatted_phone_number);
+                    intentFiltered.putExtra("rating", rating);
+                    intentFiltered.putExtra("position", position);
+                    intentFiltered.putExtra("lat", locationsArray.get(position).getLatitude());
+                    intentFiltered.putExtra("lng", locationsArray.get(position).getLongitude());
+                    intentFiltered.putExtra("photos", photos.get(position));
+                    intentFiltered.putExtra("category", category);
                 } else {
                     int pos = 0;
-                    for(int i = 0; i < PlacesDetailsSearch.placeArray.size(); i++){
-                        if(PlacesDetailsSearch.placeArray.get(i).getName().equals(places.getAdapter().getItem(position)))
+                    for (int i = 0; i < PlacesDetailsSearch.placeArray.size(); i++) {
+                        if (PlacesDetailsSearch.placeArray.get(i).getName().equals(places.getAdapter().getItem(position)))
                             pos = i;
                     }
-                    intentFiltered.putExtra("name",PlacesDetailsSearch.placeArray.get(pos).getName());
-                    intentFiltered.putExtra("address",PlacesDetailsSearch.placeArray.get(pos).getAddress());
-                    intentFiltered.putExtra("website",PlacesDetailsSearch.placeArray.get(pos).getWebsite());
-                    intentFiltered.putExtra("phone",PlacesDetailsSearch.placeArray.get(pos).getPhoneNumber());
+                    intentFiltered.putExtra("name", PlacesDetailsSearch.placeArray.get(pos).getName());
+                    intentFiltered.putExtra("address", PlacesDetailsSearch.placeArray.get(pos).getAddress());
+                    intentFiltered.putExtra("website", PlacesDetailsSearch.placeArray.get(pos).getWebsite());
+                    intentFiltered.putExtra("phone", PlacesDetailsSearch.placeArray.get(pos).getPhoneNumber());
                     intentFiltered.putExtra("rating", PlacesDetailsSearch.placeArray.get(pos).getRating());
                     intentFiltered.putExtra("position", pos);
-                    intentFiltered.putExtra("lat",PlacesDetailsSearch.placeArray.get(pos).getLocation().getLatitude());
+                    intentFiltered.putExtra("lat", PlacesDetailsSearch.placeArray.get(pos).getLocation().getLatitude());
                     intentFiltered.putExtra("lng", PlacesDetailsSearch.placeArray.get(pos).getLocation().getLongitude());
                     intentFiltered.putExtra("photos", PlacesDetailsSearch.placeArray.get(pos).getPhoto());
                     intentFiltered.putExtra("category", category);
+                    intentFiltered.putExtra("button", 1);
+
                 }
                 startActivity(intentFiltered);
             }
         });
 
+        btnShowPlacesOnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent intentMaps = new Intent(FilteredPlacesToVisit.this, MapsActivity.class);
+
+                intentMaps.putExtra("locations", locationsArray);
+                intentMaps.putExtra("places_details", placesNames);
+                intentMaps.putExtra("button", 2);
+
+                startActivity(intentMaps);
+            }
+        });
 
     }
 

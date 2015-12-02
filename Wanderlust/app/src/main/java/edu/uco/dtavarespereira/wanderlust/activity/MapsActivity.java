@@ -1,14 +1,18 @@
 package edu.uco.dtavarespereira.wanderlust.activity;
 
-import android.support.v4.app.FragmentActivity;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 import edu.uco.dtavarespereira.wanderlust.R;
 
@@ -20,18 +24,42 @@ public class MapsActivity extends FragmentActivity {
     private double lat, lon;
     private String namePlace;
 
+    ArrayList<ArrayList<String>> placesNames;
+    ArrayList<Location> locationArray = new ArrayList<>();
+    ArrayList<LatLng> locationsLatLng = new ArrayList<>();
+    String name, formatted_address, formatted_phone_number, website;
+    Bundle args = new Bundle();
+    int intent = 0;
+    private DepartmentNamesDialogFragment fragmentDepartmentDialog = new DepartmentNamesDialogFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        lat = getIntent().getDoubleExtra("lat", 0);
-        lon = getIntent().getDoubleExtra("lon", 0);
-        try {
-            namePlace = getIntent().getStringExtra("name");
-        } catch(Exception e){
-            namePlace = "";
+        intent = getIntent().getIntExtra("button", 1);
+
+        if(intent == 1) {
+
+            lat = getIntent().getDoubleExtra("lat", 0);
+            lon = getIntent().getDoubleExtra("lon", 0);
+            try {
+                namePlace = getIntent().getStringExtra("name");
+            } catch (Exception e) {
+                namePlace = "";
+            }
+            cityPosition = new LatLng(lat, lon);
         }
-        cityPosition = new LatLng(lat, lon);
+        else if(intent == 2) {
+
+            locationArray = (ArrayList<Location>) getIntent().getSerializableExtra("locations");
+            placesNames =  (ArrayList<ArrayList<String>>) getIntent().getSerializableExtra("places_details");
+
+            for(int i = 0; i < locationArray.size(); i++)
+            {
+                locationsLatLng.add(new LatLng(locationArray.get(i).getLatitude(), locationArray.get(i).getLongitude()));
+            }
+
+        }
 
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
@@ -79,11 +107,57 @@ public class MapsActivity extends FragmentActivity {
      */
     private void setUpMap() {
 
-        CameraPosition camera = new CameraPosition.Builder()
-                .target(cityPosition).zoom(15).build();
-        mMap.getUiSettings().setZoomControlsEnabled(true); // (+) (-) zoom control bar
+        CameraPosition camera;
 
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
-        mMap.addMarker(new MarkerOptions().position(cityPosition).title(namePlace));
+        if(intent == 1) {
+            camera = new CameraPosition.Builder()
+                    .target(cityPosition).zoom(15).build();
+
+            mMap.getUiSettings().setZoomControlsEnabled(true); // (+) (-) zoom control bar
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
+            mMap.addMarker(new MarkerOptions().position(cityPosition).title(namePlace));
+        }
+        else if(intent == 2)
+        {
+            camera = new CameraPosition.Builder()
+                    .target(locationsLatLng.get(0)).zoom(15).build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
+
+            ArrayList<String> s;
+
+            for(int i = 0; i < locationsLatLng.size(); i++)
+            {
+                s = placesNames.get(i);
+                name = s.get(0);
+                formatted_address = s.get(1);
+                website = s.get(2);
+                formatted_phone_number = s.get(3);
+
+                mMap.addMarker(new MarkerOptions().position(locationsLatLng.get(i)).title(name).snippet("Address: " +
+                        formatted_address + "\n Phone: \n" + formatted_phone_number + "\n Website: \n" + website));
+
+                //     args.putString("name", name);
+                //   args.putString("address", formatted_address);
+                // args.putString("phone", formatted_phone_number);
+                //args.putString("website", formatted_phone_number);
+
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+
+                        args.putString("name", marker.getTitle().toString());
+
+                        fragmentDepartmentDialog.setArguments(args);
+                        fragmentDepartmentDialog.show(getFragmentManager(), "oi");
+                        return true;
+                    }
+                });
+
+                //   args = new Bundle();
+                //     mMap
+            }
+
+        }
+
     }
 }
