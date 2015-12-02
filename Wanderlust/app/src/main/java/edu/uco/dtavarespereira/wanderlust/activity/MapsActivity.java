@@ -133,8 +133,8 @@ public class MapsActivity extends FragmentActivity {
                 website = s.get(2);
                 formatted_phone_number = s.get(3);
 
-                mMap.addMarker(new MarkerOptions().position(locationsLatLng.get(i)).title(name).snippet("Address: " +
-                        formatted_address + "\n Phone: \n" + formatted_phone_number + "\n Website: \n" + website));
+                mMap.addMarker(new MarkerOptions().position(locationsLatLng.get(i)).title(name).snippet(formatted_address +
+                        "/" + formatted_phone_number + "/" + website));
 
                 //     args.putString("name", name);
                 //   args.putString("address", formatted_address);
@@ -146,6 +146,7 @@ public class MapsActivity extends FragmentActivity {
                     public boolean onMarkerClick(Marker marker) {
 
                         args.putString("name", marker.getTitle().toString());
+                        args.putString("information", marker.getSnippet().toString());
 
                         fragmentPlacesDialog.setArguments(args);
                         fragmentPlacesDialog.show(getFragmentManager(), "oi");

@@ -5,18 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.ArrayList;
+import android.widget.TextView;
 
 import edu.uco.dtavarespereira.wanderlust.R;
 
 public class PlacesNamesDialogFragment extends DialogFragment {
 
-    private ArrayList<String> arrayPlaces = new ArrayList<String>();
-    ListView lstPlaces;
+    TextView txtName, txtAdress, txtPhone, txtWebsite;
     View view;
 
     @Override
@@ -24,7 +19,10 @@ public class PlacesNamesDialogFragment extends DialogFragment {
 
         view = inflater.inflate(R.layout.fragment_places_names_dialog, container, false);
 
-        lstPlaces = (ListView) view.findViewById(R.id.listPlacesDialogFragment);
+        txtName = (TextView) view.findViewById(R.id.nameView);
+        txtAdress = (TextView) view.findViewById(R.id.address);
+        txtPhone = (TextView) view.findViewById(R.id.phone);
+        txtWebsite = (TextView) view.findViewById(R.id.website);
 
         return view;
     }
@@ -35,25 +33,20 @@ public class PlacesNamesDialogFragment extends DialogFragment {
 
         Bundle mArgs = getArguments();
         String name = mArgs.getString("name");
+        String information = mArgs.getString("information");
 
-        arrayPlaces.add(name);
+        String[] name_lat_lon = information.split("/");
 
-        lstPlaces.setAdapter(new ArrayAdapter<String>(getActivity(),
-                R.layout.places_text, R.id.txtList, arrayPlaces));
-
-        lstPlaces.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-        lstPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
+        txtName.setText(name);
+        if(name_lat_lon.length == 3) {
+            txtAdress.setText(name_lat_lon[0]);
+            txtPhone.setText(name_lat_lon[1]);
+            txtWebsite.setText(name_lat_lon[2]);
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        arrayPlaces.clear();
     }
 }
