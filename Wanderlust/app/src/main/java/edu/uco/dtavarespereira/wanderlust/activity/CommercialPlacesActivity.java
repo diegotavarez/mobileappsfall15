@@ -42,7 +42,9 @@ public class CommercialPlacesActivity extends Activity {
     Location location = new Location("");
     String BASE_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?";
     String BASE_URL_DETAILS_SEARCH = "https://maps.googleapis.com/maps/api/place/details/json?";
+    String category;
     ArrayList<ArrayList<String>> placesNames = new ArrayList<>();
+    ArrayList<String> photos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,8 @@ public class CommercialPlacesActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Toast.makeText(getApplicationContext(), " it's working", Toast.LENGTH_SHORT).show();
+
+                category = lstCommercialPlaces.getItemAtPosition(position).toString();
                 new GoogleSearchASyncTask().execute(new String[]{String.valueOf(location.getLatitude()),
                         String.valueOf(location.getLongitude()), adapter.getItem(position).toString()});
             }
@@ -103,6 +107,7 @@ public class CommercialPlacesActivity extends Activity {
             s.add(params[0]);
             ArrayList<String> resultArray = null;
             locationArray = new ArrayList<>();
+            photos = new ArrayList<>();
             ConnectivityManager connMgr = (ConnectivityManager)
                     getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -123,6 +128,7 @@ public class CommercialPlacesActivity extends Activity {
                     in = new BufferedInputStream(
                             httpUrlConnection.getInputStream());
                     String data = readStream(in);
+                    PlacesSearch.getIds().removeAll(PlacesSearch.getIds());
                     resultArray = PlacesSearch.getData(data, 0);
                     int k = PlacesSearch.getLenght();
                     for(int i = 1; i < k; i++){
@@ -133,6 +139,7 @@ public class CommercialPlacesActivity extends Activity {
                     in = null;
                     httpUrlConnection = null;
                     int i = 0;
+                    PlacesDetailsSearch.placeArray.removeAll(PlacesDetailsSearch.placeArray);
                     for(String places : resultArray) {
                         builtUri = Uri.parse(BASE_URL_DETAILS_SEARCH).buildUpon()
                                 .appendQueryParameter("placeid", places)
@@ -148,8 +155,9 @@ public class CommercialPlacesActivity extends Activity {
                         ArrayList<String> placesData = PlacesDetailsSearch.getData(data1);
                         System.out.println("PLACE DATA IS" + placesData);
                         placesNames.add(i, placesData);
-                        i++;
                         locationArray.add(PlacesDetailsSearch.getLocation());
+                        photos.add(PlacesDetailsSearch.getPhoto());
+                        i++;
                     }
                     resultArray.removeAll(resultArray);
 
@@ -185,6 +193,8 @@ public class CommercialPlacesActivity extends Activity {
                     intentFiltered.putExtra("location lat " + i, locationArray.get(i).getLatitude());
                     intentFiltered.putExtra("location lng " + i, locationArray.get(i).getLongitude());
                 }
+                intentFiltered.putExtra("photos", photos);
+                intentFiltered.putExtra("category", category);
                 placesNames.removeAll(placesNames);
                 locationArray.removeAll(locationArray);
                 startActivity(intentFiltered);
