@@ -97,6 +97,10 @@
             android:name=".activity.WebBrowser"
             android:label="@string/title_activity_web_browser" >
         </activity>
+        <activity
+            android:name=".activity.FavoritePlacesActivity"
+            android:label="@string/title_activity_favorite_places" >
+        </activity>
     </application>
 
 </manifest>
