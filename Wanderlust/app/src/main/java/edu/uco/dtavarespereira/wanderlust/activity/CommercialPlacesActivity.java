@@ -143,7 +143,7 @@ public class CommercialPlacesActivity extends Activity {
                     for(String places : resultArray) {
                         builtUri = Uri.parse(BASE_URL_DETAILS_SEARCH).buildUpon()
                                 .appendQueryParameter("placeid", places)
-                                .appendQueryParameter("key", "AIzaSyB6b7FiH5aq907kpEril4Q_DSWsEDhfeTs")
+                                .appendQueryParameter("key", "AIzaSyBRfUWJUz5x9TnFaIUbqjsrKC_q_mTBIQo")
                                 .build();
                         URL url1 = new URL(builtUri.toString());
                         httpUrlConnection = (HttpURLConnection) url1.openConnection();
