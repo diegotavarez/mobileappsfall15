@@ -1,114 +1,133 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="edu.uco.dtavarespereira.wanderlust.activity.CityDetailActivity"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:context="edu.uco.dtavarespereira.wanderlust.activity.CityDetailActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#37474F"
-        android:paddingRight="30dp"
-        android:paddingLeft="20dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <Switch
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mark as Favorite"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:id="@+id/sw_favorite"
-            android:checked="false" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@drawable/city_bg"
-        android:paddingTop="30dp"
-        android:elevation="16dp"
-        android:orientation="vertical">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textCapCharacters"
-                android:text="New Text"
-                android:textColor="#FFFFFF"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:id="@+id/tv_city_name" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="25dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-            <ImageView
-                android:layout_width="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_gravity="right"
-                android:scaleType="fitXY"
-                android:id="@+id/weather_icon"/>
+                android:background="#37474F"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="30dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Switch
+                    android:id="@+id/sw_favorite"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="30F"
-                    android:textSize="20sp"
-                    android:textColor="#FFFFFF"
-                    android:id="@+id/tv_temperature" />
+                    android:checked="false"
+                    android:text="Mark as Favorite"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@drawable/city_bg"
+                android:elevation="16dp"
+                android:orientation="vertical"
+                android:paddingTop="30dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_city_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters"
+                        android:text="New Text"
+                        android:textColor="#FFFFFF"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="25dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/weather_icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="right"
+                            android:scaleType="fitXY" />
+
+                        <TextView
+                            android:id="@+id/tv_temperature"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30F"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20sp" />
+                    </LinearLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnCommercial_places"
+                        android:layout_width="101dp"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:text="@string/commercial_places"
+                        android:textColor="@color/accent" />
+
+                    <Button
+                        android:id="@+id/btnPlacesToVisit"
+                        android:layout_width="101dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@android:color/transparent"
+                        android:text="@string/places_to_visit"
+                        android:textColor="@color/accent" />
+
+                    <Button
+                        android:id="@+id/btnWeatherConditions"
+                        android:layout_width="101dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@android:color/transparent"
+                        android:text="@string/weather_conditions"
+                        android:textColor="@color/accent" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="edu.uco.dtavarespereira.wanderlust.activity.CityDetailActivity" />
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="101dp"
-                android:layout_height="wrap_content"
-                android:text="@string/commercial_places"
-                android:textColor="@color/accent"
-                android:background="@android:color/transparent"
-                android:id="@+id/btnCommercial_places" />
-            <Button
-                android:layout_width="101dp"
-                android:layout_height="wrap_content"
-                android:text="@string/places_to_visit"
-                android:textColor="@color/accent"
-                android:layout_marginLeft="20dp"
-                android:background="@android:color/transparent"
-                android:id="@+id/btnPlacesToVisit" />
-            <Button
-                android:layout_width="101dp"
-                android:layout_height="wrap_content"
-                android:text="@string/weather_conditions"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/accent"
-                android:background="@android:color/transparent"
-                android:id="@+id/btnWeatherConditions" />
-        </LinearLayout>
-</LinearLayout>
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:id="@+id/map"
-        tools:context="edu.uco.dtavarespereira.wanderlust.activity.CityDetailActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
-
+    </ScrollView>
 </LinearLayout>
