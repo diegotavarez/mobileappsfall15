@@ -133,7 +133,7 @@ public class PlacesToVisit extends Activity {
                             .appendQueryParameter("location", params[0] + "," + params[1])
                             .appendQueryParameter("radius", "5000")
                             .appendQueryParameter("types", params[2])
-                            .appendQueryParameter("key", "AIzaSyA4Tp1h-ptnl6lqqcTRwujzE-qbEU9fd3A")
+                            .appendQueryParameter("key", "AIzaSyBRfUWJUz5x9TnFaIUbqjsrKC_q_mTBIQo")
                             .build();
 
                     URL url = new URL(builtUri.toString());
@@ -156,7 +156,7 @@ public class PlacesToVisit extends Activity {
                     for(String places : resultArray) {
                             builtUri = Uri.parse(BASE_URL_DETAILS_SEARCH).buildUpon()
                                     .appendQueryParameter("placeid", places)
-                                    .appendQueryParameter("key", "AIzaSyB6b7FiH5aq907kpEril4Q_DSWsEDhfeTs")
+                                    .appendQueryParameter("key", "AIzaSyCOL07-_dXg0_50EtxY0mCRvCOHwZ2fJ84")
                                     .build();
                             URL url1 = new URL(builtUri.toString());
                             httpUrlConnection = (HttpURLConnection) url1.openConnection();
