@@ -1,5 +1,6 @@
 package edu.uco.dtavarespereira.wanderlust.activity;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +15,7 @@ import edu.uco.dtavarespereira.wanderlust.adapter.FavoriteCitiesAdapter;
 import edu.uco.dtavarespereira.wanderlust.adapter.FavoritePlacesAdapter;
 import edu.uco.dtavarespereira.wanderlust.entity.Place;
 
-public class FavoritePlacesActivity extends AppCompatActivity {
+public class FavoritePlacesActivity extends Activity {
     ListView listPlaces;
 
     @Override
