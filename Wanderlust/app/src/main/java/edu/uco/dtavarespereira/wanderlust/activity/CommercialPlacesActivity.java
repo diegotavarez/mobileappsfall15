@@ -1,5 +1,6 @@
 package edu.uco.dtavarespereira.wanderlust.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -56,7 +57,9 @@ public class CommercialPlacesActivity extends Activity {
         adp = ArrayAdapter.createFromResource(this,R.array.commercialPlacesListNoFilterList, android.R.layout.simple_list_item_1);
         lstCommercialPlaces.setAdapter(adp);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         String city = intent.getStringExtra("cityName");
@@ -92,10 +95,19 @@ public class CommercialPlacesActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        switch (id) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                this.finish();
+                return true;
+            case R.id.action_settings:
+                return true;
+        }
+
+        /*noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

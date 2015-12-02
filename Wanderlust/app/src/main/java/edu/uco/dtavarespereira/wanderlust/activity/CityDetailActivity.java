@@ -1,5 +1,6 @@
 package edu.uco.dtavarespereira.wanderlust.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -60,6 +61,9 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) throws  SecurityException{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_detail);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         location = new Location("");
         mLastLocation = new Location("");
@@ -203,10 +207,19 @@ public class CityDetailActivity extends FragmentActivity implements GoogleApiCli
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        switch (id) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                this.finish();
+                return true;
+            case R.id.action_settings:
+                return true;
+        }
+
+        /*noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
