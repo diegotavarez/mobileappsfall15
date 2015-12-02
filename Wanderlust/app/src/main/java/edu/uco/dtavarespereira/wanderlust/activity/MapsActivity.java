@@ -30,7 +30,7 @@ public class MapsActivity extends FragmentActivity {
     String name, formatted_address, formatted_phone_number, website;
     Bundle args = new Bundle();
     int intent = 0;
-    private DepartmentNamesDialogFragment fragmentDepartmentDialog = new DepartmentNamesDialogFragment();
+    private PlacesNamesDialogFragment fragmentPlacesDialog = new PlacesNamesDialogFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,8 +147,8 @@ public class MapsActivity extends FragmentActivity {
 
                         args.putString("name", marker.getTitle().toString());
 
-                        fragmentDepartmentDialog.setArguments(args);
-                        fragmentDepartmentDialog.show(getFragmentManager(), "oi");
+                        fragmentPlacesDialog.setArguments(args);
+                        fragmentPlacesDialog.show(getFragmentManager(), "oi");
                         return true;
                     }
                 });
