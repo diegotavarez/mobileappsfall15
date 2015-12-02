@@ -156,7 +156,7 @@ public class PlacesToVisit extends Activity {
                     for(String places : resultArray) {
                             builtUri = Uri.parse(BASE_URL_DETAILS_SEARCH).buildUpon()
                                     .appendQueryParameter("placeid", places)
-                                    .appendQueryParameter("key", "AIzaSyCOL07-_dXg0_50EtxY0mCRvCOHwZ2fJ84")
+                                    .appendQueryParameter("key", "AIzaSyA4Tp1h-ptnl6lqqcTRwujzE-qbEU9fd3A")
                                     .build();
                             URL url1 = new URL(builtUri.toString());
                             httpUrlConnection = (HttpURLConnection) url1.openConnection();
