@@ -36,6 +36,7 @@ import java.util.ArrayList;
 
 import edu.uco.dtavarespereira.wanderlust.JSonData;
 import edu.uco.dtavarespereira.wanderlust.R;
+import edu.uco.dtavarespereira.wanderlust.persistence.DataBaseStorage;
 import edu.uco.dtavarespereira.wanderlust.util.FieldValidation;
 
 public class InitialActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
@@ -47,11 +48,22 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
 
     protected GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
+    private static DataBaseStorage dbHelper;
+
+    public static DataBaseStorage getDBHelper() {
+        return dbHelper;
+    }
+
+    public static void setDBHelper(final DataBaseStorage newDBHelper) {
+        InitialActivity.dbHelper = newDBHelper;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
+
+        setDBHelper(new DataBaseStorage(getApplicationContext()));
 
         ArrayList<String> favorites = getStringArrayPref(getApplicationContext(), "FAVORITES");
         if (favorites.size() > 0)

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.io.InputStream;
@@ -21,13 +24,15 @@ import java.util.ArrayList;
 
 import edu.uco.dtavarespereira.wanderlust.PlacesSearch;
 import edu.uco.dtavarespereira.wanderlust.R;
-import edu.uco.dtavarespereira.wanderlust.persistence.DataBaseStorage;
+
+import edu.uco.dtavarespereira.wanderlust.entity.Place;
+
 
 public class PlaceInformationActivity extends Activity{
     Button button;
     TextView nameView, addressView, websiteView, phoneView;
     RatingBar ratingBar;
-    String name, formatted_address, formatted_phone_number, website;
+    String name, formatted_address, formatted_phone_number, website, category;
     double rating;
     int position;
     ArrayList<String> ids;
@@ -35,6 +40,7 @@ public class PlaceInformationActivity extends Activity{
     ImageView img;
     Bitmap image;
     String photos;
+    Switch swFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,22 +51,36 @@ public class PlaceInformationActivity extends Activity{
         ids = PlacesSearch.getIds();
         img = (ImageView) findViewById(R.id.imageView);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        swFavorite = (Switch) findViewById(R.id.sw_favorite);
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
 
-        String category = intent.getStringExtra("category");
+        category = intent.getStringExtra("category");
         setTitle(category);
 
         formatted_address = intent.getStringExtra("address");
-       website = intent.getStringExtra("website");
+        website = intent.getStringExtra("website");
         formatted_phone_number = intent.getStringExtra("phone");
         position = intent.getIntExtra("position", 0);
         lat = intent.getDoubleExtra("lat", 0);
         lng = intent.getDoubleExtra("lng", 0);
         photos = intent.getStringExtra("photos");
         rating = Double.valueOf((intent.getStringExtra("rating")));
-        ratingBar.setRating((float)rating);
+        ratingBar.setRating((float) rating);
+
+        swFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Location location = new Location("");
+                    Place place = new Place(null, "", name, formatted_address, formatted_phone_number, website, String.valueOf(rating),location, category);
+                    InitialActivity.getDBHelper().addPlace(place);
+                } else {
+
+                }
+            }
+        });
 
         nameView = (TextView) findViewById(R.id.nameView);
         addressView = (TextView) findViewById(R.id.address);
