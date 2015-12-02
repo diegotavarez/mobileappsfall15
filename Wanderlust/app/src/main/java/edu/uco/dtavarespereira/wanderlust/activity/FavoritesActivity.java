@@ -75,8 +75,9 @@ public class FavoritesActivity extends Activity implements GoogleApiClient.Conne
                 buildGoogleApiClient();
                 mGoogleApiClient.connect();
                 return true;
-            case R.id.action_settings:
-                return true;
+            case R.id.action_favorites:
+                Intent intentFavorites = new Intent(FavoritesActivity.this, FavoritePlacesActivity.class);
+                startActivity(intentFavorites);
             default:
                 return super.onOptionsItemSelected(item);
         }
