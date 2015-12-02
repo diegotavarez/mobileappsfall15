@@ -36,7 +36,8 @@
         </activity>
         <activity
             android:name=".activity.CityDetailActivity"
-            android:label="@string/title_activity_city_detail" >
+            android:label="@string/title_activity_city_detail"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.PlacesToVisit"
