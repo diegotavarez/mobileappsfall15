@@ -69,6 +69,8 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
 
+        location_button_clicked = false;
+
         try {
             setDBHelper(new DataBaseStorage(getApplicationContext()));
         }
