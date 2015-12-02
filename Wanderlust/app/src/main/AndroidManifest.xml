@@ -100,6 +100,10 @@
             android:label="Favorite Places" >
         </activity>
         <activity
+            android:name=".activity.FavoritePlaceInformationActivity"
+            android:label="Favorite Place" >
+        </activity>
+        <activity
             android:name=".activity.WebBrowser"
             android:label="@string/title_activity_web_browser" >
         </activity>

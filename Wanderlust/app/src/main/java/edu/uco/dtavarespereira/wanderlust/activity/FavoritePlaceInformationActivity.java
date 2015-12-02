@@ -83,7 +83,7 @@ public class FavoritePlaceInformationActivity extends Activity{
         lat = intent.getDoubleExtra("lat", 0);
         lng = intent.getDoubleExtra("lng", 0);
         photos = intent.getStringExtra("photos");
-        rating = Double.valueOf((intent.getStringExtra("rating")));
+        rating = 0.0;
         ratingBar.setRating(0);
 
         swFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -138,32 +138,6 @@ public class FavoritePlaceInformationActivity extends Activity{
 
         //placePhotosAsync();
 
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                if(photos.equals("empty"));
-                else {
-                    try {
-                        InputStream in = new URL("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&" +
-                                "photoreference=" + photos +
-                                "&key=AIzaSyB6b7FiH5aq907kpEril4Q_DSWsEDhfeTs").openStream();
-                        image = BitmapFactory.decodeStream(in);
-                    } catch (Exception e) {
-                        // log error
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void result) {
-                if (image != null){
-                    img.setImageBitmap(image);
-                }
-            }
-
-        }.execute();
     }
 
 

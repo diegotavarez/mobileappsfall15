@@ -14,17 +14,37 @@ import edu.uco.dtavarespereira.wanderlust.R;
 import edu.uco.dtavarespereira.wanderlust.adapter.FavoriteCitiesAdapter;
 import edu.uco.dtavarespereira.wanderlust.adapter.FavoritePlacesAdapter;
 import edu.uco.dtavarespereira.wanderlust.entity.Place;
+import edu.uco.dtavarespereira.wanderlust.persistence.DataBaseStorage;
 
 public class FavoritePlacesActivity extends Activity {
     ListView listPlaces;
+
+    private static DataBaseStorage dbHelper;
+
+    public static DataBaseStorage getDBHelper() {
+        return dbHelper;
+    }
+
+    public static void setDBHelper(final DataBaseStorage newDBHelper) {
+        FavoritePlacesActivity.dbHelper = newDBHelper;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_places);
 
+        try {
+            setDBHelper(new DataBaseStorage(getApplicationContext()));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         View rootView = findViewById(android.R.id.content);
-        List<Place> places = InitialActivity.getDBHelper().getPlaces();
+
+        List<Place> places = FavoritePlacesActivity.getDBHelper().getPlaces();
 
         listPlaces = (ListView) findViewById(R.id.list_cities);
         FavoritePlacesAdapter adapter = new FavoritePlacesAdapter(getBaseContext(), places, rootView);
