@@ -109,15 +109,19 @@ public class DataBaseStorage implements StorageSystem {
         }
     }
 
-    /**
-     * Instantiates a new data base storage.
-     *
-     * @param ctx the ctx
-     */
-    public DataBaseStorage(final Context ctx) {
+    public DataBaseStorage(final Context ctx) throws  Exception{
         mCtx = ctx;
-        //open();
+        try
+        {
+            open();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
+
+
 
     /**
      * Creates the.
@@ -172,9 +176,9 @@ public class DataBaseStorage implements StorageSystem {
     }
 
     @Override
-    public final Integer addPlace(final Place place) {
+    public void addPlace(final Place place) {
         final ContentValues values = expenseContentValues(place);
-        return (int) mDb.insert(PLACES_TABLE_NAME, null, values);
+        mDb.insert(PLACES_TABLE_NAME, null, values);
     }
 
     /**
@@ -215,7 +219,7 @@ public class DataBaseStorage implements StorageSystem {
         values.put(PLACE_NUMBER, place.getPhoneNumber());
         values.put(PLACE_WEBSITE, place.getWebsite());
         values.put(PLACE_RATING, place.getRating());
-        values.put(PLACE_LOCATION, place.getLocation().toString());
+        values.put(PLACE_LOCATION, "");
         values.put(PLACE_CATEGORY, place.getCategory());
 
         return values;

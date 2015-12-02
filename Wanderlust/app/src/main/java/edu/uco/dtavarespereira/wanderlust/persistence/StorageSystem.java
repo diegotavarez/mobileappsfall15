@@ -9,7 +9,7 @@ import edu.uco.dtavarespereira.wanderlust.entity.Place;
  */
 public interface StorageSystem {
 
-    Integer addPlace(Place place);
+    void addPlace(Place place);
     void deletePlace(Integer id);
     void edit(Place place);
     Place getPlace(int key);

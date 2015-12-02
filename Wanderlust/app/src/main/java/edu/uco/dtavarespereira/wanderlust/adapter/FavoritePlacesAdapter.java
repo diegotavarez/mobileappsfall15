@@ -28,6 +28,7 @@ import java.util.List;
 import edu.uco.dtavarespereira.wanderlust.JSonData;
 import edu.uco.dtavarespereira.wanderlust.R;
 import edu.uco.dtavarespereira.wanderlust.activity.CityDetailActivity;
+import edu.uco.dtavarespereira.wanderlust.activity.FavoritePlaceInformationActivity;
 import edu.uco.dtavarespereira.wanderlust.entity.Place;
 
 public class FavoritePlacesAdapter extends BaseAdapter {
@@ -35,6 +36,7 @@ public class FavoritePlacesAdapter extends BaseAdapter {
     private Context context;
     private View parent;
     public String cityName;
+    private Place place;
 
     public FavoritePlacesAdapter(Context context, List<Place> places, View parent){
         this.context = context;
@@ -63,7 +65,7 @@ public class FavoritePlacesAdapter extends BaseAdapter {
 
         final TextView tvCityName = (TextView) view.findViewById(R.id.tv_city_name_item);
 
-        Place place = places.get(position);
+        place = places.get(position);
 
         tvCityName.setText(capitalize(place.getName()));
 
@@ -71,6 +73,18 @@ public class FavoritePlacesAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
+                Intent intentFiltered = new Intent(parent.getContext(), FavoritePlaceInformationActivity.class);
+                intentFiltered.putExtra("name", place.getName());
+                intentFiltered.putExtra("address", place.getAddress());
+                intentFiltered.putExtra("website", place.getWebsite());
+                intentFiltered.putExtra("phone", place.getPhoneNumber());
+                intentFiltered.putExtra("rating", place.getRating());
+                intentFiltered.putExtra("position", 0);
+                intentFiltered.putExtra("lat", 0);
+                intentFiltered.putExtra("lng", 0);
+                intentFiltered.putExtra("photos", 0);
+                intentFiltered.putExtra("category", place.getCategory());
+                parent.getContext().startActivity(intentFiltered);
             }
         });
 

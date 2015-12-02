@@ -69,7 +69,13 @@ public class InitialActivity extends Activity implements GoogleApiClient.Connect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
 
-        setDBHelper(new DataBaseStorage(getApplicationContext()));
+        try {
+            setDBHelper(new DataBaseStorage(getApplicationContext()));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         ArrayList<String> favorites = getStringArrayPref(getApplicationContext(), "FAVORITES");
         if (favorites.size() > 0)

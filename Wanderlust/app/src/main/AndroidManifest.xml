@@ -80,7 +80,8 @@
         </activity>
         <activity
             android:name=".activity.WeatherInformationActivity"
-            android:label="@string/title_activity_weather_information" >
+            android:label="@string/title_activity_weather_information"
+            android:screenOrientation="portrait">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -97,6 +98,10 @@
         <activity
             android:name=".activity.FavoritePlacesActivity"
             android:label="Favorite Places" >
+        </activity>
+        <activity
+            android:name=".activity.FavoritePlaceInformationActivity"
+            android:label="Favorite Place" >
         </activity>
         <activity
             android:name=".activity.WebBrowser"

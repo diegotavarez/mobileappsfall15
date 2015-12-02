@@ -24,12 +24,11 @@ import java.util.ArrayList;
 
 import edu.uco.dtavarespereira.wanderlust.PlacesSearch;
 import edu.uco.dtavarespereira.wanderlust.R;
-
 import edu.uco.dtavarespereira.wanderlust.entity.Place;
 import edu.uco.dtavarespereira.wanderlust.persistence.DataBaseStorage;
 
 
-public class PlaceInformationActivity extends Activity{
+public class FavoritePlaceInformationActivity extends Activity{
     Button button;
     TextView nameView, addressView, websiteView, phoneView;
     RatingBar ratingBar;
@@ -50,7 +49,7 @@ public class PlaceInformationActivity extends Activity{
     }
 
     public static void setDBHelper(final DataBaseStorage newDBHelper) {
-        PlaceInformationActivity.dbHelper = newDBHelper;
+        FavoritePlaceInformationActivity.dbHelper = newDBHelper;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +65,8 @@ public class PlaceInformationActivity extends Activity{
         {
             e.printStackTrace();
         }
-        ids = PlacesSearch.getIds();
-        img = (ImageView) findViewById(R.id.imageView);
+        //ids = PlacesSearch.getIds();
+        //img = (ImageView) findViewById(R.id.imageView);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         swFavorite = (Switch) findViewById(R.id.sw_favorite);
 
@@ -84,19 +83,13 @@ public class PlaceInformationActivity extends Activity{
         lat = intent.getDoubleExtra("lat", 0);
         lng = intent.getDoubleExtra("lng", 0);
         photos = intent.getStringExtra("photos");
-        rating = Double.valueOf((intent.getStringExtra("rating")));
-        ratingBar.setRating((float) rating);
+        rating = 0.0;
+        ratingBar.setRating(0);
 
         swFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Location location = new Location("");
-                    Place place = new Place(0, "", name, formatted_address, formatted_phone_number, website, "",location, category);
-                    PlaceInformationActivity.getDBHelper().addPlace(place);
-                } else {
 
-                }
             }
         });
 
@@ -125,7 +118,7 @@ public class PlaceInformationActivity extends Activity{
         websiteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2 = new Intent(PlaceInformationActivity.this, WebBrowser.class);
+                Intent intent2 = new Intent(FavoritePlaceInformationActivity.this, WebBrowser.class);
                 intent2.putExtra("url", website);
                 startActivity(intent2);
             }
@@ -134,7 +127,7 @@ public class PlaceInformationActivity extends Activity{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentMaps = new Intent(PlaceInformationActivity.this, MapsActivity.class);
+                Intent intentMaps = new Intent(FavoritePlaceInformationActivity.this, MapsActivity.class);
                 intentMaps.putExtra("lat", lat);
                 intentMaps.putExtra("lon", lng);
                 intentMaps.putExtra("name", name);
@@ -145,32 +138,6 @@ public class PlaceInformationActivity extends Activity{
 
         //placePhotosAsync();
 
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                if(photos.equals("empty"));
-                else {
-                    try {
-                        InputStream in = new URL("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&" +
-                                "photoreference=" + photos +
-                                "&key=AIzaSyB6b7FiH5aq907kpEril4Q_DSWsEDhfeTs").openStream();
-                        image = BitmapFactory.decodeStream(in);
-                    } catch (Exception e) {
-                        // log error
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void result) {
-                if (image != null){
-                    img.setImageBitmap(image);
-                }
-            }
-
-        }.execute();
     }
 
 

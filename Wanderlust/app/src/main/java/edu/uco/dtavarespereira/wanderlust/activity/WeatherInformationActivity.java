@@ -1,5 +1,6 @@
 package edu.uco.dtavarespereira.wanderlust.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,9 @@ public class WeatherInformationActivity extends Activity {
         setContentView(R.layout.activity_weather_information);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         View rootView = findViewById(android.R.id.content);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         description = (TextView) findViewById(R.id.textViewDescription);
         temperature = (TextView) findViewById(R.id.textViewTemp);
@@ -105,10 +109,19 @@ public class WeatherInformationActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        switch (id) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                this.finish();
+                return true;
+            case R.id.action_settings:
+                return true;
+        }
+
+        /*noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
