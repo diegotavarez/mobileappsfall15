@@ -97,11 +97,16 @@
                         android:textColor="@color/accent" />
 
                     <RatingBar
-                        android:id="@+id/ratingBar"
                         android:layout_width="260dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.27"
-                        android:paddingStart="20dp" />
+                        android:id="@+id/ratingBar"
+                        android:clickable="false"
+                        android:focusableInTouchMode="false"
+                        android:focusable="false"
+                        android:numStars="5"
+                        android:isIndicator="true"
+                        android:paddingStart="20dp"
+                        android:layout_weight="0.27" />
                 </LinearLayout>
 
             </LinearLayout>
